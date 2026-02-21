@@ -9,33 +9,33 @@ extern const u8 gUnknown_081C0064[];
 extern const u8 *gUnknown_086AD474[];
 extern const u8 gUnknown_0815C4C4[][0x20];
 extern const s16 gUnknown_086AE0E6[];
-extern const u16 gUnknown_086B4202[][15];
+extern const u16 gUnknown_086B4202[58][15];
 extern const struct Vector16 gUnknown_086ACFA0[][8];
 extern const s16 gUnknown_08137AB8[];
 extern const s16 gUnknown_08137944[];
 extern const s16 gUnknown_08055A68[][7];
 extern const s16 gUnknown_08137928[];
-extern const u16 gUnknown_086B51CE[][27];
+extern const u16 gUnknown_086B51CE[18][27];
 extern const u8 gUnknown_083A8AAC[];
 extern const u8 gUnknown_084FA20C[];
 extern const u8 gUnknown_083A07CC[];
 extern const u8 gUnknown_083A27EC[];
 extern const s16 gUnknown_086AE0C0[];
-extern const u16 gUnknown_086B50AE[][18];
+extern const u16 gUnknown_086B50AE[16][18];
 extern const u8 gUnknown_083A29EC[];
 extern const u8 gUnknown_083A320C[];
-extern const u16 gUnknown_086B4F6A[][18];
+extern const u16 gUnknown_086B4F6A[18][18];
 extern const u8 gUnknown_083A340C[];
 extern const u8 gUnknown_083A542C[];
 extern const u8 gUnknown_083A562C[];
 extern const u8 gUnknown_083A6E4C[];
 extern const s16 gUnknown_086AE0D0[];
-extern const u16 gUnknown_086B4E62[][12];
+extern const u16 gUnknown_086B4E62[22][12];
 extern const u8 gUnknown_083A05CC[];
 extern const u8 gUnknown_0839DDAC[];
 extern const s16 gUnknown_086AD3FE[][2];
-extern const u16 gUnknown_086B53E4[][18];
-extern const s16 gUnknown_086AD52C[][3];
+extern const u16 gUnknown_086B53E4[28][18];
+extern const s16 gUnknown_086AD52C[28][3];
 extern const u8 gUnknown_0202C7A0[][0x120];
 extern const struct Vector32 gUnknown_086AD750[];
 extern const u16 gUnknown_086AD788[];
@@ -44,40 +44,40 @@ extern const u8 gUnknown_086ACF80[];
 extern const u8 gUnknown_081428D4[];
 extern const u8 gUnknown_08138014[];
 extern const u8 gUnknown_0202D760[];
-extern const u16 gUnknown_086B4B0E[][4][3];
+extern const u16 gUnknown_086B4B0E[48][4][3];
 extern const u16 gUnknown_086AE0B4[];
 extern const struct Vector16 gUnknown_086AE0A4[];
-extern const u8 gUnknown_08449D8C[][0x280];
-extern const u8 gUnknown_084FB68C[][0x480];
-extern const u16 gUnknown_086B4D4E[][2][3];
+extern const u8 gRubyStageCyndaquil_Gfx[][0x280];
+extern const u8 gRubyBoardHatchCave_Gfx[][0x480];
+extern const u16 gUnknown_086B4D4E[40][2][3];
 extern const u8 gUnknown_083FFD4C[][0x40];
 extern const u8 gUnknown_083FF04C[][0x40];
 extern const s16 gUnknown_086ACFE0[];
 extern const struct Vector16 gUnknown_086AE088[];
-extern const u16 gUnknown_086B4850[][15];
+extern const u16 gUnknown_086B4850[14][15];
 extern const u8 gUnknown_083A704C[];
 extern const u8 gUnknown_083A806C[];
 extern const u16 gUnknown_086ADFE2[][2];
-extern const u16 gUnknown_086B28A0[][6][3];
+extern const u16 gUnknown_086B28A0[82][6][3];
 extern const u8 gUnknown_083A808C[];
 extern const u8 gUnknown_0848FD8C[];
-extern const u16 gUnknown_086B481A[][3];
-extern const u16 gUnknown_086B47DE[][15];
+extern const u16 gUnknown_086B481A[18][3];
+extern const u16 gUnknown_086B47DE[4][15];
 extern const s16 gUnknown_086ADFC8[];
 extern const s16 gUnknown_086ADFD4[];
 extern const u8 gUnknown_0847FF0C[][0x300];
 extern const u8 gUnknown_08480E0C[][0x40];
 extern const s16 gUnknown_086AD456[][7];
-extern const u8 gUnknown_084F6B0C[][0x500];
+extern const u8 gRubyBoardShop_Gfx[][0x500];
 extern const u8 gUnknown_083A8A8C[];
 extern const struct Vector32 gUnknown_086ADF90[];
 extern const u8 gUnknown_084C156C[];
 
 extern u8 gUnknown_020315D0[];
 
-extern struct SongHeader gUnknown_0869F58C;
-extern struct SongHeader gUnknown_0869F5C8;
-extern struct SongHeader gUnknown_0869F618;
+extern struct SongHeader se_unk_84;
+extern struct SongHeader se_unk_85;
+extern struct SongHeader se_unk_86;
 
 
 void sub_20EC0(void)
@@ -440,7 +440,7 @@ void sub_216FC(void)
             else if (JOY_NEW(B_BUTTON))
             {
                 m4aMPlayAllStop();
-                m4aSongNumStart(SE_UNKNOWN_0x66);
+                m4aSongNumStart(SE_MENU_CANCEL);
                 gCurrentPinballGame->unk28 = 60;
                 gCurrentPinballGame->unk17 = 6;
                 if (gCurrentPinballGame->unk714)
@@ -501,7 +501,7 @@ void sub_216FC(void)
 
 void sub_219A8(void)
 {
-    DmaCopy16(3, gUnknown_0844838C[0], (void *)0x060113C0, 0x300);
+    DmaCopy16(3, gMainStageBonusTrap_Gfx[0], (void *)0x060113C0, 0x300);
     gMain.unk44[13]->available = 1;
     gCurrentPinballGame->unk5F3 = 1;
 }
@@ -529,7 +529,7 @@ void sub_219EC(void)
         {
             if (gCurrentPinballGame->unk20B != gCurrentPinballGame->unk20C)
             {
-                DmaCopy16(3, gUnknown_0844838C[gCurrentPinballGame->unk20B], (void *)0x060113C0, 0x300);
+                DmaCopy16(3, gMainStageBonusTrap_Gfx[gCurrentPinballGame->unk20B], (void *)0x060113C0, 0x300);
                 gCurrentPinballGame->unk20C = gCurrentPinballGame->unk20B;
             }
         }
@@ -658,7 +658,7 @@ void sub_21D78(void)
 
         if (gCurrentPinballGame->unk1B4 % 6 == 0)
         {
-            DmaCopy16(3, gUnknown_084F6B0C[index], (void *)0x06013D00, 0x500);
+            DmaCopy16(3, gRubyBoardShop_Gfx[index], (void *)0x06013D00, 0x500);
         }
 
         group->baseX = 181 - gCurrentPinballGame->unk58;
@@ -1447,7 +1447,7 @@ void sub_239A4(void)
     if (gCurrentPinballGame->unk1EE != gCurrentPinballGame->unk1ED)
     {
         index = gUnknown_086AD2EE[gCurrentPinballGame->unk1ED][2];
-        DmaCopy16(3, gUnknown_084FB68C[index], (void *)0x060122A0, 0x480);
+        DmaCopy16(3, gRubyBoardHatchCave_Gfx[index], (void *)0x060122A0, 0x480);
         index = gUnknown_086AD2EE[gCurrentPinballGame->unk1ED][3];
         DmaCopy16(3, gUnknown_084FD18C[index], (void *)0x06011CE0, 0x200);
         gCurrentPinballGame->unk1EE = gCurrentPinballGame->unk1ED;
@@ -1569,7 +1569,7 @@ void sub_23E18(void)
         group->baseY = gCurrentPinballGame->unk2D6 - gCurrentPinballGame->unk5A;
         if (var0 % 6 == 0)
         {
-            DmaCopy16(3, gUnknown_08449D8C[gCurrentPinballGame->unk746], (void *)0x06013300, 0x280);
+            DmaCopy16(3, gRubyStageCyndaquil_Gfx[gCurrentPinballGame->unk746], (void *)0x06013300, 0x280);
         }
     }
     else if (gCurrentPinballGame->unk2DA == 3)
@@ -1580,7 +1580,7 @@ void sub_23E18(void)
             {
                 gCurrentPinballGame->unk1EC = 2;
                 gCurrentPinballGame->unk746 = 1;
-                DmaCopy16(3, gUnknown_08449D8C[gCurrentPinballGame->unk746], (void *)0x06013300, 0x280);
+                DmaCopy16(3, gRubyStageCyndaquil_Gfx[gCurrentPinballGame->unk746], (void *)0x06013300, 0x280);
                 gMain.unkF |= 0x1;
                 gCurrentPinballGame->unkEA = 0;
                 gCurrentPinballGame->unkEC = 60;
@@ -2954,7 +2954,7 @@ void sub_26A10(void)
             else if (JOY_NEW(B_BUTTON))
             {
                 m4aMPlayAllStop();
-                m4aSongNumStart(SE_UNKNOWN_0x66);
+                m4aSongNumStart(SE_MENU_CANCEL);
                 gCurrentPinballGame->unk28 = 60;
                 gCurrentPinballGame->unk17 = 6;
                 if (gCurrentPinballGame->unk714)
@@ -3387,7 +3387,7 @@ void sub_278F4(void)
         }
 
         if (gCurrentPinballGame->unk26E == 60)
-            MPlayStart(&gMPlayInfo_SE1, &gUnknown_0869F58C);
+            MPlayStart(&gMPlayInfo_SE1, &se_unk_84);
 
         if (gUnknown_086AE0E6[gCurrentPinballGame->unk626] > gCurrentPinballGame->unk628)
         {
@@ -3403,7 +3403,7 @@ void sub_278F4(void)
                 gCurrentPinballGame->unk26E = 1;
                 gMain.unk44[40]->available = 0;
                 gMain.unk44[32]->available = 1;
-                MPlayStart(&gMPlayInfo_SE1, &gUnknown_0869F5C8);
+                MPlayStart(&gMPlayInfo_SE1, &se_unk_85);
                 gCurrentPinballGame->unkE4 = 0;
             }
         }
@@ -3441,7 +3441,7 @@ void sub_278F4(void)
             gCurrentPinballGame->unk26B < 3)
         {
             gCurrentPinballGame->scoreAddedInFrame = 10000;
-            MPlayStart(&gMPlayInfo_SE1, &gUnknown_0869F618);
+            MPlayStart(&gMPlayInfo_SE1, &se_unk_86);
             gCurrentPinballGame->unk17 = 1;
             gCurrentPinballGame->unk71D[gCurrentPinballGame->unk26B] = 5;
             gCurrentPinballGame->unk26B++;

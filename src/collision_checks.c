@@ -7,7 +7,7 @@ extern const u16 gUnknown_08254B10[];
 extern const u16 gUnknown_08257390[];
 extern const u16 gUnknown_08259C10[];
 
-extern struct SongHeader gUnknown_0869FC0C;
+extern struct SongHeader se_unk_99;
 extern u16 gUnknown_086ACE70[];
 
 
@@ -351,7 +351,7 @@ void sub_153CC(s32 arg0, s16* arg1, u16* arg2)
             }
             gCurrentPinballGame->unk600 = 45;
 
-            m4aSongNumStart(SE_UNKNOWN_0x76);
+            m4aSongNumStart(SE_TRIGGER_BUTTON_HIT);
         }
         break;
     case 4:
@@ -534,7 +534,7 @@ void sub_153CC(s32 arg0, s16* arg1, u16* arg2)
 
                     gCurrentPinballGame->unk72F++;
 
-                    MPlayStart(&gMPlayInfo_SE1, &gUnknown_0869FC0C);
+                    MPlayStart(&gMPlayInfo_SE1, &se_unk_99);
 
                     if (gCurrentPinballGame->unk72F > 1)
                         gCurrentPinballGame->unk731 = 1;
@@ -1120,7 +1120,7 @@ void sub_1642C(u8 arg0, u16* arg1, u16* arg2)
             }
 
             gCurrentPinballGame->unk600 = 45;
-            m4aSongNumStart(SE_UNKNOWN_0x76);
+            m4aSongNumStart(SE_TRIGGER_BUTTON_HIT);
         }
         break;
     case 5:

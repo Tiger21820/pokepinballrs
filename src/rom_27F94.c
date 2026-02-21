@@ -25,25 +25,25 @@ extern const s16 gUnknown_086ACF38[36];
 extern const u8 gUnknown_086ACF80[];
 extern const s8 gUnknown_086ACFF4[];
 extern u16 gUnknown_086AD180[][7];
-extern const s16 gUnknown_086AD436[][2];
+extern const s16 gUnknown_086AD436[8][2];
 extern const struct Vector16 gUnknown_086AE124[];
 extern const s16 gUnknown_086AE1A4[][12];
 extern const u16 gUnknown_086AE154[][10];
 extern const s16 gUnknown_086AE234[][16];
 extern const s16 gUnknown_086AE2F4[][2];
 extern const s16 gUnknown_086AE30C[];
-extern const s16 gUnknown_086AE318[];
+extern const s16 gUnknown_086AE318[6];
 extern const u8 (*gUnknown_086B15B4[])[0x20];
-extern const u16 gUnknown_086B263C[][3][3];
+extern const u16 gUnknown_086B263C[68][3][3];
 extern const u16 gUnknown_086B4E3E[][3];
 extern const u16 gUnknown_086B53B4[][3];
-extern const u16 gUnknown_086B55DC[][18];
+extern const u16 gUnknown_086B55DC[14][18];
 extern const u8 (*gUnknown_086BB6F4[])[0x480];
 
-extern struct SongHeader gUnknown_0869F58C;
-extern struct SongHeader gUnknown_0869F45C;
-extern struct SongHeader gUnknown_0869F664;
-extern struct SongHeader gUnknown_0869FCE4;
+extern struct SongHeader se_unk_84;
+extern struct SongHeader se_unk_81;
+extern struct SongHeader se_unk_87;
+extern struct SongHeader se_unk_9a;
 
 
 
@@ -390,7 +390,7 @@ void sub_28544(void)
         gCurrentPinballGame->unkBC = gUnknown_086AE124[gCurrentPinballGame->unk73].x;
         gCurrentPinballGame->unkBE = gUnknown_086AE124[gCurrentPinballGame->unk73].y;
         gCurrentPinballGame->unk18 = 0;
-        m4aSongNumStart(SE_UNKNOWN_0x144);
+        m4aSongNumStart(SE_JIRACHI_MOVE);
         gCurrentPinballGame->unk17++;
         gCurrentPinballGame->unkC0 = gCurrentPinballGame->unk80;
         gCurrentPinballGame->unkC2 = gCurrentPinballGame->unk82;
@@ -425,7 +425,7 @@ void sub_28544(void)
                     else
                         gCurrentPinballGame->unk73 = 0;
 
-                    m4aSongNumStart(SE_UNKNOWN_0x144);
+                    m4aSongNumStart(SE_JIRACHI_MOVE);
                     gCurrentPinballGame->unkBC = gUnknown_086AE124[gCurrentPinballGame->unk73].x;
                     gCurrentPinballGame->unkBE = gUnknown_086AE124[gCurrentPinballGame->unk73].y;
                 }
@@ -462,7 +462,7 @@ void sub_28544(void)
             gCurrentPinballGame->unk17 = 4;
             gCurrentPinballGame->unk18 = 150;
             gCurrentPinballGame->unk5F2 = 0;
-            MPlayStart(&gMPlayInfo_SE1, &gUnknown_0869F58C);
+            MPlayStart(&gMPlayInfo_SE1, &se_unk_84);
         }
         return;
     case 4:
@@ -1213,7 +1213,7 @@ void sub_2A054(void)
 
         gCurrentPinballGame->unk6EC[1] = gCurrentPinballGame->unk6F8[gCurrentPinballGame->unk6EB];
         sub_1C7F4(2, 1);
-        MPlayStart(&gMPlayInfo_SE1, &gUnknown_0869F45C);
+        MPlayStart(&gMPlayInfo_SE1, &se_unk_81);
     }
 }
 
@@ -1378,7 +1378,7 @@ void sub_2A354(void)
                 gCurrentPinballGame->ballUpgradeType++;
 
             gCurrentPinballGame->ballUpgradeCounter = 3600;
-            MPlayStart(&gMPlayInfo_SE1, &gUnknown_0869F664);
+            MPlayStart(&gMPlayInfo_SE1, &se_unk_87);
             DmaCopy16(3, gUnknown_08137E14[gCurrentPinballGame->ballUpgradeType], (void *)0x05000220, 0x20);
         }
         break;
@@ -1387,7 +1387,7 @@ void sub_2A354(void)
         {
             gCurrentPinballGame->ballUpgradeType = BALL_UPGRADE_TYPE_MASTER_BALL;
             gCurrentPinballGame->ballUpgradeCounter = 3600;
-            MPlayStart(&gMPlayInfo_SE1, &gUnknown_0869F664);
+            MPlayStart(&gMPlayInfo_SE1, &se_unk_87);
             DmaCopy16(3, gUnknown_08137E14[gCurrentPinballGame->ballUpgradeType], (void *)0x05000220, 0x20);
         }
         break;
@@ -1567,7 +1567,7 @@ void sub_2AADC(void)
         gCurrentPinballGame->ball->positionQ8.y += gCurrentPinballGame->ball->velocity.y;
 
         if (gCurrentPinballGame->unk5A6 == 0)
-            MPlayStart(&gMPlayInfo_SE1, &gUnknown_0869FCE4);
+            MPlayStart(&gMPlayInfo_SE1, &se_unk_9a);
 
         break;
 

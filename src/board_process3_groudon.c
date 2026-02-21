@@ -4,15 +4,15 @@
 #include "constants/bg_music.h"
 
 
-extern const u8 gUnknown_0813E894[];
+extern const u8 gGroudonBonusClear_Gfx[];
 extern const u8 gUnknown_08352BD8[];
 extern const u8 gUnknown_0849F1CC[];
 extern const s8 gUnknown_084A11EC[][0x300];
-extern struct SongHeader gUnknown_086A22D8;
-extern struct SongHeader gUnknown_086A2454;
-extern struct SongHeader gUnknown_086A24F0;
-extern struct SongHeader gUnknown_086A2548;
-extern struct SongHeader gUnknown_086A26A0;
+extern struct SongHeader se_unk_118;
+extern struct SongHeader se_unk_11b;
+extern struct SongHeader se_unk_11c;
+extern struct SongHeader se_unk_11d;
+extern struct SongHeader se_unk_11f;
 extern const s16 gUnknown_086AEE20[];
 extern const s16 gUnknown_086AEF28[];
 extern const u16 gUnknown_086AEF40[][31];
@@ -25,11 +25,11 @@ extern const s16 gUnknown_086AF3AC[];
 extern const s16 gUnknown_086AF3B2[];
 extern const s16 gUnknown_086AF3BE[];
 extern const u16 gUnknown_086AF3C6[];
-extern const u16 gUnknown_086B63AA[][2][3];
-extern const u16 gUnknown_086B63F2[][4][3];
-extern const u16 gUnknown_086B6512[][6][3];
-extern const u16 gUnknown_086B65EA[][19][3];
-extern const u16 gUnknown_086B8AE0[][10][3];
+extern const u16 gUnknown_086B63AA[12][2][3];
+extern const u16 gUnknown_086B63F2[24][4][3];
+extern const u16 gUnknown_086B6512[12][6][3];
+extern const u16 gUnknown_086B65EA[166][19][3];
+extern const u16 gUnknown_086B8AE0[58][10][3];
 
 
 void GroudonBoardProcess_3A_3B120(void)
@@ -173,7 +173,7 @@ void GroudonBoardProcess_3B_3B49C(void)
             gCurrentPinballGame->unk18 = 0;
             gMain.spriteGroups[6].available = 1;
             gMain.spriteGroups[5].available = 1;
-            DmaCopy16(3, gUnknown_0813E894, (void *)0x06015800, 0x2000);
+            DmaCopy16(3, gGroudonBonusClear_Gfx, (void *)0x06015800, 0x2000);
             gCurrentPinballGame->unk394 = 136;
             gMain.unkF = 0x80;
             gCurrentPinballGame->unk5FA = 1;
@@ -215,7 +215,7 @@ void GroudonBoardProcess_3B_3B49C(void)
         gCurrentPinballGame->unk18 = 140;
         gMain.spriteGroups[6].available = 1;
         gMain.spriteGroups[5].available = 1;
-        DmaCopy16(3, gUnknown_0813E894, (void *)0x06015800, 0x2000);
+        DmaCopy16(3, gGroudonBonusClear_Gfx, (void *)0x06015800, 0x2000);
         gCurrentPinballGame->unk394 = 136;
         gMain.unkF = 0x80;
         break;
@@ -280,7 +280,7 @@ void sub_3B7C4(void)
         gCurrentPinballGame->unk389 = 1;
         if (gCurrentPinballGame->unk452 == 35)
         {
-            MPlayStart(&gMPlayInfo_SE1, &gUnknown_086A22D8);
+            MPlayStart(&gMPlayInfo_SE1, &se_unk_118);
             gCurrentPinballGame->scoreAddedInFrame = 500000;
             sub_11B0(7);
             gCurrentPinballGame->unk385++;
@@ -337,7 +337,7 @@ void sub_3B7C4(void)
                 {
                     gCurrentPinballGame->unk4CA = 31;
                     gCurrentPinballGame->unk4C9 = gCurrentPinballGame->unk3E4 / 110;
-                    m4aSongNumStart(SE_UNKNOWN_0x119);
+                    m4aSongNumStart(SE_GROUDON_STEP);
                     sub_11B0(8);
                 }
 
@@ -345,7 +345,7 @@ void sub_3B7C4(void)
                 {
                     gCurrentPinballGame->unk4CA = 31;
                     gCurrentPinballGame->unk4C9 = gCurrentPinballGame->unk3E4 / 110;
-                    m4aSongNumStart(SE_UNKNOWN_0x119);
+                    m4aSongNumStart(SE_GROUDON_STEP);
                     sub_11B0(8);
                 }
 
@@ -372,7 +372,7 @@ void sub_3B7C4(void)
             if (gCurrentPinballGame->unk3EA >= 0)
             {
                 gCurrentPinballGame->unk4C8 = 60;
-                MPlayStart(&gMPlayInfo_SE1, &gUnknown_086A2454);
+                MPlayStart(&gMPlayInfo_SE1, &se_unk_11b);
                 sub_11B0(13);
             }
         }
@@ -475,7 +475,7 @@ void sub_3B7C4(void)
 
             if (gCurrentPinballGame->unk3E2 == 90)
             {
-                MPlayStart(&gMPlayInfo_SE1, &gUnknown_086A24F0);
+                MPlayStart(&gMPlayInfo_SE1, &se_unk_11c);
                 gCurrentPinballGame->unk47E = 8;
                 gCurrentPinballGame->unk482 = 35;
                 gMain.spriteGroups[22].available = 1;
@@ -557,7 +557,7 @@ void sub_3B7C4(void)
                 {
                     gMain.spriteGroups[30].available = 1;
                     gCurrentPinballGame->unk456 = 0;
-                    MPlayStart(&gMPlayInfo_SE1, &gUnknown_086A2548);
+                    MPlayStart(&gMPlayInfo_SE1, &se_unk_11d);
                 }
             }
         }
@@ -587,7 +587,7 @@ void sub_3B7C4(void)
                     gCurrentPinballGame->unk128 = 1;
                     gCurrentPinballGame->unk4C8 = 60;
                     sub_11B0(13);
-                    MPlayStart(&gMPlayInfo_SE1, &gUnknown_086A2454);
+                    MPlayStart(&gMPlayInfo_SE1, &se_unk_11b);
                 }
             }
         }
@@ -692,7 +692,7 @@ void sub_3B7C4(void)
                 {
                     gCurrentPinballGame->unk4CA = 31;
                     gCurrentPinballGame->unk4C9 = 6;
-                    m4aSongNumStart(SE_UNKNOWN_0x119);
+                    m4aSongNumStart(SE_GROUDON_STEP);
                     sub_11B0(8);
                 }
             }
@@ -703,7 +703,7 @@ void sub_3B7C4(void)
                 {
                     gCurrentPinballGame->unk4CA = 31;
                     gCurrentPinballGame->unk4C9 = 5;
-                    m4aSongNumStart(SE_UNKNOWN_0x119);
+                    m4aSongNumStart(SE_GROUDON_STEP);
                     sub_11B0(8);
                 }
             }
@@ -1089,7 +1089,7 @@ void sub_3CBC4(void)
                 varSL = (gCurrentPinballGame->unk482 % 8) / 4 + gCurrentPinballGame->unk47D * 2;
                 if (squaredMagnitude <= 240 && gCurrentPinballGame->unk388 == 0 && gCurrentPinballGame->unk486 < 600)
                 {
-                    MPlayStart(&gMPlayInfo_SE1, &gUnknown_086A26A0);
+                    MPlayStart(&gMPlayInfo_SE1, &se_unk_11f);
                     gCurrentPinballGame->unk482 = 10;
                     gMain.spriteGroups[24].available = 1;
                     gCurrentPinballGame->unk486 = 612;
@@ -1198,7 +1198,7 @@ void sub_3CBC4(void)
                 {
                     if (gCurrentPinballGame->unk4D8[i] == 0)
                     {
-                        m4aSongNumStart(SE_UNKNOWN_0x121);
+                        m4aSongNumStart(SE_GROUDON_BOULDER_LAND);
                         sub_11B0(7);
                     }
 
@@ -1230,7 +1230,7 @@ void sub_3CBC4(void)
                 {
                     if (gCurrentPinballGame->unk4D8[i] == 1)
                     {
-                        m4aSongNumStart(SE_UNKNOWN_0x121);
+                        m4aSongNumStart(SE_GROUDON_BOULDER_LAND);
                         sub_11B0(7);
                     }
 
@@ -1260,7 +1260,7 @@ void sub_3CBC4(void)
                 {
                     if (gCurrentPinballGame->unk4D8[i] == 1)
                     {
-                        m4aSongNumStart(SE_UNKNOWN_0x121);
+                        m4aSongNumStart(SE_GROUDON_BOULDER_LAND);
                         sub_11B0(7);
                     }
 
@@ -1290,7 +1290,7 @@ void sub_3CBC4(void)
                 {
                     if (gCurrentPinballGame->unk4D8[i] == 1)
                     {
-                        m4aSongNumStart(SE_UNKNOWN_0x121);
+                        m4aSongNumStart(SE_GROUDON_BOULDER_LAND);
                         sub_11B0(7);
                     }
 
@@ -1378,7 +1378,7 @@ void sub_3CBC4(void)
                     gCurrentPinballGame->unk4A4[i]--;
                     if (gCurrentPinballGame->unk4A4[i] == 7)
                     {
-                        m4aSongNumStart(SE_UNKNOWN_0x123);
+                        m4aSongNumStart(SE_GROUDON_BALL_HIT_FIRE);
                         gCurrentPinballGame->unk48C[i] = 3;
                         sub_11B0(7);
                     }
@@ -1397,7 +1397,7 @@ void sub_3CBC4(void)
                     gCurrentPinballGame->unk4A4[i]--;
                     if (gCurrentPinballGame->unk4A4[i] == 7)
                     {
-                        m4aSongNumStart(SE_UNKNOWN_0x123);
+                        m4aSongNumStart(SE_GROUDON_BALL_HIT_FIRE);
                         gCurrentPinballGame->unk48C[i] = 5;
                         sub_11B0(7);
                     }
@@ -1416,7 +1416,7 @@ void sub_3CBC4(void)
                     gCurrentPinballGame->unk4A4[i]--;
                     if (gCurrentPinballGame->unk4A4[i] == 7)
                     {
-                        m4aSongNumStart(SE_UNKNOWN_0x123);
+                        m4aSongNumStart(SE_GROUDON_BALL_HIT_FIRE);
                         gCurrentPinballGame->unk48C[i] = 7;
                         sub_11B0(7);
                     }
@@ -1446,7 +1446,7 @@ void sub_3CBC4(void)
                             gCurrentPinballGame->unk48C[i] = 9;
                         }
 
-                        m4aSongNumStart(SE_UNKNOWN_0x123);
+                        m4aSongNumStart(SE_GROUDON_BALL_HIT_FIRE);
                         sub_11B0(7);
                     }
                 }
@@ -1538,16 +1538,16 @@ void sub_3CBC4(void)
     {
         gCurrentPinballGame->unk4C4--;
         if (gCurrentPinballGame->unk4C4 == 36)
-            m4aSongNumStart(SE_UNKNOWN_0x122);
+            m4aSongNumStart(SE_GROUDON_DUSTORM_LIFT);
 
         if (gCurrentPinballGame->unk4C4 == 24)
-            m4aSongNumStart(SE_UNKNOWN_0x122);
+            m4aSongNumStart(SE_GROUDON_DUSTORM_LIFT);
 
         if (gCurrentPinballGame->unk4C4 == 12)
-            m4aSongNumStart(SE_UNKNOWN_0x122);
+            m4aSongNumStart(SE_GROUDON_DUSTORM_LIFT);
 
         if (gCurrentPinballGame->unk4C4 == 0)
-            m4aSongNumStart(SE_UNKNOWN_0x122);
+            m4aSongNumStart(SE_GROUDON_DUSTORM_LIFT);
     }
 
     group = &gMain.spriteGroups[30];

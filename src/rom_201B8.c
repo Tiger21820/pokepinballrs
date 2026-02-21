@@ -7,15 +7,15 @@ extern const u8 gUnknown_0847FD0C[][0x100];
 extern const s16 gUnknown_086ADEB0[][2];
 extern const u16 gUnknown_086ADEB2[][2];
 extern const s16 gUnknown_086ADA6E[][5];
-extern const u16 gUnknown_086B2FC0[][18];
-extern const u8 gUnknown_08447A8C[][0x180];
+extern const u16 gUnknown_086B2FC0[146][18];
+extern const u8 gRubyStageGulpin_Gfx[][0x180];
 extern const s16 gUnknown_086ADA58[];
 extern const u8 gUnknown_083C3C2C[][0x300];
 extern const u8 gUnknown_083C562C[][0x100];
 extern const u8 gUnknown_083C542C[][0x80];
-extern const u8 gUnknown_084F5ACC[][0x260];
+extern const u8 gRubyBoardSharpedo_Gfx[][0x260];
 extern const s16 gUnknown_086AD9FC[][2];
-extern const u16 gUnknown_086B3A04[][3][3];
+extern const u16 gSharpedoSpritesheetOam[42][3][3];
 extern const u8 gUnknown_083C806C[][0x100];
 extern const u8 gUnknown_0844928C[][0x100];
 extern const u8 gUnknown_08137998[];
@@ -27,27 +27,27 @@ extern const s16 gUnknown_086AD9EC[];
 extern const s16 gUnknown_0813798C[];
 extern const u8 gUnknown_081379D8[];
 extern const u8 gUnknown_084B7FEC[][0x480];
-extern const u8 gUnknown_084ED0CC[][0x180];
-extern const s16 gUnknown_086AD7C0[][3];
+extern const u8 gRubyBoardShopDoor_Gfx[][0x180];
+extern const s16 gUnknown_086AD7C0[50][3];
 extern const s16 gUnknown_086AD856[][2];
-extern const u8 gUnknown_0845710C[][0x280];
-extern const u16 gUnknown_086B2E64[][6];
+extern const u8 gRubyStageNuzleaf_Gfx[][0x280];
+extern const u16 gUnknown_086B2E64[58][6];
 extern const u16 gUnknown_081C00E4[];
-extern const u16 gUnknown_086AD798[];
+extern const u16 gUnknown_086AD798[2];
 extern const u16 gUnknown_086AD070[];
 extern const u16 gUnknown_081C02E4[];
 extern const s16 gUnknown_086AD79C[];
 
-extern struct SongHeader gUnknown_0869F2A0;
-extern struct SongHeader gUnknown_0869F240;
-extern struct SongHeader gUnknown_086A0F30;
-extern struct SongHeader gUnknown_086A2FA0;
-extern struct SongHeader gUnknown_086A0328;
-extern struct SongHeader gUnknown_086A0368;
+extern struct SongHeader se_unk_7a;
+extern struct SongHeader se_unk_79;
+extern struct SongHeader se_unk_d7;
+extern struct SongHeader se_unk_142;
+extern struct SongHeader se_unk_b1;
+extern struct SongHeader se_unk_b3;
 extern s16 gUnknown_086ADF48[100];
 extern s16 gUnknown_086ADF8A[3];
 extern u16 gUnknown_086ADEE0[][2];
-extern s16 gUnknown_086B4922[][0xC];
+extern s16 gUnknown_086B4922[28][12];
 
 
 void sub_1C7F4(s16 arg0, s16 arg1)
@@ -477,7 +477,7 @@ void sub_1D5D8(void)
     {
         group->baseX = gUnknown_086AD856[gCurrentPinballGame->unk2F9][0] - gCurrentPinballGame->unk58;
         group->baseY = gUnknown_086AD856[gCurrentPinballGame->unk2F9][1] - gCurrentPinballGame->unk5A;
-        DmaCopy16(3, gUnknown_0845710C[gCurrentPinballGame->unk2FC], (void *)0x06014380, 0x260);
+        DmaCopy16(3, gRubyStageNuzleaf_Gfx[gCurrentPinballGame->unk2FC], (void *)0x06014380, 0x260);
         for (i = 0; i < 2; i++)
         {
             oamSimple = &group->oam[i];
@@ -553,7 +553,7 @@ void sub_1DAD8(void)
                 gCurrentPinballGame->unk2F2 = 4;
             }
 
-            DmaCopy16(3, gUnknown_084ED0CC[gCurrentPinballGame->unk2F1], (void *)0x06013180, 0x180);
+            DmaCopy16(3, gRubyBoardShopDoor_Gfx[gCurrentPinballGame->unk2F1], (void *)0x06013180, 0x180);
         }
     }
 
@@ -820,7 +820,7 @@ void sub_1DDDC(void)
             {
                 gCurrentPinballGame->unk2AA = gUnknown_086AD9EC[gCurrentPinballGame->unk2A6 % 8];
                 if (gCurrentPinballGame->unk2A6 % 4 == 0)
-                    MPlayStart(&gUnknown_02032FB0, &gUnknown_086A0F30);
+                    MPlayStart(&gMPlayInfo_SE3, &se_unk_d7);
 
                 if (gCurrentPinballGame->unk2A6 % 10 == 0)
                     sub_11B0(12);
@@ -1205,7 +1205,7 @@ void sub_1F158(void)
 
     index = (gMain.systemFrameCount % 55) / 11;
     group = &gMain.spriteGroups[61];
-    DmaCopy16(3, gUnknown_084F5ACC[gCurrentPinballGame->unk2F5], (void *)0x06012C20, 0x260);
+    DmaCopy16(3, gRubyBoardSharpedo_Gfx[gCurrentPinballGame->unk2F5], (void *)0x06012C20, 0x260);
     if (gCurrentPinballGame->unk2F4)
         index = gCurrentPinballGame->unk2F4;
 
@@ -1217,7 +1217,7 @@ void sub_1F158(void)
     {
         oamSimple = &group->oam[i];
         dst = (u16*)&gOamBuffer[oamSimple->oamId];
-        src = gUnknown_086B3A04[var0][i];
+        src = gSharpedoSpritesheetOam[var0][i];
         *dst++ = *src++;
         *dst++ = *src++;
         *dst++ = *src++;
@@ -1250,7 +1250,7 @@ void sub_1F2A4(void)
         if (gCurrentPinballGame->unk1C8 < 168 && gCurrentPinballGame->unk1C8 % 8 == 0)
         {
             s8 offset = gCurrentPinballGame->unk1C8 / 21;
-            m4aSongNumStart(SE_UNKNOWN_0xA8 + offset);
+            m4aSongNumStart(SE_PIKA_CHARGE_DO + offset);
         }
 
         if (gCurrentPinballGame->unk1C6 <= gCurrentPinballGame->unk1C8)
@@ -1258,7 +1258,7 @@ void sub_1F2A4(void)
             gCurrentPinballGame->unk1C8 = gCurrentPinballGame->unk1C6;
             if (gCurrentPinballGame->unk1C8 >= 168)
             {
-                MPlayStart(&gMPlayInfo_SE1, &gUnknown_0869F2A0);
+                MPlayStart(&gMPlayInfo_SE1, &se_unk_7a);
                 gCurrentPinballGame->scoreAddedInFrame = 3000;
             }
         }
@@ -1280,7 +1280,7 @@ void sub_1F2A4(void)
         else
         {
             gCurrentPinballGame->unk618 = 0;
-            MPlayStart(&gUnknown_02032FB0, &gUnknown_0869F240);
+            MPlayStart(&gMPlayInfo_SE3, &se_unk_79);
             gCurrentPinballGame->scoreAddedInFrame = 100;
             if (gCurrentPinballGame->unk1CA < 12 && gCurrentPinballGame->unk61C == 0)
             {
@@ -1311,7 +1311,7 @@ void sub_1F2A4(void)
             else
             {
                 gCurrentPinballGame->unk618 = 0;
-                MPlayStart(&gUnknown_02032FB0, &gUnknown_0869F240);
+                MPlayStart(&gMPlayInfo_SE3, &se_unk_79);
                 gCurrentPinballGame->scoreAddedInFrame = 100;
                 if (gCurrentPinballGame->unk1CA < 12 && gCurrentPinballGame->unk61C == 0)
                 {
@@ -1357,7 +1357,7 @@ void sub_1F59C(void)
     if (gCurrentPinballGame->unk1E5 != gCurrentPinballGame->unk1E6)
     {
         gCurrentPinballGame->unk1E6 = gCurrentPinballGame->unk1E5;
-        DmaCopy16(3, gUnknown_084FA48C[index], (void *)0x06010780, 0x120);
+        DmaCopy16(3, gMainBoardPikaSpinner_Gfx[index], (void *)0x06010780, 0x120);
     }
 
     for (i = 0; i < 4; i++)
@@ -1660,9 +1660,9 @@ void sub_1FBC4(void)
     }
 
     index = var0[0];
-    DmaCopy16(3, gUnknown_08447A8C[var0[2]], (void *)0x06013B80, 0x180);
-    DmaCopy16(3, gUnknown_08447A8C[var0[3]], (void *)0x06013A00, 0x180);
-    DmaCopy16(3, gUnknown_08447A8C[var0[4]], (void *)0x06013880, 0x180);
+    DmaCopy16(3, gRubyStageGulpin_Gfx[var0[2]], (void *)0x06013B80, 0x180);
+    DmaCopy16(3, gRubyStageGulpin_Gfx[var0[3]], (void *)0x06013A00, 0x180);
+    DmaCopy16(3, gRubyStageGulpin_Gfx[var0[4]], (void *)0x06013880, 0x180);
     for (i = 0; i < 6; i++)
     {
         oamSimple = &group->oam[i];
@@ -1922,7 +1922,7 @@ void sub_203CC(void)
                 else
                 {
                     gCurrentPinballGame->unk1C4 = 60;
-                    MPlayStart(&gMPlayInfo_SE1, &gUnknown_086A2FA0);
+                    MPlayStart(&gMPlayInfo_SE1, &se_unk_142);
                 }
 
                 i = gCurrentPinballGame->unk1C2 - 1;
@@ -1968,14 +1968,14 @@ void sub_203CC(void)
                     if (gCurrentPinballGame->outLanePikaPosition == 2)
                     {
                         if (gCurrentPinballGame->unk1C2 == 1)
-                            MPlayStart(&gMPlayInfo_SE1, &gUnknown_086A0328);
+                            MPlayStart(&gMPlayInfo_SE1, &se_unk_b1);
                         else
-                            MPlayStart(&gMPlayInfo_SE1, &gUnknown_086A0368);
+                            MPlayStart(&gMPlayInfo_SE1, &se_unk_b3);
                         m4aMPlayVolumeControl(&gMPlayInfo_BGM, 0xFFFF, 0x40);
                     }
                     else
                     {
-                        MPlayStart(&gMPlayInfo_SE1, &gUnknown_086A0328);
+                        MPlayStart(&gMPlayInfo_SE1, &se_unk_b1);
                         m4aMPlayVolumeControl(&gMPlayInfo_BGM, 0xFFFF, 0x40);
                     }
                 }
