@@ -110,7 +110,7 @@ void PinballGameIdle1_19190(void)
                 sub_356A0();
             }
 
-            if ((gMain.unkF & 2) != 0)
+            if ((gMain.modeChangeFlags & MODE_CHANGE_PAUSE) != 0)
             {
                 DmaCopy16(3, gCurrentPinballGame->unk111A, (void *)OBJ_PLTT, OBJ_PLTT_SIZE);
             }

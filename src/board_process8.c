@@ -170,7 +170,7 @@ void sub_4D3D0(void)
     if (gCurrentPinballGame->eventTimer == 0)
         return;
 
-    if (gCurrentPinballGame->unk294 == 2 && gMain.unkF == 0)
+    if (gCurrentPinballGame->unk294 == 2 && gMain.modeChangeFlags == MODE_CHANGE_NONE)
         gCurrentPinballGame->eventTimer--;
 
     sp0[0] = gCurrentPinballGame->eventTimer / 3600;

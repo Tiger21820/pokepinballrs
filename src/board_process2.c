@@ -2,6 +2,7 @@
 #include "m4a.h"
 #include "main.h"
 #include "constants/bg_music.h"
+#include "constants/ruby_states.h"
 
 void AllBoardProcess_2A_4D6C4(void)
 {
@@ -96,7 +97,7 @@ void MainBoardProcess_2B_4D960(void)
     int var4;
 
     var0 = 0x1000;
-    if (gMain.unkF == 0)
+    if (gMain.modeChangeFlags == MODE_CHANGE_NONE)
         sub_4E2F8();
 
     if (gCurrentPinballGame->unk5FB)
@@ -185,7 +186,7 @@ void BonusBoardProcess_2B_4DBFC(void)
     int var4;
 
     var0 = 0x1000;
-    if ((gMain.unkF & ~0x40) == 0)
+    if ((gMain.modeChangeFlags & ~MODE_CHANGE_EXPIRED_BONUS) == 0)
         sub_4E468();
 
     if (gCurrentPinballGame->unk5FB)
@@ -302,7 +303,7 @@ void sub_4DFA0(void)
                 {
                     gCurrentPinballGame->unk128 = 4;
                     m4aSongNumStart(SE_TILT_TRIGGERED);
-                    sub_11B0(8);
+                    PlayRumble(8);
                 }
             }
         }
@@ -314,7 +315,7 @@ void sub_4DFA0(void)
             {
                 gCurrentPinballGame->unk128 = 4;
                 m4aSongNumStart(SE_TILT_TRIGGERED);
-                sub_11B0(8);
+                PlayRumble(8);
             }
         }
 
@@ -325,7 +326,7 @@ void sub_4DFA0(void)
             {
                 gCurrentPinballGame->unk128 = 4;
                 m4aSongNumStart(SE_TILT_TRIGGERED);
-                sub_11B0(8);
+                PlayRumble(8);
             }
         }
     }
@@ -428,7 +429,7 @@ void sub_4E2F8(void)
         gCurrentPinballGame->unk163 = 3;
         if (gCurrentPinballGame->unk20)
         {
-            sub_11B0(7);
+            PlayRumble(7);
             gCurrentPinballGame->ball->velocity.y = -590;
             gCurrentPinballGame->ball->velocity.x = 0;
             m4aSongNumStart(SE_UNKNOWN_0xCD);
@@ -489,10 +490,10 @@ void sub_4E468(void)
     {
         unk1334->velocity.x = 0;
         gCurrentPinballGame->ball->velocity.y = 0;
-        if (gMain.unkF & 0x40)
+        if (gMain.modeChangeFlags & MODE_CHANGE_EXPIRED_BONUS)
         {
-            gCurrentPinballGame->unk386 = 1;
-            gMain.unkF = 0x80;
+            gCurrentPinballGame->returnToMainBoardFlag = 1;
+            gMain.modeChangeFlags = MODE_CHANGE_BONUS_BANNER;
             gCurrentPinballGame->ball->positionQ0.y = gUnknown_02031520.unk14.unk2A - 10;
         }
         else
@@ -556,7 +557,7 @@ void sub_4E598(void)
     gCurrentPinballGame->ballPowerUpLight[0] = 0;
     gCurrentPinballGame->ballPowerUpLight[1] = gCurrentPinballGame->ballPowerUpLight[0];
     gCurrentPinballGame->ballPowerUpLight[2] = gCurrentPinballGame->ballPowerUpLight[0];
-    gCurrentPinballGame->unk308 = 0;
+    gCurrentPinballGame->bumperHitsSinceReset = 0;
     if (gMain.eReaderBonuses[EREADER_DX_MODE_CARD])
     {
         gCurrentPinballGame->ballUpgradeType = BALL_UPGRADE_TYPE_MASTER_BALL;
@@ -573,13 +574,13 @@ void sub_4E598(void)
     DmaCopy16(3, &gUnknown_08137E14[gCurrentPinballGame->ballUpgradeType], (void *)OBJ_PLTT + 0x20, 0x20);
     gCurrentPinballGame->unk62F = gCurrentPinballGame->unk70E;
     gCurrentPinballGame->unk70E = 1;
-    if (gCurrentPinballGame->unk2A5 == 45)
+    if (gCurrentPinballGame->whiscashFrameIx == WHISCASH_FRAME_GONE_AFTER_HIT)
     {
-        gCurrentPinballGame->unk2A4 = 0;
-        gCurrentPinballGame->unk2A5 = 0;
-        gCurrentPinballGame->unk2A6 = 0;
-        gCurrentPinballGame->unk16F = 1;
-        gCurrentPinballGame->unk174 = 0x40;
+        gCurrentPinballGame->shouldProcessWhiscash = FALSE;
+        gCurrentPinballGame->whiscashFrameIx = WHISCASH_FRAME_SUBMERGED;
+        gCurrentPinballGame->whiscashStateTimer = 0;
+        gCurrentPinballGame->rubyPondContentsChanging = TRUE;
+        gCurrentPinballGame->rubyPondChangeTimer = 0x40;
         gCurrentPinballGame->unk2AA = 0;
 
     }

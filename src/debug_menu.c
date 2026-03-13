@@ -35,33 +35,33 @@ struct Unk_86AFCB0
 extern const struct Unk_86AFCB0 gUnknown_086AFCB0[][2];
 
 // Handle debug system flags
-void sub_472E4(void)
+void BonusStage_HandleModeChangeFlags(void)
 {
-    if (gMain.unkF == 0x0)
+    if (gMain.modeChangeFlags == MODE_CHANGE_NONE)
         return;
 
-    if (gMain.unkF & 0x8)
+    if (gMain.modeChangeFlags & MODE_CHANGE_BALL_SAVER)
     {
         // instantly reset ball
         sub_478D8();
         return;
     }
 
-    if (gMain.unkF & 0x10)
+    if (gMain.modeChangeFlags & MODE_CHANGE_END_OF_BALL)
     {
         // lose life, and reset ball
         sub_47670();
         return;
     }
 
-    if (gMain.unkF & 0x20)
+    if (gMain.modeChangeFlags & MODE_CHANGE_END_OF_GAME)
     {
         // end game
         sub_474F4();
         return;
     }
 
-    if (gMain.unkF & 0x4)
+    if (gMain.modeChangeFlags & MODE_CHANGE_DEBUG)
     {
         // debug tool (move ball position, and change ball speed)
         sub_47344();
@@ -240,7 +240,7 @@ void sub_47670(void)
     }
     else
     {
-        gMain.unkF &= 0xEF;
+        gMain.modeChangeFlags &= ~MODE_CHANGE_END_OF_BALL;
         sub_47FBC();
         if (gCurrentPinballGame->numLives > 0)
         {
@@ -281,7 +281,7 @@ void sub_47670(void)
         }
         else
         {
-            gMain.unkF |= 0x20;
+            gMain.modeChangeFlags |= MODE_CHANGE_END_OF_GAME;
             gMain.unk12 = 3600;
             m4aSongNumStart(MUS_SLOTS_PRIZE);
         }
@@ -415,7 +415,7 @@ void sub_478D8(void)
                 {
                     gCurrentPinballGame->unk5FA = 0;
                     m4aSongNumStart(SE_UNKNOWN_0x96);
-                    sub_11B0(6);
+                    PlayRumble(6);
                 }
 
                 gCurrentPinballGame->ball->positionQ8.x = (gCurrentPinballGame->unk110 / 100 + 86) << 8;
@@ -490,7 +490,7 @@ void sub_478D8(void)
     }
     else
     {
-        gMain.unkF &= 0xF7;
+        gMain.modeChangeFlags &= ~MODE_CHANGE_BALL_SAVER;
         gCurrentPinballGame->unk26 = 60;
         sub_11C14(0);
         gCurrentPinballGame->unk1F = 0;

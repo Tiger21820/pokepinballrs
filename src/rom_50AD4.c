@@ -347,7 +347,7 @@ void sub_4F9F0(void)
         {
             m4aSongNumStart(SE_SLINGSHOT_HIT);
             gCurrentPinballGame->scoreAddedInFrame = 500;
-            sub_11B0(7);
+            PlayRumble(7);
         }
     }
 
@@ -881,7 +881,7 @@ void sub_507D4(void)
     const u8 **dest;
 
     index = 0;
-    if (gCurrentPinballGame->unk308 >= 100)
+    if (gCurrentPinballGame->bumperHitsSinceReset >= 100)
         index = (gCurrentPinballGame->unk70C % 20) / 4;
 
     src = gUnknown_086B0E6C[index];

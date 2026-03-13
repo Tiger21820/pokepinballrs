@@ -99,7 +99,7 @@ void ResetSomeGraphicsRelatedStuff(void)
     ClearGraphicsMemory();
     sub_0518();
     ClearSprites();
-    gMain.unkF = 0;
+    gMain.modeChangeFlags = MODE_CHANGE_NONE;
     gMain.unk10 = 0;
     gMain.fieldFrameCount = 0;
     gMain.unk11 = 0;

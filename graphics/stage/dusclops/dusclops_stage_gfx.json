@@ -10,6 +10,12 @@
   },
   "files": [
     {
+      "gfx_filename": "duskull",
+      "oam": true,
+      "mheight": 4,
+      "mwidth": 5
+    },
+    {
       "gfx_filename": "dusclops_bonus_clear",
       "segments": [
         {

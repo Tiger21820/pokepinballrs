@@ -51,7 +51,7 @@ void MainBoardProcess_4B_19490(void)
 {
     s16 i;
 
-    if ((gMain.unkF & 1) == 0)
+    if ((gMain.modeChangeFlags & MODE_CHANGE_BANNER) == 0)
         sub_195C4();
 
     for (i = 0; i < 2; i++)
@@ -127,7 +127,7 @@ void sub_195C4(void)
                 gCurrentPinballGame->unk1334[0].velocity.x = gCurrentPinballGame->unk60.x;
                 gCurrentPinballGame->unk1334[0].velocity.y = gCurrentPinballGame->unk60.y;
                 gCurrentPinballGame->unk5C = 0;
-                sub_11B0(7);
+                PlayRumble(7);
             }
             flipper->unk2 = flipper->position / 2 + 1;
             flipper->position += 4;
@@ -144,7 +144,7 @@ void sub_195C4(void)
                 gCurrentPinballGame->unk1334[0].velocity.x = gCurrentPinballGame->unk60.x;
                 gCurrentPinballGame->unk1334[0].velocity.y = gCurrentPinballGame->unk60.y;
                 gCurrentPinballGame->unk5C = 0;
-                sub_11B0(7);
+                PlayRumble(7);
             }
             flipper->position -= 2;
         }
@@ -160,10 +160,10 @@ void BonusBoardProcess_4B_19734(void)
     s16 i;
     s16 priority = 1;
 
-    if ((gMain.unkF & 1) == 0)
+    if ((gMain.modeChangeFlags & MODE_CHANGE_BANNER) == 0)
     {
         sub_19894();
-        gMain.unkF = gMain.unkF;
+        gMain.modeChangeFlags = gMain.modeChangeFlags;
     }
     for (i = 0; i < 2; i++)
     {
@@ -212,7 +212,7 @@ void sub_19894(void)
         flipper->prevPosition = flipper->position;
         flipper->unk2 = 0;
 
-        if (gCurrentPinballGame->heldButtonActions[i] && gMain.unkF == 0)
+        if (gCurrentPinballGame->heldButtonActions[i] && gMain.modeChangeFlags == MODE_CHANGE_NONE)
         {
             if (flipper->active == 0 && gCurrentPinballGame->unk25 == 0 && gCurrentPinballGame->unk1A == 0)
             {
@@ -243,7 +243,7 @@ void sub_19894(void)
                 gCurrentPinballGame->unk1334[0].velocity.x = gCurrentPinballGame->unk60.x;
                 gCurrentPinballGame->unk1334[0].velocity.y = gCurrentPinballGame->unk60.y;
                 gCurrentPinballGame->unk5C = 0;
-                sub_11B0(7);
+                PlayRumble(7);
             }
             flipper->unk2 = flipper->position / 2 + 1;
             flipper->position += 4;
@@ -260,7 +260,7 @@ void sub_19894(void)
                 gCurrentPinballGame->unk1334[0].velocity.x = gCurrentPinballGame->unk60.x;
                 gCurrentPinballGame->unk1334[0].velocity.y = gCurrentPinballGame->unk60.y;
                 gCurrentPinballGame->unk5C = 0;
-                sub_11B0(7);
+                PlayRumble(7);
             }
             flipper->position -= 2;
         }

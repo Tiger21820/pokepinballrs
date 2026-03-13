@@ -56,7 +56,7 @@ struct Main
     // x40 End of bonus with expired timer,
     // x80 Bonus Score banner
     // Most cause a board state transition once conditions are met.
-    /*0x0F*/ u8 unkF;   
+    /*0x0F*/ u8 modeChangeFlags;   
     /*0x10*/ u8 unk10;
     /*0x11*/ u8 unk11;
     /*0x12*/ u16 unk12;

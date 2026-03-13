@@ -61,7 +61,7 @@ void sub_31498(void)
                 }
                 else
                 {
-                    gMain.unkF |= 0x1;
+                    gMain.modeChangeFlags |= MODE_CHANGE_BANNER;
                     gCurrentPinballGame->unkEA = 0;
                     gCurrentPinballGame->unkEC = 920;
                     gCurrentPinballGame->unkE8 = 0;
@@ -150,7 +150,7 @@ void sub_31498(void)
     case 4:
         if (gCurrentPinballGame->unk343 && gCurrentPinballGame->unk344)
         {
-            gMain.unkF |= 0x1;
+            gMain.modeChangeFlags |= MODE_CHANGE_BANNER;
             gCurrentPinballGame->unkEA = 0;
             gCurrentPinballGame->unkEC = 160;
             gCurrentPinballGame->unkE8 = 0;

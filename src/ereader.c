@@ -46,6 +46,18 @@ extern u8 gEReaderBackground_Gfx[];
 extern u8 gUnknown_0807FD00[];
 extern s16 gUnknown_086A550C[];
 
+enum EReaderState{
+    EREADER_STATE_0_LOAD_GRAPHICS = 0,
+    EREADER_STATE_1 = 1,
+    EREADER_STATE_2 = 2,
+    EREADER_STATE_3 = 3,
+    EREADER_STATE_4 = 4,
+    EREADER_STATE_5 = 5,
+    EREADER_STATE_6 = 6,
+    EREADER_STATE_7 = 7,
+    EREADER_STATE_8 = 8,
+};
+
 void EReaderMain(void)
 {
     gEReaderStateFuncs[gMain.subState]();
@@ -85,7 +97,7 @@ void LoadEReaderGraphics(void)
     m4aSongNumStart(MUS_UNKNOWN_0x5);
     sub_0CBC();
     sub_024C();
-    gMain.subState = 1;
+    gMain.subState = EREADER_STATE_1;
 }
 
 void sub_2DF0(void)
@@ -130,7 +142,7 @@ void Ereader_State1_2E40(void)
             gUnknown_0202C604 = gUnknown_086A551A[gUnknown_0202AD90] + 1;
         }
         else if (gUnknown_086A5528[gUnknown_0202AD90] == 0) {
-            gMain.subState = 2;
+            gMain.subState = EREADER_STATE_2;
         }
         else {
             sub_377C();
@@ -143,7 +155,7 @@ void Ereader_State1_2E40(void)
     else if (JOY_NEW(B_BUTTON)) {
         m4aSongNumStart(SE_MENU_CANCEL);
         gUnknown_0202BEF8 = STATE_TITLE;
-        gMain.subState = 8;
+        gMain.subState = EREADER_STATE_8;
     }
     sub_394C();
     DmaCopy16(3, gUnknown_03000000, (void*) VRAM + 0x4000, 0x3000);
@@ -161,7 +173,7 @@ void Ereader_State2_2FC0(void)
             gUnknown_0201B124 = 0;
             gUnknown_0202C584 = 1;
             m4aSongNumStart(SE_TRIGGER_BUTTON_HIT);
-            gMain.subState = 3;
+            gMain.subState = EREADER_STATE_3;
         }
     }
     gUnknown_0202A58C = 0;
@@ -198,7 +210,7 @@ void Ereader_State3_304C(void)
                 }
                 gMain.eReaderBonuses[gEReaderCardIndex] = 1;
                 gUnknown_0201A44C = 0;
-                gMain.subState = 5;
+                gMain.subState = EREADER_STATE_5;
             }
             else {
                 gUnknown_0201A44C = 0;
@@ -208,7 +220,7 @@ void Ereader_State3_304C(void)
                 gUnknown_0202C5A4 = 0;
                 gUnknown_0202AD90 = 13;
                 sub_377C();
-                gMain.subState = 4;
+                gMain.subState = EREADER_STATE_4;
                 m4aSongNumStart(SE_FAILURE);
             }
         }
@@ -227,7 +239,7 @@ void Ereader_State3_304C(void)
                 gUnknown_0202C5A4 = 0;
                 gUnknown_0202AD90 = 13;
                 sub_377C();
-                gMain.subState = 4;
+                gMain.subState = EREADER_STATE_4;
                 m4aSongNumStart(SE_FAILURE);
             }
         }
@@ -307,7 +319,7 @@ void Ereader_State5_33A0(void)
             sub_02B4();
             m4aMPlayAllStop();
             sub_0D10();
-            gMain.subState = 6;
+            gMain.subState = EREADER_STATE_6;
             break;
     }
 
@@ -351,7 +363,7 @@ void Ereader_State6_343C(void)
     m4aSongNumStart(MUS_UNKNOWN_0x5);
     sub_0CBC();
     sub_024C();
-    gMain.subState = 7;
+    gMain.subState = EREADER_STATE_7;
 }
 
 void Ereader_State7_33C8(void)
@@ -389,7 +401,7 @@ void Ereader_State7_33C8(void)
             else {
                 gUnknown_0202BEF8 = STATE_TITLE;
             }
-            gMain.subState = 8;
+            gMain.subState = EREADER_STATE_8;
         }
         else {
             sub_377C();

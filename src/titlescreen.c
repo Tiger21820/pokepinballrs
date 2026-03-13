@@ -5,7 +5,7 @@
 #include "main.h"
 #include "constants/bg_music.h"
 
-static void sub_114FC(void);
+static void TitleScreen_CheckDeleteKeyComboPressed(void);
 static void sub_1157C(void);
 static void sub_11640(void);
 
@@ -26,7 +26,7 @@ enum
     SUBSTATE_ANIM_CLOSE_MENU,
     SUBSTATE_7,
     SUBSTATE_8,
-    SUBSTATE_9,
+    SUBSTATE_DELETE_SAVE_GAME_CONFIRMATION,
     SUBSTATE_EXEC_MENU_SELECTION,
     SUBSTATE_11,
 };
@@ -177,7 +177,7 @@ void TitleScreen1_WaitForStartButton(void)
             gMain.subState = SUBSTATE_2;
         }
 
-        sub_114FC();
+        TitleScreen_CheckDeleteKeyComboPressed();
         sub_1157C();
 
         gTitlescreen.idleFramesCounter++;
@@ -601,22 +601,19 @@ void TitleScreen11_80114B4(void)
     SetMainGameState(gUnknown_086A964C[gTitlescreen.unk6]);
 }
 
-static void sub_114FC(void)
+static void TitleScreen_CheckDeleteKeyComboPressed(void)
 {
     // To delete save file, press R_BUTTON 3 times while holding L_BUTTON And DPAD_LEFT.
-    if (JOY_HELD(L_BUTTON | DPAD_LEFT) == (L_BUTTON | DPAD_LEFT))
+    if (JOY_HELD(L_BUTTON | DPAD_LEFT) == (L_BUTTON | DPAD_LEFT) && JOY_NEW(R_BUTTON))
     {
-        if (JOY_NEW(R_BUTTON))
+        gEraseSaveDataAccessCounter = 40;
+        if (++gEraseSaveDataAccessStep == 3)
         {
-            gEraseSaveDataAccessCounter = 40;
-            if (++gEraseSaveDataAccessStep == 3)
-            {
-                gEraseSaveDataAccessStep = 0;
-                gEraseSaveDataAccessCounter = 0;
-                m4aSongNumStart(SE_MENU_POPUP_OPEN);
-                gTitlescreen.deleteSaveWindowVisible = TRUE;
-                gMain.subState = SUBSTATE_9;
-            }
+            gEraseSaveDataAccessStep = 0;
+            gEraseSaveDataAccessCounter = 0;
+            m4aSongNumStart(SE_MENU_POPUP_OPEN);
+            gTitlescreen.deleteSaveWindowVisible = TRUE;
+            gMain.subState = SUBSTATE_DELETE_SAVE_GAME_CONFIRMATION;
         }
     }
 

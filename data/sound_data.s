@@ -1,5 +1,56 @@
 .section .rodata
 
+
+gScaleTable:: @ 0x0852D928
+	.incbin "baserom.gba", 0x52D928, 0xB4
+
+gFreqTable:: @ 0x0852D9DC
+	.incbin "baserom.gba", 0x52D9DC, 0x30
+
+gPcmSamplesPerVBlankTable:: @ 0x0852DA0C
+	.incbin "baserom.gba", 0x52DA0C, 0x18
+
+gCgbScaleTable:: @ 0x0852DA24
+	.incbin "baserom.gba", 0x52DA24, 0x84
+
+gCgbFreqTable:: @ 0x0852DAA8
+	.incbin "baserom.gba", 0x52DAA8, 0x18
+
+gNoiseTable:: @ 0x0852DAC0
+	.incbin "baserom.gba", 0x52DAC0, 0x3C
+
+gCgb3Vol:: @ 0x0852DAFC
+	.incbin "baserom.gba", 0x52DAFC, 0x10
+
+gClockTable:: @ 0x0852DB0C
+	.incbin "baserom.gba", 0x52DB0C, 0x34
+
+gPokemonCrySongTemplate:: @ 0x0852DB40
+    .byte 1, 0, 0xFF, 0
+    .4byte voicegroup_base_gUnknown_0852DBAC
+	.4byte 0x0, 0x0
+    .byte 0x00, 0xC8, 0x40, 0xB2, 0x00, 0x00, 0x00, 0x00
+	.byte 0xC8, 0x50, 0xBD, 0x00, 0xBE, 0x7F, 0xCD, 0x0D
+	.byte 0x00, 0x00, 0x00, 0x00, 0xCD, 0x07, 0x00, 0xBF
+	.byte 0x40, 0xCF, 0x3C, 0x7F, 0xCD, 0x0C, 0x3C, 0x00
+	.byte 0xCE, 0xB1, 0x00, 0x00
+
+gXcmdTable:: @ 0x0852DB74
+	.4byte ply_xxx
+	.4byte ply_xwave
+	.4byte ply_xtype
+	.4byte ply_xxx
+	.4byte ply_xatta
+	.4byte ply_xdeca
+	.4byte ply_xsust
+	.4byte ply_xrele
+	.4byte ply_xiecv
+	.4byte ply_xiecl
+	.4byte ply_xleng
+	.4byte ply_xswee
+	.4byte ply_xwait
+	.4byte ply_xcmd_0D
+
 .include "asm/macros/m4a.inc"
 .include "asm/macros/music_voice.inc"
 
@@ -3822,7 +3873,7 @@ gDirectSound_086885EC:: @ 0x086885EC
 .include "sound/songs/se_unk_9c.s"
 .include "sound/songs/se_unk_9d.s"
 .include "sound/songs/se_unk_9e.s"
-.include "sound/songs/se_unk_9f.s"
+.include "sound/songs/se_warp.s"
 .include "sound/songs/se_unk_a0.s"
 .include "sound/songs/se_unk_a1.s"
 .include "sound/songs/se_unk_a2.s"
@@ -3844,7 +3895,7 @@ gDirectSound_086885EC:: @ 0x086885EC
 .include "sound/songs/se_unk_b2.s"
 .include "sound/songs/se_unk_b3.s"
 .include "sound/songs/se_unk_b4.s"
-.include "sound/songs/se_unk_b6.s"
+.include "sound/songs/se_ruby_bumper_hit.s"
 .include "sound/songs/se_unk_b7.s"
 .include "sound/songs/se_unk_b8.s"
 .include "sound/songs/se_unk_b9.s"
@@ -3862,8 +3913,8 @@ gDirectSound_086885EC:: @ 0x086885EC
 .include "sound/songs/se_unk_c5.s"
 .include "sound/songs/se_unk_c6.s"
 .include "sound/songs/se_unk_c7.s"
-.include "sound/songs/se_unk_c8.s"
-.include "sound/songs/se_unk_c9.s"
+.include "sound/songs/se_ruby_bumper_emerges.s"
+.include "sound/songs/se_ruby_bumper_leaves.s"
 .include "sound/songs/se_unk_ca.s"
 .include "sound/songs/se_unk_cb.s"
 .include "sound/songs/se_unk_cc.s"
@@ -3873,11 +3924,11 @@ gDirectSound_086885EC:: @ 0x086885EC
 .include "sound/songs/se_unk_d0.s"
 .include "sound/songs/se_unk_d1.s"
 .include "sound/songs/se_unk_d2.s"
-.include "sound/songs/se_unk_d3.s"
-.include "sound/songs/se_unk_d4.s"
-.include "sound/songs/se_unk_d5.s"
-.include "sound/songs/se_unk_d6.s"
-.include "sound/songs/se_unk_d7.s"
+.include "sound/songs/se_whiscash_emerge_splash.s"
+.include "sound/songs/se_whiscash_leave_burble.s"
+.include "sound/songs/se_whiscash_catch_ball.s"
+.include "sound/songs/se_whiscash_spit_ball.s"
+.include "sound/songs/se_whiscash_splashdown.s"
 .include "sound/songs/se_unk_d8.s"
 .include "sound/songs/se_unk_dc.s"
 .include "sound/songs/se_unk_dd.s"
@@ -3896,8 +3947,8 @@ gDirectSound_086885EC:: @ 0x086885EC
 .include "sound/songs/se_unk_ea.s"
 .include "sound/songs/se_unk_eb.s"
 .include "sound/songs/se_unk_ec.s"
-.include "sound/songs/se_unk_f1.s"
-.include "sound/songs/se_unk_f2.s"
+.include "sound/songs/se_duskull_appear.s"
+.include "sound/songs/se_duskull_death_cry.s"
 .include "sound/songs/se_dusclops_depart_incomplete.s"
 .include "sound/songs/se_dusclops_move.s"
 .include "sound/songs/se_dusclops_appear.s"
@@ -3969,7 +4020,7 @@ gDirectSound_086885EC:: @ 0x086885EC
 .include "sound/songs/se_unk_149.s"
 .include "sound/songs/se_high_score_earned.s"
 .include "sound/songs/se_unk_14b.s"
-.include "sound/songs/se_unk_14c.s"
+.include "sound/songs/se_whiscash_earthquake.s"
 
 @ This is not sound data below. It's some kind of save file descriptor (SRAM_F_V102).
 .incbin "baserom.gba", 0x6A369C, 0x6A3700 - 0x6A369C

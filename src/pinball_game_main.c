@@ -4,6 +4,7 @@
 #include "m4a.h"
 #include "constants/ereader.h"
 #include "constants/fields.h"
+#include "constants/ruby_states.h"
 
 extern struct PinballGame gUnknown_02000000;
 
@@ -47,7 +48,7 @@ extern const u8 gMainBoardEndOfBall_Gfx[];
 extern const u8 gSapphireBoardZigzagoonFx_Gfx[];
 extern const s16 gUnknown_086ACFE0[];
 extern const u16 gUnknown_086AD2DE[];
-extern const u8 *gUnknown_086AD474[];
+extern const u8 *gEvoItemAppear_GfxList[];
 extern const s16 gUnknown_086AD456[][7];
 extern const u8 gRubyBoardHatchCave_Gfx[][0x480];
 extern const u8 gUnknown_083C3C2C[][0x300];
@@ -317,7 +318,7 @@ static void sub_4A270(void)
 
 void sub_4A518(void)
 {
-    gMain.unkF = 0;
+    gMain.modeChangeFlags = MODE_CHANGE_NONE;
     gMain.unk10 = 0;
     gMain.fieldFrameCount = 0;
     gMain.unk11 = 0;
@@ -409,7 +410,7 @@ void sub_4A6A0(void)
         gCurrentPinballGame->ball->unk0 = 1;
         gCurrentPinballGame->unk1F = 1;
         gCurrentPinballGame->unk730 = 0;
-        gCurrentPinballGame->unk2A2 = 5;
+        gCurrentPinballGame->whiscashState = WHISCASH_STATE_INIT_RETURN_FROM_BONUS;
         gCurrentPinballGame->unk4C = 0;
         gCurrentPinballGame->unk4E = 118;
         break;
@@ -566,7 +567,7 @@ void PinballGame_State1_4AAD8(void)
                 sub_3E5D0();
             }
 
-            if (gMain.unkF & 0x2)
+            if (gMain.modeChangeFlags & MODE_CHANGE_PAUSE)
                 DmaCopy16(3, gCurrentPinballGame->unk111A, (void *)OBJ_PLTT, OBJ_PLTT_SIZE);
 
             gCurrentPinballGame->unk1D = 2;
@@ -600,13 +601,13 @@ void sub_4ABEC(void)
 
     UpdateButtonActionsFromJoy();
     CurrentBoardProcPairs_020028D8[1].unk4();
-    if (gMain.unkE == 0 && !(gMain.unkF & 0x2))
+    if (gMain.unkE == 0 && !(gMain.modeChangeFlags & MODE_CHANGE_PAUSE))
     {
         CurrentBoardProcPairs_020028D8[2].unk4();
         CurrentBoardProcPairs_020028D8[0].unk4();
         CurrentBoardProcPairs_020028D8[3].unk4();
         CurrentBoardProcPairs_020028D8[4].unk4();
-        if (gMain.unkF)
+        if (gMain.modeChangeFlags)
         {
             if (!gCurrentPinballGame->unk1F)
             {
@@ -656,13 +657,13 @@ void sub_4ACF0(void)
 
     sub_4B334();
     CurrentBoardProcPairs_020028D8[1].unk4();
-    if (!(gMain.unkF & 0x2))
+    if (!(gMain.modeChangeFlags & MODE_CHANGE_PAUSE))
     {
         CurrentBoardProcPairs_020028D8[2].unk4();
         CurrentBoardProcPairs_020028D8[0].unk4();
         CurrentBoardProcPairs_020028D8[3].unk4();
         CurrentBoardProcPairs_020028D8[4].unk4();
-        if (gMain.unkF)
+        if (gMain.modeChangeFlags)
         {
             if (!gCurrentPinballGame->unk1F)
             {
@@ -724,14 +725,14 @@ void sub_4AE8C(void)
 
     UpdateButtonActionsFromJoy();
     CurrentBoardProcPairs_020028D8[1].unk4();
-    if (gMain.unkF & 0x2)
+    if (gMain.modeChangeFlags & MODE_CHANGE_PAUSE)
         return;
 
     CurrentBoardProcPairs_020028D8[0].unk4();
     CurrentBoardProcPairs_020028D8[2].unk4();
     CurrentBoardProcPairs_020028D8[3].unk4();
     CurrentBoardProcPairs_020028D8[4].unk4();
-    if (gMain.unkF & ~0x40)
+    if (gMain.modeChangeFlags & ~MODE_CHANGE_EXPIRED_BONUS)
     {
         if (!gCurrentPinballGame->unk1F)
         {
@@ -789,13 +790,13 @@ void sub_4B000(void)
     s16 i;
 
     sub_4B334();
-    if (!(gMain.unkF & 0x2))
+    if (!(gMain.modeChangeFlags & MODE_CHANGE_PAUSE))
     {
         CurrentBoardProcPairs_020028D8[0].unk4();
         CurrentBoardProcPairs_020028D8[2].unk4();
         CurrentBoardProcPairs_020028D8[3].unk4();
         CurrentBoardProcPairs_020028D8[4].unk4();
-        if (gMain.unkF & ~0x40)
+        if (gMain.modeChangeFlags & ~MODE_CHANGE_EXPIRED_BONUS)
         {
             if (!gCurrentPinballGame->unk1F)
             {
@@ -909,7 +910,7 @@ void UpdateButtonActionsFromJoy(void)
         gCurrentPinballGame->releasedButtonActions[i] = 0;
     }
 
-    if (gMain.unkF)
+    if (gMain.modeChangeFlags)
         return;
 
     for (i =  0; i < 5; i++)
@@ -942,7 +943,7 @@ void sub_4B334(void)
         gCurrentPinballGame->releasedButtonActions[i] = 0;
     }
 
-    if (gMain.unkF)
+    if (gMain.modeChangeFlags)
         return;
 
     if (gUnknown_02031510 < 60 * 60)
@@ -991,7 +992,7 @@ void sub_4B408(s16 arg0)
     gCurrentPinballGame->field = gMain.selectedField;
     gCurrentPinballGame->unk10FE = gMain.unk5;
     gCurrentPinballGame->unk10FF = gMain.unk6;
-    gCurrentPinballGame->unk1101 = gMain.unkF;
+    gCurrentPinballGame->unk1101 = gMain.modeChangeFlags;
     gCurrentPinballGame->unk1102 = gMain.unk10;
     gCurrentPinballGame->unk1103 = gMain.unk11;
     gCurrentPinballGame->unk1320 = gMain.unk12;
@@ -1054,7 +1055,7 @@ void sub_4B678(u16 arg0)
         gMain.selectedField = gCurrentPinballGame->field;
         gMain.unk5 = gCurrentPinballGame->unk10FE;
         gMain.unk6 = gCurrentPinballGame->unk10FF;
-        gMain.unkF = gCurrentPinballGame->unk1101;
+        gMain.modeChangeFlags = gCurrentPinballGame->unk1101;
         gMain.unk10 = gCurrentPinballGame->unk1102;
         gMain.unk11 = gCurrentPinballGame->unk1103;
         gMain.unk12 = gCurrentPinballGame->unk1320;
@@ -1311,7 +1312,7 @@ void sub_4BC34(void)
         }
         break;
     case 14:
-        DmaCopy16(3, gUnknown_086AD474[gCurrentPinballGame->unk25F], (void *)0x6015800, 0x1C00);
+        DmaCopy16(3, gEvoItemAppear_GfxList[gCurrentPinballGame->unk25F], (void *)0x6015800, 0x1C00);
         break;
     case 15:
         DmaCopy16(3, gUnknown_08158284, (void *)0x6015800, 0x2400);

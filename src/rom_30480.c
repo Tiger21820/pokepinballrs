@@ -160,7 +160,7 @@ void sub_304C8(void)
     if (group->available)
     {
         group->baseX = 192 - gCurrentPinballGame->unk58;
-        if (gCurrentPinballGame->unk346 > 2 && gMain.unkF)
+        if (gCurrentPinballGame->unk346 > 2 && gMain.modeChangeFlags)
             group->baseY = 56 - gCurrentPinballGame->unk5A;
         else
             group->baseY = 200;
@@ -273,7 +273,7 @@ void sub_308DC(void)
             }
             else if (var0 < 38)
             {
-                if (var0 == 32 && (gMain.unkF & 0x20) == 0)
+                if (var0 == 32 && (gMain.modeChangeFlags & MODE_CHANGE_END_OF_GAME) == 0)
                     m4aSongNumStart(SE_UNKNOWN_0xEB);
 
                 gCurrentPinballGame->unk32F[i] = 6;
@@ -315,7 +315,7 @@ void sub_308DC(void)
 
             if (gCurrentPinballGame->unk6C2 == 0)
             {
-                gMain.unkF |= 1;
+                gMain.modeChangeFlags |= MODE_CHANGE_BANNER;
                 gCurrentPinballGame->unkEA = 70;
                 gCurrentPinballGame->unkEC = 160;
                 gCurrentPinballGame->unkE8 = 0;

@@ -35,7 +35,7 @@ void SapphireBoardProcess_3B_3276C(void)
     sub_19B90();
     sub_327C0();
 
-    if (!gMain.unkF)
+    if (!gMain.modeChangeFlags)
         sub_328C8();
 
     sub_32DF8();
@@ -118,7 +118,7 @@ void sub_327C0(void)
     if (gCurrentPinballGame->unk194)
         sub_225F0();
 
-    sub_472E4();
+    BonusStage_HandleModeChangeFlags();
 }
 
 void sub_328C8(void)
@@ -134,13 +134,13 @@ void sub_328C8(void)
     sub_2E67C();
     sub_31144();
 
-    if (!(gMain.unkF & 0x20))
+    if (!(gMain.modeChangeFlags & MODE_CHANGE_END_OF_GAME))
         sub_2F79C();
 }
 
 void sub_32914(void)
 {
-    if (gMain.unkF != 0)
+    if (gMain.modeChangeFlags != MODE_CHANGE_NONE)
         return;
 
     switch (gCurrentPinballGame->unk25)
@@ -262,8 +262,8 @@ void sub_32B74(void)
     gCurrentPinballGame->unk5FB = 0;
     gCurrentPinballGame->scoreAddedInFrame = 50000;
 
-    m4aSongNumStart(SE_UNKNOWN_0xD5);
-    sub_11B0(8);
+    m4aSongNumStart(SE_WHISCASH_CATCH_BALL);
+    PlayRumble(8);
 }
 
 void sub_32BE4(void)
@@ -345,7 +345,7 @@ void sub_32BE4(void)
         gCurrentPinballGame->ball->unk6 = 0;
         gCurrentPinballGame->ball->velocity.x = -0x66;
         gCurrentPinballGame->ball->velocity.y = 0xC8;
-        sub_11B0(7);
+        PlayRumble(7);
         gCurrentPinballGame->ball->unk6 = 0;
         gCurrentPinballGame->ball->positionQ0.x = 0xAB;
         gCurrentPinballGame->ball->positionQ0.y = 0xD4;
@@ -354,7 +354,7 @@ void sub_32BE4(void)
         gCurrentPinballGame->ball->prevPositionQ1 = gCurrentPinballGame->ball->positionQ1;
         gCurrentPinballGame->unk25 = 0;
         gCurrentPinballGame->unk5F7 = 0;
-        m4aSongNumStart(SE_UNKNOWN_0xD6);
+        m4aSongNumStart(SE_WHISCASH_SPIT_BALL);
         gCurrentPinballGame->unk5FE = 0;
         gCurrentPinballGame->unk5FB = 1;
         gCurrentPinballGame->unk5FA = 0;

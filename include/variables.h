@@ -51,7 +51,7 @@ extern u16 gUnknown_086BB910[11][4];
 extern struct {u8 unk0; s16 unk2;} gUnknown_086BB9B4[];
 extern u16 gOptionsSEList[];
 extern u8 gUnknown_02031AF0[][10];
-extern u8 gUnknown_08527ED6[4][10];
+extern u8 gDefaultButtonConfigs[4][10];
 extern void (*const gOptionsStateFuncs[])(void);
 extern u32 gHighScoreNameEntry[HIGH_SCORE_NAME_LENGTH];
 extern u16 gUnknown_0201A520[3][BG_PLTT_SIZE];
@@ -286,9 +286,18 @@ extern s16 gUnknown_0202BF14;
 extern s8 gUnknown_0202C590;
 extern s16 gUnknown_0201B120;
 extern s8 gUnknown_0202BEC4;
-extern s8 gUnknown_0202BEFC;
-extern s8 gUnknown_02002830;
-extern s8 gUnknown_02002831;
+
+/****
+ *  Yellow confirmation/info window mode
+ *  0= Transmession connection prompt, 
+ *  1= Transferring in progress?
+ *  2= transmission error message
+ *  3= transfer complete?
+ *  4= delete save data confirmation
+ * ****/
+extern s8 Pokedex_PopupTypeIx;
+extern s8 gPokedex_EraseSaveDataAccessCounter;
+extern s8 gPokedex_EraseSaveDataAccessStep;
 extern s8 gUnknown_0202C794;
 extern s8 gUnknown_0201C1B4;
 extern s8 gUnknown_0202C5AC;
@@ -307,8 +316,8 @@ extern u16 gDexInfoWindowEmptyRowTiles[];
 extern u16 gUnknown_0202A590[];
 extern u16 gUnknown_08086B40[];
 extern u16 gUnknown_083722E8[0x4000];
-extern s16 gUnknown_086A61BC[];
-extern s16 gUnknown_086A77A8[][10][2];
+extern s16 gDexAnimationIx[];
+extern s16 gTitleRevealJingle[][10][2];
 extern u8 gUnknown_0201B124;
 
 extern const struct PokemonSpecies gSpeciesInfo[];
@@ -340,19 +349,14 @@ struct unkStruct_8079730
 };
 extern const struct unkStruct_8079730 gUnknown_08079730[][8];
 
-struct UnkStruct_086A7768 {
-    s16 unk0;
-    s16 unk2;
-};
-
-extern struct UnkStruct_086A7768 gUnknown_086A7768[0x8];
+extern struct Vector16 gUnknown_086A7768[0x8];
 extern s16 gUnknown_086A7788[0x8];
 extern s16 gUnknown_0202ADA0[];
 extern s32 gUnknown_0202BEF0;
 extern const struct SpriteSet *const gUnknown_086A769C[];
 extern struct SpriteGroup gMain_spriteGroups_40[];
 extern struct SpriteGroup gMain_spriteGroups_48;
-extern struct UnkStruct_086A7768 gUnknown_086A7798[0x4];
+extern struct Vector16 gUnknown_086A7798[0x4];
 extern s32 gUnknown_0201C188;
 
 extern const struct SpriteSet *const gUnknown_086A795C[];

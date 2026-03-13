@@ -34,9 +34,9 @@ gUnknown_0200282C: @ 0x0200282C
 	.space 0x1
 gUnknown_0200282D: @ 0x0200282D
 	.space 0x3
-gUnknown_02002830: @ 0x02002830
+gPokedex_EraseSaveDataAccessCounter: @ 0x02002830
 	.space 0x1
-gUnknown_02002831: @ 0x02002831
+gPokedex_EraseSaveDataAccessStep: @ 0x02002831
 	.space 0x7
 gFieldSelectData: @ 0x02002838
 	.space 0x18
@@ -467,7 +467,7 @@ gUnknown_0202BEF4: @ 0x0202BEF4
 	.space 0x4
 gUnknown_0202BEF8: @ 0x0202BEF8
 	.space 0x4
-gUnknown_0202BEFC: @ 0x0202BEFC
+Pokedex_PopupTypeIx: @ 0x0202BEFC
 	.space 0x4
 gUnknown_0202BF00: @ 0x0202BF00
 	.space 0x4

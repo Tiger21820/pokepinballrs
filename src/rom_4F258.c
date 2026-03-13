@@ -83,7 +83,7 @@ void sub_4E920(void)
         {
             m4aSongNumStart(SE_SLINGSHOT_HIT);
             gCurrentPinballGame->scoreAddedInFrame = 500;
-            sub_11B0(7);
+            PlayRumble(7);
         }
     }
 

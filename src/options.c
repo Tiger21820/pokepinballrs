@@ -150,7 +150,7 @@ void Options_InitStates(void)
     for (i = 0; i < 4; i++)
     {
         for (j = 0; j < 10; j++)
-            gUnknown_02031AF0[i][j] = gUnknown_08527ED6[i][j];
+            gUnknown_02031AF0[i][j] = gDefaultButtonConfigs[i][j];
     }
     sub_52528();
     if (gGameBoyPlayerEnabled == TRUE)
@@ -284,7 +284,7 @@ void Options_HandleInput(void)
                 if (gGameBoyPlayerEnabled == TRUE)
                 {
                     m4aSongNumStart(SE_MENU_SELECT);
-                    sub_11B0(11);
+                    PlayRumble(11);
                     if (gOptionsData.unk2E == 0)
                         gOptionsData.unk2E = 1;
 

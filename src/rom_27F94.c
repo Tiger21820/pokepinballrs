@@ -21,7 +21,7 @@ extern const u16 gUnknown_081B0FE4[][0x30];
 extern const u8 gUnknown_081C0064[];
 extern const u8 gUnknown_0844AA0C[][0x480];
 extern const u8 gUnknown_084C156C[];
-extern const s16 gUnknown_086ACF38[36];
+extern const s16 gUnknown_086ACF38[34];
 extern const u8 gUnknown_086ACF80[];
 extern const s8 gUnknown_086ACFF4[];
 extern u16 gUnknown_086AD180[][7];
@@ -45,7 +45,11 @@ extern struct SongHeader se_unk_81;
 extern struct SongHeader se_unk_87;
 extern struct SongHeader se_unk_9a;
 
-
+enum HatchTileRevealStates {
+    HATCH_TILE_REVEAL_NONE = 0,
+    HATCH_TILE_REVEAL_ONE_AT_A_TIME = 1,
+    HATCH_TILE_REVEAL_ALL_AT_ONCE = 2
+};
 
 
 void sub_27F94(void)
@@ -80,14 +84,14 @@ void sub_27F94(void)
         break;
     case 3:
         sub_1C7F4(3, 0);
-        gCurrentPinballGame->unk6C5 = 0;
+        gCurrentPinballGame->hatchTileRevealState = HATCH_TILE_REVEAL_NONE;
         gCurrentPinballGame->unk602 = 0;
         gCurrentPinballGame->unk17++;
         for (i = 0; i < 6; i++)
             gCurrentPinballGame->unk6D3[i] = 15;
         break;
-    case 4:
-        if (gMain.unkF == 0)
+    case 4: // init hatch mode
+        if (gMain.modeChangeFlags == MODE_CHANGE_NONE)
         {
             if (gMain.selectedField == FIELD_RUBY)
             {
@@ -97,7 +101,7 @@ void sub_27F94(void)
                 }
                 else if (gCurrentPinballGame->unk28 == 93)
                 {
-                    gMain.unkF |= 1;
+                    gMain.modeChangeFlags |= MODE_CHANGE_BANNER;
                     gCurrentPinballGame->unkEA = 0;
                     gCurrentPinballGame->unkEC = 120;
                     gCurrentPinballGame->unkE8 = 0;
@@ -124,7 +128,7 @@ void sub_27F94(void)
                     gCurrentPinballGame->unk17++;
                 }
             }
-            else
+            else // Sapphire board
             {
                 if (gCurrentPinballGame->unk28 == 68)
                 {
@@ -132,7 +136,7 @@ void sub_27F94(void)
                 }
                 else if (gCurrentPinballGame->unk28 == 67)
                 {
-                    gMain.unkF |= 1;
+                    gMain.modeChangeFlags |= MODE_CHANGE_BANNER;
                     gCurrentPinballGame->unkEA = 0;
                     gCurrentPinballGame->unkEC = 120;
                     gCurrentPinballGame->unkE8 = 0;
@@ -161,11 +165,11 @@ void sub_27F94(void)
             }
         }
 
-        sub_29334();
+        CheckHatchTileRevealState();
         return;
-    case 5:
+    case 5: // hatch mode running
         gCurrentPinballGame->unk729 = 1;
-        sub_29334();
+        CheckHatchTileRevealState();
         gCurrentPinballGame->unk18 = 0;
         return;
     case 6:
@@ -294,7 +298,7 @@ void sub_28544(void)
         gCurrentPinballGame->unk17++;
         return;
     case 1:
-        if (gMain.unkF == 0)
+        if (gMain.modeChangeFlags == MODE_CHANGE_NONE)
         {
             if (gMain.selectedField == FIELD_RUBY)
             {
@@ -304,7 +308,7 @@ void sub_28544(void)
                 }
                 else if (gCurrentPinballGame->unk28 == 93)
                 {
-                    gMain.unkF |= 1;
+                    gMain.modeChangeFlags |= MODE_CHANGE_BANNER;
                     gCurrentPinballGame->unkEA = 0;
                     gCurrentPinballGame->unkEC = 120;
                     gCurrentPinballGame->unkE8 = 0;
@@ -338,7 +342,7 @@ void sub_28544(void)
                 }
                 else if (gCurrentPinballGame->unk28 == 67)
                 {
-                    gMain.unkF |= 1;
+                    gMain.modeChangeFlags |= MODE_CHANGE_BANNER;
                     gCurrentPinballGame->unkEA = 0;
                     gCurrentPinballGame->unkEC = 120;
                     gCurrentPinballGame->unkE8 = 0;
@@ -367,7 +371,7 @@ void sub_28544(void)
                 }
             }
         }
-        else if ((gMain.unkF & 0x1) && gCurrentPinballGame->unkF0 == 1)
+        else if ((gMain.modeChangeFlags & MODE_CHANGE_BANNER) && gCurrentPinballGame->unkF0 == 1)
         {
             gCurrentPinballGame->unk6C4 = 3;
             return;
@@ -756,30 +760,33 @@ void sub_292A0(void)
         gMain.unk44[45 + i]->available = 0;
 }
 
-void sub_29334(void)
+void CheckHatchTileRevealState(void)
 {
+    // Cross vertical threshold, check completion
     if (gCurrentPinballGame->unk68 > 138)
     {
-        if (gCurrentPinballGame->unk6C5 == 0 && gCurrentPinballGame->unk625 > 0)
+        if (gCurrentPinballGame->hatchTileRevealState == HATCH_TILE_REVEAL_NONE && gCurrentPinballGame->hatchTilesBumperAcknowledged > 0)
         {
-            if (gCurrentPinballGame->unk6C6 + 6 == gCurrentPinballGame->unk625)
+            // Reveal all at once, if the bumpers have been hit enough in one trip up to reveal all tiles
+            // This will be in 'banner' mode at this point, scrolling down, and records points mid sequence
+            if (gCurrentPinballGame->hatchTilesBoardAcknowledged + 6 == gCurrentPinballGame->hatchTilesBumperAcknowledged)
             {
-                gCurrentPinballGame->unk6C5 = 2;
+                gCurrentPinballGame->hatchTileRevealState = HATCH_TILE_REVEAL_ALL_AT_ONCE;
                 gCurrentPinballGame->scoreAddedInFrame = 300000;
             }
             else
             {
-                gCurrentPinballGame->unk6C5 = 1;
+                gCurrentPinballGame->hatchTileRevealState = HATCH_TILE_REVEAL_ONE_AT_A_TIME;
             }
         }
 
-        gCurrentPinballGame->unk6C6 = gCurrentPinballGame->unk625;
+        gCurrentPinballGame->hatchTilesBoardAcknowledged = gCurrentPinballGame->hatchTilesBumperAcknowledged;
     }
 
-    if (gCurrentPinballGame->unk6C5 == 2)
-        sub_25808();
-    else if (gCurrentPinballGame->unk6C5 == 1)
-        sub_253E0();
+    if (gCurrentPinballGame->hatchTileRevealState == HATCH_TILE_REVEAL_ALL_AT_ONCE)
+        RevealAllHatchTilesAtOnce();
+    else if (gCurrentPinballGame->hatchTileRevealState == HATCH_TILE_REVEAL_ONE_AT_A_TIME)
+        RevealSequentialHatchTiles();
 }
 
 void sub_293D8(void)
@@ -789,23 +796,23 @@ void sub_293D8(void)
     struct OamDataSimple *oamSimple;
     u16 *dst;
 
-    if (gUnknown_086AD436[gCurrentPinballGame->unk6CC][1] > gCurrentPinballGame->unk6CA)
+    if (gUnknown_086AD436[gCurrentPinballGame->hatchFrameId][1] > gCurrentPinballGame->hatchSequentialTileRevealFrameAnimTimer)
     {
-        gCurrentPinballGame->unk6CA++;
+        gCurrentPinballGame->hatchSequentialTileRevealFrameAnimTimer++;
     }
     else
     {
-        gCurrentPinballGame->unk6CA = 0;
-        gCurrentPinballGame->unk6CC++;
+        gCurrentPinballGame->hatchSequentialTileRevealFrameAnimTimer = 0;
+        gCurrentPinballGame->hatchFrameId++;
     }
 
-    if (gCurrentPinballGame->unk6CC == 2 && gCurrentPinballGame->unk6CA > 3)
+    if (gCurrentPinballGame->hatchFrameId == 2 && gCurrentPinballGame->hatchSequentialTileRevealFrameAnimTimer > 3)
     {
         gCurrentPinballGame->unk6C4 = 3;
         gMain.unk44[33]->available = 1;
     }
 
-    if (gCurrentPinballGame->unk6CC > 2)
+    if (gCurrentPinballGame->hatchFrameId > 2)
     {
         DmaCopy16(3, gUnknown_020306D0, (void *)0x050003A0, 0x20);
         DmaCopy16(3, gUnknown_02030760, (void *)0x06010CA0, 0x480);
@@ -824,9 +831,9 @@ void sub_293D8(void)
         {
             oamSimple = &group->oam[i];
             dst = (u16*)&gOamBuffer[oamSimple->oamId];
-            *dst++ = gUnknown_086B55DC[gUnknown_086AD436[gCurrentPinballGame->unk6CC][0]][i*3+0];
-            *dst++ = gUnknown_086B55DC[gUnknown_086AD436[gCurrentPinballGame->unk6CC][0]][i*3+1];
-            *dst++ = gUnknown_086B55DC[gUnknown_086AD436[gCurrentPinballGame->unk6CC][0]][i*3+2];
+            *dst++ = gUnknown_086B55DC[gUnknown_086AD436[gCurrentPinballGame->hatchFrameId][0]][i*3+0];
+            *dst++ = gUnknown_086B55DC[gUnknown_086AD436[gCurrentPinballGame->hatchFrameId][0]][i*3+1];
+            *dst++ = gUnknown_086B55DC[gUnknown_086AD436[gCurrentPinballGame->hatchFrameId][0]][i*3+2];
 
             gOamBuffer[oamSimple->oamId].x += group->baseX;
             gOamBuffer[oamSimple->oamId].y += group->baseY;
@@ -834,7 +841,7 @@ void sub_293D8(void)
     }
 
     gMain.unk44[18]->available = 1;
-    if (gCurrentPinballGame->unk6CC > 6)
+    if (gCurrentPinballGame->hatchFrameId > 6)
     {
         gCurrentPinballGame->unk17++;
         gMain.unk44[18]->available = 0;
@@ -846,7 +853,7 @@ void sub_29624(void)
 {
     s16 i;
 
-    gCurrentPinballGame->unk6CC = 0;
+    gCurrentPinballGame->hatchFrameId = 0;
     for (i = 0; i < 6; i++)
         gCurrentPinballGame->unk6D3[i] = 13;
 }
@@ -913,7 +920,7 @@ void sub_2971C(void)
     }
     else
     {
-        gCurrentPinballGame->unk6CA = 0x7100;
+        gCurrentPinballGame->hatchSequentialTileRevealFrameAnimTimer = 0x7100;
         gMain.unk44[12]->available = 0;
     }
 }
@@ -1014,7 +1021,7 @@ void sub_29A6C(void)
     }
     else
     {
-        gCurrentPinballGame->unk6CA = 0x7100;
+        gCurrentPinballGame->hatchSequentialTileRevealFrameAnimTimer = 0x7100;
         gMain.unk44[12]->available = 0;
     }
 }
@@ -1273,7 +1280,7 @@ void sub_2A354(void)
         {
             if (gCurrentPinballGame->unk6DE == 120)
             {
-                gMain.unkF |= 1;
+                gMain.modeChangeFlags |= MODE_CHANGE_BANNER;
                 gCurrentPinballGame->unkEA = 0;
                 gCurrentPinballGame->unkEC = 250;
                 gCurrentPinballGame->unkE8 = 272;
@@ -1417,17 +1424,17 @@ void sub_2A354(void)
         }
         break;
     case 22:
-        if (gCurrentPinballGame->unk6DE == 150 && gCurrentPinballGame->unk2A4 == 0)
+        if (gCurrentPinballGame->unk6DE == 150 && gCurrentPinballGame->shouldProcessWhiscash == 0)
         {
-            gCurrentPinballGame->unk174 = 0;
-            gCurrentPinballGame->unk16F = 1;
-            gCurrentPinballGame->unk162 = 1;
+            gCurrentPinballGame->rubyPondChangeTimer = 0;
+            gCurrentPinballGame->rubyPondContentsChanging = TRUE;
+            gCurrentPinballGame->forcePondToWhiscash = TRUE;
         }
         break;
     case 23:
         if (gCurrentPinballGame->unk6DE == 150)
         {
-            gCurrentPinballGame->unk308 = 100;
+            gCurrentPinballGame->bumperHitsSinceReset = 100;
             gCurrentPinballGame->unk30C = 1800;
             gCurrentPinballGame->unk306 = 1;
         }
@@ -1862,7 +1869,7 @@ void sub_2AADC(void)
             if (gCurrentPinballGame->unk5A6 == 0)
             {
                 m4aMPlayAllStop();
-                sub_11B0(8);
+                PlayRumble(8);
             }
 
             if (gCurrentPinballGame->unk5A6 == 2)
@@ -2061,7 +2068,7 @@ void sub_2AADC(void)
             if (temp_r0 > 183)
             {
                 if (temp_r0 == 185)
-                    sub_11B0(6);
+                    PlayRumble(6);
 
                 if (temp_r0 == 184)
                     m4aSongNumStart(158);
@@ -2077,7 +2084,7 @@ void sub_2AADC(void)
             else if (temp_r0 > 167)
             {
                 if (temp_r0 == 169)
-                    sub_11B0(6);
+                    PlayRumble(6);
 
                 if (temp_r0 == 168)
                     m4aSongNumStart(0x9E);
@@ -2095,7 +2102,7 @@ void sub_2AADC(void)
                 if (temp_r0 > 115)
                 {
                     if (temp_r0 == 117)
-                        sub_11B0(6);
+                        PlayRumble(6);
 
                     if (temp_r0 == 116)
                         m4aSongNumStart(0x9E);
@@ -2111,7 +2118,7 @@ void sub_2AADC(void)
                 else if (temp_r0 > 99)
                 {
                     if (temp_r0 == 101)
-                        sub_11B0(6);
+                        PlayRumble(6);
 
                     if (temp_r0 == 100)
                         m4aSongNumStart(0x9E);

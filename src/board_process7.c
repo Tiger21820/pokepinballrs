@@ -336,7 +336,7 @@ void BonusBoardProcess_7B_12BF8()
                 unk1334_0->unk6 -= 40;
             }
 
-            if ((gMain.unkF & -0x41) == 0) // 1011 1111
+            if ((gMain.modeChangeFlags & ~MODE_CHANGE_EXPIRED_BONUS) == 0) 
             {
                 gCurrentPinballGame->unk392++;
                 if (r5 >= 7 && r5 <= 10)
@@ -379,7 +379,7 @@ void BonusBoardProcess_7B_12BF8()
                 unk1334_0->unk6 -= 20;
             }
 
-            if ((gMain.unkF & -0x81) == 0) // 0111 1111
+            if ((gMain.modeChangeFlags & ~MODE_CHANGE_BONUS_BANNER) == 0)
                 gCurrentPinballGame->unk392++;
 
             if (gCurrentPinballGame->unk392 == 23)

@@ -8,7 +8,7 @@ extern void sub_1A2C0(void);
 
 void sub_1A0F4(void)
 {
-    if ((gMain.unkF & 1) != 0)
+    if ((gMain.modeChangeFlags & MODE_CHANGE_BANNER) != 0)
     {
         gCurrentPinballGame->unk5F7 = 1;
         if (gCurrentPinballGame->unkFA != 0)
@@ -61,7 +61,7 @@ void sub_1A0F4(void)
             {
                 gCurrentPinballGame->unkE6 = 0;
                 gCurrentPinballGame->unk1F = 0;
-                gMain.unkF = gMain.unkF & 254;
+                gMain.modeChangeFlags &= ~MODE_CHANGE_BANNER;
                 gCurrentPinballGame->unk5F7 = 0;
 
                 if (gCurrentPinballGame->unkFB == 0)
@@ -80,7 +80,7 @@ void sub_1A0F4(void)
 
                 gCurrentPinballGame->unkE6 = 0;
                 gCurrentPinballGame->unk1F = 0;
-                gMain.unkF = gMain.unkF & 254;
+                gMain.modeChangeFlags &= ~MODE_CHANGE_BANNER;
                 gCurrentPinballGame->unk5F7 = 0;
 
                 if (gCurrentPinballGame->unkFB == 0)
@@ -96,7 +96,7 @@ void sub_1A0F4(void)
                 {
                     gCurrentPinballGame->unkE6 = 0;
                     gCurrentPinballGame->unk1F = 0;
-                    gMain.unkF = gMain.unkF & 254;
+                    gMain.modeChangeFlags &= ~MODE_CHANGE_BANNER;
                     gCurrentPinballGame->unk5F7 = 0;
 
                     if (gCurrentPinballGame->unkFB == 0)

@@ -11,7 +11,7 @@ extern const u8 gKyogreBonusClear_Gfx[];
 extern const u8 gGroudonBonusClear_Gfx[];
 extern const u8 gRayquazaBonusClear_Gfx[];
 
-void sub_350F0(void)
+void FadeToMainBoard(void)
 {
     gCurrentPinballGame->unk1100 = 1;
     switch (gCurrentPinballGame->unk17)
@@ -55,7 +55,7 @@ void sub_350F0(void)
     }
 }
 
-void sub_351A8(void)
+void ProceessBonusBannerAndScoring(void)
 {
     s16 i;
     struct SpriteGroup *group;
@@ -251,7 +251,7 @@ void sub_357B8(void)
     gMain.unk5 = gMain.selectedField;
     gMain.selectedField = temp;
     gMain.unk6 = 0;
-    gMain.unkF = 0;
+    gMain.modeChangeFlags = MODE_CHANGE_NONE;
     gCurrentPinballGame->eventTimer = 0;
     gCurrentPinballGame->unk294 = 0;
     if (gCurrentPinballGame->numCompletedBonusStages > 4)
