@@ -5,17 +5,17 @@
 #include "constants/fields.h"
 #include "constants/bg_music.h"
 
-extern const u8 gUnknown_0845A08C[][0x100];
-extern const s16 gUnknown_086AE5A0[][2];
-extern const s16 gUnknown_086AE58A[][2];
-extern const s16 gUnknown_086AE588[][2];
-extern const u8 gUnknown_08490A4C[][0x440];
-extern struct Vector16 gUnknown_086AE554[];
+extern const u8 gSplashEffectTileGfx[][0x100];
+extern const s16 gHoleAnimKeyframeData[][2];
+extern const s16 gSplashEffectFrameDurations[][2];
+extern const s16 gSplashEffectTileIndices[][2];
+extern const u8 gHoleIndicatorTileGfx[][0x440];
+extern struct Vector16 gSplashEffectPositions[];
 extern const u8 gRubyStageCyndaquil_Gfx[][0x280];
-extern const u8 gUnknown_081BC984[][0x20];
-extern const u8 gUnknown_0848108C[][0x480];
+extern const u8 gSapphireShopSignPalettes[][0x20];
+extern const u8 gSapphireShopSignTileGfx[][0x480];
 
-void sub_313A0(void)
+void DrawSapphireShopSignSprite(void)
 {
     s16 i;
     struct SpriteGroup *group;
@@ -25,11 +25,11 @@ void sub_313A0(void)
     group = &gMain.spriteGroups[69];
     if (group->available)
     {
-        group->baseX = 16 - gCurrentPinballGame->unk58;
-        group->baseY = 115 - gCurrentPinballGame->unk5A;
-        index = gCurrentPinballGame->unk1AD + gCurrentPinballGame->unk6F * 3;
-        DmaCopy16(3, gUnknown_081BC984[index], (void *)0x05000300, 0x20);
-        DmaCopy16(3, gUnknown_0848108C[gCurrentPinballGame->unk1AC], (void *) 0x06014B20, 0x480);
+        group->baseX = 16 - gCurrentPinballGame->cameraXOffset;
+        group->baseY = 115 - gCurrentPinballGame->cameraYOffset;
+        index = gCurrentPinballGame->shopSignPaletteIndex + gCurrentPinballGame->activePaletteIndex * 3;
+        DmaCopy16(3, gSapphireShopSignPalettes[index], (void *)0x05000300, 0x20);
+        DmaCopy16(3, gSapphireShopSignTileGfx[gCurrentPinballGame->shopSignFrame], (void *) 0x06014B20, 0x480);
         for (i = 0; i < 2; i++)
         {
             oamSimple = &group->oam[i];
@@ -39,39 +39,39 @@ void sub_313A0(void)
     }
 }
 
-void sub_31498(void)
+void UpdateSapphireHoleLetterSystem(void)
 {
     s16 i, j;
     struct SpriteGroup *group;
     struct OamDataSimple *oamSimple;
     s16 index;
 
-    switch (gCurrentPinballGame->unk346)
+    switch (gCurrentPinballGame->holeLetterSystemState)
     {
     case 0:
-        if (gCurrentPinballGame->unk344)
+        if (gCurrentPinballGame->holeLetterNewHit)
         {
-            if (gCurrentPinballGame->unk13 < 3)
+            if (gCurrentPinballGame->boardState < 3)
             {
-                if (gCurrentPinballGame->unk345 < 3)
+                if (gCurrentPinballGame->holeLetterCount < 3)
                 {
-                    gCurrentPinballGame->unk345++;
+                    gCurrentPinballGame->holeLetterCount++;
                     gCurrentPinballGame->scoreAddedInFrame = 20000;
                     m4aSongNumStart(SE_UNKNOWN_0xDE);
                 }
                 else
                 {
                     gMain.modeChangeFlags |= MODE_CHANGE_BANNER;
-                    gCurrentPinballGame->unkEA = 0;
-                    gCurrentPinballGame->unkEC = 920;
-                    gCurrentPinballGame->unkE8 = 0;
-                    gCurrentPinballGame->unkE6 = 0;
-                    gCurrentPinballGame->unkEE = 0;
-                    gCurrentPinballGame->unkF2 = 0;
-                    gCurrentPinballGame->unkFA = 1;
-                    gCurrentPinballGame->unkFB = 0;
-                    gCurrentPinballGame->unk346 = 1;
-                    gCurrentPinballGame->unk348 = 0;
+                    gCurrentPinballGame->bannerDelayTimer = 0;
+                    gCurrentPinballGame->bannerDisplayTimer = 920;
+                    gCurrentPinballGame->cameraYScrollTarget = 0;
+                    gCurrentPinballGame->cameraYAdjust = 0;
+                    gCurrentPinballGame->cameraYScrollSpeed = 0;
+                    gCurrentPinballGame->bannerGfxIndex = 0;
+                    gCurrentPinballGame->bannerActive = 1;
+                    gCurrentPinballGame->bannerPreserveBallState = 0;
+                    gCurrentPinballGame->holeLetterSystemState = 1;
+                    gCurrentPinballGame->holeAnimFrameCounter = 0;
                     m4aMPlayStop(&gMPlayInfo_BGM);
                     gCurrentPinballGame->scoreAddedInFrame = 200000;
                     m4aSongNumStart(SE_UNKNOWN_0xDF);
@@ -79,126 +79,126 @@ void sub_31498(void)
             }
             else
             {
-                if (gCurrentPinballGame->unk345 < 3)
+                if (gCurrentPinballGame->holeLetterCount < 3)
                 {
-                    gCurrentPinballGame->unk345++;
+                    gCurrentPinballGame->holeLetterCount++;
                     gCurrentPinballGame->scoreAddedInFrame = 20000;
                     m4aSongNumStart(SE_UNKNOWN_0xDE);
                 }
             }
 
-            index = gCurrentPinballGame->unk345;
-            DmaCopy16(3, &gUnknown_08490A4C[index], (void *)0x600D900, 0x440);
-            gCurrentPinballGame->unk344 = 0;
+            index = gCurrentPinballGame->holeLetterCount;
+            DmaCopy16(3, &gHoleIndicatorTileGfx[index], (void *)0x600D900, 0x440);
+            gCurrentPinballGame->holeLetterNewHit = 0;
         }
         break;
     case 1:
-        if (gCurrentPinballGame->unk348 < 270)
+        if (gCurrentPinballGame->holeAnimFrameCounter < 270)
         {
-            index = (gCurrentPinballGame->unk348 % 60) / 30 + 4;
-            DmaCopy16(3, &gUnknown_08490A4C[index], (void *)0x600D900, 0x440);
+            index = (gCurrentPinballGame->holeAnimFrameCounter % 60) / 30 + 4;
+            DmaCopy16(3, &gHoleIndicatorTileGfx[index], (void *)0x600D900, 0x440);
         }
         else
         {
             index = 0;
-            DmaCopy16(3, &gUnknown_08490A4C[index], (void *)0x600D900, 0x440);
-            gCurrentPinballGame->unk346 = 2;
-            gCurrentPinballGame->unk345 = 0;
+            DmaCopy16(3, &gHoleIndicatorTileGfx[index], (void *)0x600D900, 0x440);
+            gCurrentPinballGame->holeLetterSystemState = 2;
+            gCurrentPinballGame->holeLetterCount = 0;
         }
 
-        if (gCurrentPinballGame->unk348 == 60)
+        if (gCurrentPinballGame->holeAnimFrameCounter == 60)
         {
             m4aSongNumStart(MUS_EGG_MODE_START);
-            gCurrentPinballGame->unk728 = 0;
-            gCurrentPinballGame->unk1EC = 5;
-            gCurrentPinballGame->unk1ED = 12;
-            gCurrentPinballGame->unk1F0 = 0;
+            gCurrentPinballGame->catchArrowPaletteActive = 0;
+            gCurrentPinballGame->eggAnimationPhase = 5;
+            gCurrentPinballGame->eggAnimFrameIndex = 12;
+            gCurrentPinballGame->eggFrameTimer = 0;
         }
 
-        gCurrentPinballGame->unk348++;
+        gCurrentPinballGame->holeAnimFrameCounter++;
         break;
     case 3:
-        if (gUnknown_086AE5A0[gCurrentPinballGame->unk345][1] > gCurrentPinballGame->unk348)
+        if (gHoleAnimKeyframeData[gCurrentPinballGame->holeLetterCount][1] > gCurrentPinballGame->holeAnimFrameCounter)
         {
-            gCurrentPinballGame->unk348++;
+            gCurrentPinballGame->holeAnimFrameCounter++;
         }
         else
         {
-            gCurrentPinballGame->unk348 = 0;
-            gCurrentPinballGame->unk345++;
-            if (gCurrentPinballGame->unk345 == 10)
-                gCurrentPinballGame->unk346 = 4;
+            gCurrentPinballGame->holeAnimFrameCounter = 0;
+            gCurrentPinballGame->holeLetterCount++;
+            if (gCurrentPinballGame->holeLetterCount == 10)
+                gCurrentPinballGame->holeLetterSystemState = 4;
 
-            if (gCurrentPinballGame->unk345 == 6)
+            if (gCurrentPinballGame->holeLetterCount == 6)
                 m4aSongNumStart(SE_UNKNOWN_0xE0);
 
-            index = gUnknown_086AE5A0[gCurrentPinballGame->unk345][0];
-            DmaCopy16(3, &gUnknown_08490A4C[index], (void *)0x600D900, 0x440);
+            index = gHoleAnimKeyframeData[gCurrentPinballGame->holeLetterCount][0];
+            DmaCopy16(3, &gHoleIndicatorTileGfx[index], (void *)0x600D900, 0x440);
         }
 
-        if (gCurrentPinballGame->unk345 < 6)
+        if (gCurrentPinballGame->holeLetterCount < 6)
         {
-            gCurrentPinballGame->unk200 = 280;
+            gCurrentPinballGame->catchCreatureY = 280;
         }
         else
         {
-            gCurrentPinballGame->unk200 += 6;
-            if (gCurrentPinballGame->unk346 == 4)
-                gCurrentPinballGame->unk200 = gCurrentPinballGame->unk200 + 20;
+            gCurrentPinballGame->catchCreatureY += 6;
+            if (gCurrentPinballGame->holeLetterSystemState == 4)
+                gCurrentPinballGame->catchCreatureY = gCurrentPinballGame->catchCreatureY + 20;
         }
         break;
     case 4:
-        if (gCurrentPinballGame->unk343 && gCurrentPinballGame->unk344)
+        if (gCurrentPinballGame->holeCaptureReady && gCurrentPinballGame->holeLetterNewHit)
         {
             gMain.modeChangeFlags |= MODE_CHANGE_BANNER;
-            gCurrentPinballGame->unkEA = 0;
-            gCurrentPinballGame->unkEC = 160;
-            gCurrentPinballGame->unkE8 = 0;
-            gCurrentPinballGame->unkE6 = 0;
-            gCurrentPinballGame->unkEE = 0;
-            gCurrentPinballGame->unkF2 = 0;
-            gCurrentPinballGame->unkFA = 1;
-            gCurrentPinballGame->unkFB = 0;
-            gCurrentPinballGame->unk346 = 5;
-            gCurrentPinballGame->unk348 = 0;
-            gCurrentPinballGame->unk345 = 10;
+            gCurrentPinballGame->bannerDelayTimer = 0;
+            gCurrentPinballGame->bannerDisplayTimer = 160;
+            gCurrentPinballGame->cameraYScrollTarget = 0;
+            gCurrentPinballGame->cameraYAdjust = 0;
+            gCurrentPinballGame->cameraYScrollSpeed = 0;
+            gCurrentPinballGame->bannerGfxIndex = 0;
+            gCurrentPinballGame->bannerActive = 1;
+            gCurrentPinballGame->bannerPreserveBallState = 0;
+            gCurrentPinballGame->holeLetterSystemState = 5;
+            gCurrentPinballGame->holeAnimFrameCounter = 0;
+            gCurrentPinballGame->holeLetterCount = 10;
             m4aSongNumStart(SE_UNKNOWN_0xE0);
-            gCurrentPinballGame->unk1EC = 1;
-            gCurrentPinballGame->unk1F4 = 2080;
-            gCurrentPinballGame->unk1F6 = 960;
+            gCurrentPinballGame->eggAnimationPhase = 1;
+            gCurrentPinballGame->portraitOffsetX = 2080;
+            gCurrentPinballGame->portraitOffsetY = 960;
         }
 
-        gCurrentPinballGame->unk344 = 0;
+        gCurrentPinballGame->holeLetterNewHit = 0;
         break;
     case 5:
-        if (gUnknown_086AE5A0[gCurrentPinballGame->unk345][1] > gCurrentPinballGame->unk348)
+        if (gHoleAnimKeyframeData[gCurrentPinballGame->holeLetterCount][1] > gCurrentPinballGame->holeAnimFrameCounter)
         {
-            gCurrentPinballGame->unk348++;
+            gCurrentPinballGame->holeAnimFrameCounter++;
         }
         else
         {
-            gCurrentPinballGame->unk348 = 0;
-            gCurrentPinballGame->unk345++;
-            if (gCurrentPinballGame->unk345 == 15)
-                gCurrentPinballGame->unk346 = 6;
+            gCurrentPinballGame->holeAnimFrameCounter = 0;
+            gCurrentPinballGame->holeLetterCount++;
+            if (gCurrentPinballGame->holeLetterCount == 15)
+                gCurrentPinballGame->holeLetterSystemState = 6;
 
-            index = gUnknown_086AE5A0[gCurrentPinballGame->unk345][0];
-            DmaCopy16(3, gUnknown_08490A4C[index], (void *)0x600D900, 0x440);
+            index = gHoleAnimKeyframeData[gCurrentPinballGame->holeLetterCount][0];
+            DmaCopy16(3, gHoleIndicatorTileGfx[index], (void *)0x600D900, 0x440);
         }
 
-        if (gCurrentPinballGame->unk345 == 14 && gCurrentPinballGame->unk348 == 10)
+        if (gCurrentPinballGame->holeLetterCount == 14 && gCurrentPinballGame->holeAnimFrameCounter == 10)
             m4aSongNumStart(SE_UNKNOWN_0xE1);
 
-        if (gCurrentPinballGame->unk1F6 > 700)
-            gCurrentPinballGame->unk1F6 -= 5;
+        if (gCurrentPinballGame->portraitOffsetY > 700)
+            gCurrentPinballGame->portraitOffsetY -= 5;
         else
-            gCurrentPinballGame->unk1F6 = 700;
+            gCurrentPinballGame->portraitOffsetY = 700;
         break;
     case 6:
-        gCurrentPinballGame->unk345 = 0;
-        gCurrentPinballGame->unk348 = 0;
-        gCurrentPinballGame->unk346 = 0;
-        gCurrentPinballGame->unk343 = 0;
+        gCurrentPinballGame->holeLetterCount = 0;
+        gCurrentPinballGame->holeAnimFrameCounter = 0;
+        gCurrentPinballGame->holeLetterSystemState = 0;
+        gCurrentPinballGame->holeCaptureReady = 0;
         break;
     }
 
@@ -207,25 +207,25 @@ void sub_31498(void)
         group = &gMain.spriteGroups[47 + i];
         if (group->available)
         {
-            if (gUnknown_086AE58A[gCurrentPinballGame->unk355[i]][0] > gCurrentPinballGame->unk35E[i])
+            if (gSplashEffectFrameDurations[gCurrentPinballGame->splashEffectFrameIndex[i]][0] > gCurrentPinballGame->splashEffectFrameTimer[i])
             {
-                gCurrentPinballGame->unk35E[i]++;
+                gCurrentPinballGame->splashEffectFrameTimer[i]++;
             }
             else
             {
-                gCurrentPinballGame->unk35E[i] = 0;
-                gCurrentPinballGame->unk355[i]++;
-                if (gCurrentPinballGame->unk355[i] == 6)
+                gCurrentPinballGame->splashEffectFrameTimer[i] = 0;
+                gCurrentPinballGame->splashEffectFrameIndex[i]++;
+                if (gCurrentPinballGame->splashEffectFrameIndex[i] == 6)
                 {
                     group->available = 0;
-                    gCurrentPinballGame->unk355[i] = 5;
+                    gCurrentPinballGame->splashEffectFrameIndex[i] = 5;
                 }
             }
 
-            index = gUnknown_086AE588[gCurrentPinballGame->unk355[i]][0];
-            DmaCopy16(3, &gUnknown_0845A08C[index], (void *)0x060140a0 + i * 0x100, 0x100);
-            group->baseX = gUnknown_086AE554[gCurrentPinballGame->unk359[i]].x - gCurrentPinballGame->unk58;
-            group->baseY = gUnknown_086AE554[gCurrentPinballGame->unk359[i]].y - gCurrentPinballGame->unk5A;
+            index = gSplashEffectTileIndices[gCurrentPinballGame->splashEffectFrameIndex[i]][0];
+            DmaCopy16(3, &gSplashEffectTileGfx[index], (void *)0x060140a0 + i * 0x100, 0x100);
+            group->baseX = gSplashEffectPositions[gCurrentPinballGame->splashEffectPositionIndex[i]].x - gCurrentPinballGame->cameraXOffset;
+            group->baseY = gSplashEffectPositions[gCurrentPinballGame->splashEffectPositionIndex[i]].y - gCurrentPinballGame->cameraYOffset;
             for (j = 0; j < 3; j++)
             {
                 oamSimple = &group->oam[j];
@@ -236,7 +236,7 @@ void sub_31498(void)
     }
 }
 
-void sub_31B30(void)
+void DrawBoardEdgeBanner(void)
 {
     s16 i;
     struct SpriteGroup *group;
@@ -248,14 +248,14 @@ void sub_31B30(void)
 
     if (group->available)
     {
-        if (gCurrentPinballGame->unk4C < 8)
+        if (gCurrentPinballGame->cameraBaseX < 8)
         {
-            group->baseX = gCurrentPinballGame->unk58;
+            group->baseX = gCurrentPinballGame->cameraXOffset;
             group->baseX = -8 - group->baseX;
         }
         else
         {
-            group->baseX = gCurrentPinballGame->unk58;
+            group->baseX = gCurrentPinballGame->cameraXOffset;
             group->baseX = 256 - group->baseX;
         }
 
@@ -275,31 +275,31 @@ void sub_31B30(void)
  *   0 when saving and loading normally
  *   2 when loading into the evo or mart menu
  */
-void sub_31BE8(s16 arg0)
+void RestoreBoardObjPalettes(s16 arg0)
 {
-    if (gCurrentPinballGame->unk70 == 1)
+    if (gCurrentPinballGame->paletteSwapActive == 1)
     {
-        DmaCopy16(3, gUnknown_02031520.unk14.unk2C[arg0], (void*)OBJ_PLTT, 0x20);
+        DmaCopy16(3, gBoardConfig.fieldLayout.objPaletteSets[arg0], (void*)OBJ_PLTT, 0x20);
     }
 
     if (gMain.selectedField == FIELD_SAPPHIRE)
     {
-        DmaCopy16(3, gUnknown_02031520.unk14.unk2C[arg0] + 0x40, (void*)OBJ_PLTT + 0x40, 0xC0);
+        DmaCopy16(3, gBoardConfig.fieldLayout.objPaletteSets[arg0] + 0x40, (void*)OBJ_PLTT + 0x40, 0xC0);
     }
     else
     {
-        DmaCopy16(3, gUnknown_02031520.unk14.unk2C[arg0] + 0x40, (void*)OBJ_PLTT + 0x40, 0xE0);
+        DmaCopy16(3, gBoardConfig.fieldLayout.objPaletteSets[arg0] + 0x40, (void*)OBJ_PLTT + 0x40, 0xE0);
     }
 
-    DmaCopy16(3, gUnknown_02031520.unk14.unk2C[arg0] + 0x140, (void *)OBJ_PLTT + 0x140, 0x20);
+    DmaCopy16(3, gBoardConfig.fieldLayout.objPaletteSets[arg0] + 0x140, (void *)OBJ_PLTT + 0x140, 0x20);
 
     // related to Y position of camera on the field
-    if (gCurrentPinballGame->unk68 < 170)
+    if (gCurrentPinballGame->cameraYViewport < 170)
     {
-        DmaCopy16(3, gUnknown_08137B3C[gMain.selectedField][arg0 * 2], (void *)OBJ_PLTT + 0x160, 0x20);
+        DmaCopy16(3, gFieldPaletteVariants[gMain.selectedField][arg0 * 2], (void *)OBJ_PLTT + 0x160, 0x20);
     }
     else
     {
-        DmaCopy16(3, gUnknown_08137B3C[gMain.selectedField][arg0 * 2 + 1], (void *)OBJ_PLTT + 0x160, 0x20);
+        DmaCopy16(3, gFieldPaletteVariants[gMain.selectedField][arg0 * 2 + 1], (void *)OBJ_PLTT + 0x160, 0x20);
     }
 }

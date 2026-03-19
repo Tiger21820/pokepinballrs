@@ -3,83 +3,83 @@
 #include "main.h"
 #include "constants/bg_music.h"
 
-extern const u8 *gUnknown_086B0B70[][3];
-extern const u16 gUnknown_086B0E20[];
-extern const u8 *gUnknown_086B0B94[][4];
-extern const u8 *gUnknown_086B0B20[][4];
-extern const u8 *gUnknown_086B0AF0[][4];
-extern const u8 *gUnknown_086B0AC0[][4];
-extern const u8 *gUnknown_086B0A90[][4];
-extern const u8 *gUnknown_086B0BC4[][4];
-extern const u8 *gUnknown_086B09E8[][7][2];
-extern const u8 *gUnknown_086B09C8[][2];
-extern const u8 *gUnknown_086B0970[][2];
-extern const u8 *gUnknown_086B094C[][3];
-extern const s16 gUnknown_086B08CA[];
-extern const u8 *gUnknown_086B08D4[][3][5];
+extern const u8 *gRubyBallPowerUpLightTilePointers[][3];
+extern const u16 gBallShadowTileIndices[];
+extern const u8 *gRubyCatchProgressArrowTilePointers[][4];
+extern const u8 *gRubyRouletteSlotTilePointers[][4];
+extern const u8 *gRubyEvoArrowTilePointers[][4];
+extern const u8 *gRubyCatchArrowTilePointers[][4];
+extern const u8 *gRubyModeTimerTilePointers[][4];
+extern const u8 *gRubyHoleIndicatorTilePointers[][4];
+extern const u8 *gRubyCatchLightTilePointers[][7][2];
+extern const u8 *gRubyTrapIndicatorTilePointers[][2];
+extern const u8 *gRubyProgressDigitTilePointers[][2];
+extern const u8 *gShopItemTilePointers[][3];
+extern const s16 gRubySlingshotAnimIndices[];
+extern const u8 *gRubySlingshotTilePointers[][3][5];
 
 extern struct SongHeader se_unk_87;
 
 
-void sub_4E814(void)
+void UpdateRubyBoardAnimations(void)
 {
-    gCurrentPinballGame->unk734 = (gCurrentPinballGame->unk70C % 40) / 20;
-    gCurrentPinballGame->unk70C++;
-    sub_4EA44();
-    if (gCurrentPinballGame->unk6A < 232)
+    gCurrentPinballGame->hudBlinkPhase = (gCurrentPinballGame->hudAnimFrameCounter % 40) / 20;
+    gCurrentPinballGame->hudAnimFrameCounter++;
+    DrawRubyProgressDigits();
+    if (gCurrentPinballGame->hudSpriteBaseY < 232)
     {
-        sub_4EDC0();
-        sub_4EE74();
+        AnimateRubyCatchArrow();
+        AnimateRubyEvoArrow();
     }
 
-    if (gCurrentPinballGame->unk6A >= 81 && gCurrentPinballGame->unk6A < 248)
-        sub_4EF38();
+    if (gCurrentPinballGame->hudSpriteBaseY >= 81 && gCurrentPinballGame->hudSpriteBaseY < 248)
+        AnimateRubyRouletteSlot();
 
-    sub_4F0F0();
-    if (gCurrentPinballGame->unk6A < 112)
-        sub_4F258();
+    AnimateRubyBallPowerUpSequence();
+    if (gCurrentPinballGame->hudSpriteBaseY < 112)
+        DrawRubyBallPowerUpLights();
 
-    if (gCurrentPinballGame->unk6A > 112)
-        sub_4F028();
+    if (gCurrentPinballGame->hudSpriteBaseY > 112)
+        AnimateRubyCatchProgressArrow();
 
-    if (gCurrentPinballGame->unk6A > 104)
+    if (gCurrentPinballGame->hudSpriteBaseY > 104)
     {
-        sub_4F4B4();
-        sub_4F660();
+        DrawEvoArrowProgress();
+        DrawCatchArrowProgress();
     }
 
-    if (gCurrentPinballGame->unk6A < 256)
-        sub_4F30C();
+    if (gCurrentPinballGame->hudSpriteBaseY < 256)
+        DrawCoinRewardMeter();
 
-    sub_4F2B8();
-    if (gCurrentPinballGame->unk6A > 110)
-        sub_4EAB0();
+    UpdateCoinRewardTimer();
+    if (gCurrentPinballGame->hudSpriteBaseY > 110)
+        AnimateRubyTrapIndicator();
 
-    if (gCurrentPinballGame->unk6A > 178)
+    if (gCurrentPinballGame->hudSpriteBaseY > 178)
     {
-        sub_4EAF8();
-        sub_4EBD0();
-        sub_4E920();
+        AnimateRubyCatchLightBlink();
+        AnimateRubyHoleIndicators();
+        AnimateRubySlingshotTimer();
     }
 
-    if (gCurrentPinballGame->unk6A > 202)
-        sub_4ECDC();
+    if (gCurrentPinballGame->hudSpriteBaseY > 202)
+        DrawRubyModeTimerDisplay();
 
-    if (gCurrentPinballGame->unk724 && gCurrentPinballGame->unk25 == 0)
-        gCurrentPinballGame->unk724--;
+    if (gCurrentPinballGame->modeTimeRemaining && gCurrentPinballGame->ballCatchState == 0)
+        gCurrentPinballGame->modeTimeRemaining--;
 }
 
-void sub_4E920(void)
+void AnimateRubySlingshotTimer(void)
 {
     s16 index;
     const u8 **src;
     const u8 **dest;
 
-    index = gUnknown_086B08CA[gCurrentPinballGame->unk716];
-    if (gCurrentPinballGame->unk716)
+    index = gRubySlingshotAnimIndices[gCurrentPinballGame->slingshotHitAnimTimer];
+    if (gCurrentPinballGame->slingshotHitAnimTimer)
     {
-        gCurrentPinballGame->unk716--;
-        if (gCurrentPinballGame->unk716 == 3)
+        gCurrentPinballGame->slingshotHitAnimTimer--;
+        if (gCurrentPinballGame->slingshotHitAnimTimer == 3)
         {
             m4aSongNumStart(SE_SLINGSHOT_HIT);
             gCurrentPinballGame->scoreAddedInFrame = 500;
@@ -87,8 +87,8 @@ void sub_4E920(void)
         }
     }
 
-    src = gUnknown_086B08D4[gCurrentPinballGame->unk717][index];
-    dest = gUnknown_086B08D4[gCurrentPinballGame->unk717][2];
+    src = gRubySlingshotTilePointers[gCurrentPinballGame->slingshotSideIndex][index];
+    dest = gRubySlingshotTilePointers[gCurrentPinballGame->slingshotSideIndex][2];
     DmaCopy16(3, src[0], dest[0], 0x20);
     DmaCopy16(3, src[1], dest[1], 0x40);
     DmaCopy16(3, src[2], dest[2], 0x60);
@@ -96,82 +96,82 @@ void sub_4E920(void)
     DmaCopy16(3, src[4], dest[4], 0x40);
 }
 
-void sub_4E9F0(s16 arg0)
+void LoadShopItemGraphics(s16 arg0)
 {
     const u8 **src;
     const u8 **dest;
 
-    src = gUnknown_086B094C[arg0];
-    dest = gUnknown_086B094C[2];
+    src = gShopItemTilePointers[arg0];
+    dest = gShopItemTilePointers[2];
     DmaCopy16(3, src[0], dest[0], 0xC0);
     DmaCopy16(3, src[1], dest[1], 0xC0);
     DmaCopy16(3, src[2], dest[2], 0x20);
 }
 
-void sub_4EA44(void)
+void DrawRubyProgressDigits(void)
 {
     s16 var0, var1;
     const u8 **src;
     const u8 **dest;
 
-    var0 = gCurrentPinballGame->unk70E / 10;
-    var1 = gCurrentPinballGame->unk70E % 10;
-    src = gUnknown_086B0970[var0];
-    dest = gUnknown_086B0970[10];
+    var0 = gCurrentPinballGame->progressLevel / 10;
+    var1 = gCurrentPinballGame->progressLevel % 10;
+    src = gRubyProgressDigitTilePointers[var0];
+    dest = gRubyProgressDigitTilePointers[10];
     DmaCopy16(3, src[0], dest[0], 0x20);
 
-    src = gUnknown_086B0970[var1];
+    src = gRubyProgressDigitTilePointers[var1];
     DmaCopy16(3, src[1], dest[1], 0x20);
 }
 
-void sub_4EAB0(void)
+void AnimateRubyTrapIndicator(void)
 {
     const u8 **src;
     const u8 **dest;
 
-    src = gUnknown_086B09C8[gCurrentPinballGame->unk730];
-    dest = gUnknown_086B09C8[3];
+    src = gRubyTrapIndicatorTilePointers[gCurrentPinballGame->trapAnimState];
+    dest = gRubyTrapIndicatorTilePointers[3];
     DmaCopy16(3, src[0], dest[0], 0x40);
     DmaCopy16(3, src[1], dest[1], 0x40);
 }
 
-void sub_4EAF8(void)
+void AnimateRubyCatchLightBlink(void)
 {
     s16 i;
     const u8 **src;
     const u8 **dest;
 
-    if (gCurrentPinballGame->unk720)
+    if (gCurrentPinballGame->evoBlinkTimer)
     {
-        gCurrentPinballGame->unk71D[gCurrentPinballGame->unk721] = 1 - (gCurrentPinballGame->unk720 % 36) / 18;
-        gCurrentPinballGame->unk71D[gCurrentPinballGame->unk722] = gCurrentPinballGame->unk71D[gCurrentPinballGame->unk721];
-        gCurrentPinballGame->unk720--;
+        gCurrentPinballGame->catchLights[gCurrentPinballGame->evoCatchLightSlot1] = 1 - (gCurrentPinballGame->evoBlinkTimer % 36) / 18;
+        gCurrentPinballGame->catchLights[gCurrentPinballGame->evoCatchLightSlot2] = gCurrentPinballGame->catchLights[gCurrentPinballGame->evoCatchLightSlot1];
+        gCurrentPinballGame->evoBlinkTimer--;
     }
 
     for (i = 0; i < 3; i++)
     {
-        src = gUnknown_086B09E8[i][gCurrentPinballGame->unk71D[i]];
-        dest = gUnknown_086B09E8[i][6];
+        src = gRubyCatchLightTilePointers[i][gCurrentPinballGame->catchLights[i]];
+        dest = gRubyCatchLightTilePointers[i][6];
         DmaCopy16(3, src[0], dest[0], 0x40);
         DmaCopy16(3, src[1], dest[1], 0x40);
     }
 }
 
-void sub_4EBD0(void)
+void AnimateRubyHoleIndicators(void)
 {
     s16 i;
     const u8 **src;
     const u8 **dest;
 
-    if (gCurrentPinballGame->unk714)
+    if (gCurrentPinballGame->allHolesLit)
     {
-        if (gCurrentPinballGame->unk715)
+        if (gCurrentPinballGame->allHolesLitBlinkTimer)
         {
-            gCurrentPinballGame->holeIndicators[0] = (gCurrentPinballGame->unk715 % 36) / 18;
+            gCurrentPinballGame->holeIndicators[0] = (gCurrentPinballGame->allHolesLitBlinkTimer % 36) / 18;
             gCurrentPinballGame->holeIndicators[1] = gCurrentPinballGame->holeIndicators[0];
             gCurrentPinballGame->holeIndicators[2] = gCurrentPinballGame->holeIndicators[0];
             gCurrentPinballGame->holeIndicators[3] = gCurrentPinballGame->holeIndicators[0];
-            gCurrentPinballGame->unk715--;
+            gCurrentPinballGame->allHolesLitBlinkTimer--;
         }
         else
         {
@@ -184,106 +184,106 @@ void sub_4EBD0(void)
 
     for (i = 0; i < 4; i++)
     {
-        src = &gUnknown_086B0BC4[i][gCurrentPinballGame->holeIndicators[i]];
-        dest = &gUnknown_086B0BC4[i][2];
+        src = &gRubyHoleIndicatorTilePointers[i][gCurrentPinballGame->holeIndicators[i]];
+        dest = &gRubyHoleIndicatorTilePointers[i][2];
         DmaCopy16(3, *src, *dest, 0x40);
     }
 }
 
-void sub_4ECDC(void)
+void DrawRubyModeTimerDisplay(void)
 {
     const u8 **src;
     const u8 **dest;
 
-    if (gCurrentPinballGame->unk724 > 300)
+    if (gCurrentPinballGame->modeTimeRemaining > 300)
     {
-        gCurrentPinballGame->unk726 = 1;
+        gCurrentPinballGame->modeTimerDisplayIndex = 1;
     }
     else
     {
-        if (gCurrentPinballGame->unk724)
+        if (gCurrentPinballGame->modeTimeRemaining)
         {
-            if (gCurrentPinballGame->unk25)
-                gCurrentPinballGame->unk726 = 1;
+            if (gCurrentPinballGame->ballCatchState)
+                gCurrentPinballGame->modeTimerDisplayIndex = 1;
             else
-                gCurrentPinballGame->unk726 = (gMain.fieldFrameCount % 16) / 8;
+                gCurrentPinballGame->modeTimerDisplayIndex = (gMain.fieldFrameCount % 16) / 8;
         }
         else
         {
-            gCurrentPinballGame->unk726 = 0;
+            gCurrentPinballGame->modeTimerDisplayIndex = 0;
         }
     }
 
-    src = gUnknown_086B0A90[gCurrentPinballGame->unk726];
-    dest = gUnknown_086B0A90[2];
+    src = gRubyModeTimerTilePointers[gCurrentPinballGame->modeTimerDisplayIndex];
+    dest = gRubyModeTimerTilePointers[2];
     DmaCopy16(3, src[0], dest[0], 0xC0);
     DmaCopy16(3, src[1], dest[1], 0xC0);
-    if (gCurrentPinballGame->unk6A >= 216)
+    if (gCurrentPinballGame->hudSpriteBaseY >= 216)
     {
         DmaCopy16(3, src[2], dest[2], 0xA0);
         DmaCopy16(3, src[3], dest[3], 0x40);
     }
 }
 
-void sub_4EDC0(void)
+void AnimateRubyCatchArrow(void)
 {
     s16 index;
     const u8 **src;
     const u8 **dest;
 
     index = 0;
-    if (gCurrentPinballGame->unk728 > 0)
-        index = 1 - gCurrentPinballGame->unk734;
+    if (gCurrentPinballGame->catchArrowPaletteActive > 0)
+        index = 1 - gCurrentPinballGame->hudBlinkPhase;
 
-    src = gUnknown_086B0AC0[index];
-    dest = gUnknown_086B0AC0[2];
-    if (gCurrentPinballGame->unk6A > 48)
+    src = gRubyCatchArrowTilePointers[index];
+    dest = gRubyCatchArrowTilePointers[2];
+    if (gCurrentPinballGame->hudSpriteBaseY > 48)
     {
-        if (gCurrentPinballGame->unk6A < 216)
+        if (gCurrentPinballGame->hudSpriteBaseY < 216)
         {
             DmaCopy16(3, src[0], dest[0], 0x80);
         }
 
-        if (gCurrentPinballGame->unk6A < 224)
+        if (gCurrentPinballGame->hudSpriteBaseY < 224)
         {
             DmaCopy16(3, src[1], dest[1], 0x80);
         }
     }
-    if (gCurrentPinballGame->unk6A > 64)
+    if (gCurrentPinballGame->hudSpriteBaseY > 64)
     {
         DmaCopy16(3, src[2], dest[2], 0x80);
         DmaCopy16(3, src[3], dest[3], 0x80);
     }
 }
 
-void sub_4EE74(void)
+void AnimateRubyEvoArrow(void)
 {
     s16 index;
     const u8 **src;
     const u8 **dest;
 
     index = 0;
-    if (gCurrentPinballGame->unk729 > 0)
-        index = 1 - gCurrentPinballGame->unk734;
+    if (gCurrentPinballGame->evoArrowPaletteActive > 0)
+        index = 1 - gCurrentPinballGame->hudBlinkPhase;
 
-    src = gUnknown_086B0AF0[index];
-    dest = gUnknown_086B0AF0[2];
-    if (gCurrentPinballGame->unk6A > 40)
+    src = gRubyEvoArrowTilePointers[index];
+    dest = gRubyEvoArrowTilePointers[2];
+    if (gCurrentPinballGame->hudSpriteBaseY > 40)
     {
-        if (gCurrentPinballGame->unk6A < 208)
+        if (gCurrentPinballGame->hudSpriteBaseY < 208)
         {
             DmaCopy16(3, src[0], dest[0], 0x40);
         }
 
-        if (gCurrentPinballGame->unk6A < 216)
+        if (gCurrentPinballGame->hudSpriteBaseY < 216)
         {
             DmaCopy16(3, src[1], dest[1], 0x80);
         }
     }
 
-    if (gCurrentPinballGame->unk6A > 56)
+    if (gCurrentPinballGame->hudSpriteBaseY > 56)
     {
-        if (gCurrentPinballGame->unk6A < 224)
+        if (gCurrentPinballGame->hudSpriteBaseY < 224)
         {
             DmaCopy16(3, src[2], dest[2], 0x80);
         }
@@ -292,55 +292,55 @@ void sub_4EE74(void)
     }
 }
 
-void sub_4EF38(void)
+void AnimateRubyRouletteSlot(void)
 {
     s16 index;
     const u8 **src;
     const u8 **dest;
 
     index = 0;
-    if (gCurrentPinballGame->unk2F0 > 2)
-        gCurrentPinballGame->unk72A = 1;
-    else if (gCurrentPinballGame->unk13)
-        gCurrentPinballGame->unk72A = 0;
+    if (gCurrentPinballGame->shopDoorTargetFrame > 2)
+        gCurrentPinballGame->rouletteSlotActive = 1;
+    else if (gCurrentPinballGame->boardState)
+        gCurrentPinballGame->rouletteSlotActive = 0;
 
-    if (gCurrentPinballGame->unk72A > 0)
-        index = gCurrentPinballGame->unk1A5 * 2 + 1 - gCurrentPinballGame->unk734;
+    if (gCurrentPinballGame->rouletteSlotActive > 0)
+        index = gCurrentPinballGame->evolutionShopActive * 2 + 1 - gCurrentPinballGame->hudBlinkPhase;
     else
-        index = gCurrentPinballGame->unk1A5 * 2;
+        index = gCurrentPinballGame->evolutionShopActive * 2;
 
-    src = gUnknown_086B0B20[index];
-    dest = gUnknown_086B0B20[4];
-    if (gCurrentPinballGame->unk6A < 240)
+    src = gRubyRouletteSlotTilePointers[index];
+    dest = gRubyRouletteSlotTilePointers[4];
+    if (gCurrentPinballGame->hudSpriteBaseY < 240)
     {
         DmaCopy16(3, src[0], dest[0], 0xA0);
     }
 
     DmaCopy16(3, src[1], dest[1], 0xA0);
     DmaCopy16(3, src[2], dest[2], 0xA0);
-    if (gCurrentPinballGame->unk6A > 88)
+    if (gCurrentPinballGame->hudSpriteBaseY > 88)
     {
         DmaCopy16(3, src[3], dest[3], 0x60);
     }
 }
 
-void sub_4F028(void)
+void AnimateRubyCatchProgressArrow(void)
 {
     s16 index;
     const u8 **src;
     const u8 **dest;
 
     index = 0;
-    gCurrentPinballGame->unk731 = 0;
-    if (gCurrentPinballGame->unk72F > 1 && gCurrentPinballGame->unk13 < 3)
-        gCurrentPinballGame->unk731 = 1;
+    gCurrentPinballGame->catchProgressFlashing = 0;
+    if (gCurrentPinballGame->catchArrowProgress > 1 && gCurrentPinballGame->boardState < 3)
+        gCurrentPinballGame->catchProgressFlashing = 1;
 
-    if (gCurrentPinballGame->unk731 > 0)
-        index = 1 - gCurrentPinballGame->unk734;
+    if (gCurrentPinballGame->catchProgressFlashing > 0)
+        index = 1 - gCurrentPinballGame->hudBlinkPhase;
 
-    src = gUnknown_086B0B94[index];
-    dest = gUnknown_086B0B94[2];
-    if (gCurrentPinballGame->unk6A < 264)
+    src = gRubyCatchProgressArrowTilePointers[index];
+    dest = gRubyCatchProgressArrowTilePointers[2];
+    if (gCurrentPinballGame->hudSpriteBaseY < 264)
     {
         DmaCopy16(3, src[0], dest[0], 0x40);
     }
@@ -349,61 +349,61 @@ void sub_4F028(void)
     DmaCopy16(3, src[3], dest[3], 0x80);
 }
 
-void sub_4F0F0(void)
+void AnimateRubyBallPowerUpSequence(void)
 {
-    if (gCurrentPinballGame->unk71B == 0)
+    if (gCurrentPinballGame->ballPowerUpAnimActive == 0)
         return;
 
-    if (gCurrentPinballGame->unk71C)
+    if (gCurrentPinballGame->ballShadowTimer)
     {
-        if (gCurrentPinballGame->unk2F8 == 0)
+        if (gCurrentPinballGame->ballPowerUpOverride == 0)
         {
             gCurrentPinballGame->ballPowerUpLight[0] = (gMain.fieldFrameCount % 20) / 10;
             gCurrentPinballGame->ballPowerUpLight[1] = gCurrentPinballGame->ballPowerUpLight[0];
             gCurrentPinballGame->ballPowerUpLight[2] = gCurrentPinballGame->ballPowerUpLight[0];
         }
 
-        if (gCurrentPinballGame->unk71C == 28)
+        if (gCurrentPinballGame->ballShadowTimer == 28)
         {
             if (gCurrentPinballGame->ballUpgradeType < BALL_UPGRADE_TYPE_MASTER_BALL)
                 gCurrentPinballGame->ballUpgradeType++;
 
             gCurrentPinballGame->ballUpgradeCounter = 3600;
-            DmaCopy16(3, gUnknown_08137E14[gCurrentPinballGame->ballUpgradeType], (void *)0x05000220, 0x20);
+            DmaCopy16(3, gBallPalettes[gCurrentPinballGame->ballUpgradeType], (void *)0x05000220, 0x20);
         }
 
-        if (gCurrentPinballGame->unk71C == 40)
+        if (gCurrentPinballGame->ballShadowTimer == 40)
         MPlayStart(&gMPlayInfo_SE1, &se_unk_87);
 
-        if (gCurrentPinballGame->unk71C == 60)
-            gMain.unk44[43]->available = 1;
+        if (gCurrentPinballGame->ballShadowTimer == 60)
+            gMain.fieldSpriteGroups[43]->available = 1;
 
-        gCurrentPinballGame->unk6E = gUnknown_086B0E20[30 - gCurrentPinballGame->unk71C / 2];
-        gCurrentPinballGame->unk71C--;
+        gCurrentPinballGame->ballShadowTileIndex = gBallShadowTileIndices[30 - gCurrentPinballGame->ballShadowTimer / 2];
+        gCurrentPinballGame->ballShadowTimer--;
     }
     else
     {
-        gCurrentPinballGame->unk71B = 0;
-        if (gCurrentPinballGame->unk2F8 == 0)
+        gCurrentPinballGame->ballPowerUpAnimActive = 0;
+        if (gCurrentPinballGame->ballPowerUpOverride == 0)
         {
             gCurrentPinballGame->ballPowerUpLight[0] =
                 gCurrentPinballGame->ballPowerUpLight[1] =
                 gCurrentPinballGame->ballPowerUpLight[2] = 0;
         }
 
-        gCurrentPinballGame->unk2F8 = 0;
+        gCurrentPinballGame->ballPowerUpOverride = 0;
     }
 }
 
-void sub_4F258(void)
+void DrawRubyBallPowerUpLights(void)
 {
     s16 i;
     const u8 **src;
     const u8 **dest;
 
     for (i = 0; i < 3; i++) {
-        src = &gUnknown_086B0B70[i][gCurrentPinballGame->ballPowerUpLight[i]];
-        dest = &gUnknown_086B0B70[i][2];
+        src = &gRubyBallPowerUpLightTilePointers[i][gCurrentPinballGame->ballPowerUpLight[i]];
+        dest = &gRubyBallPowerUpLightTilePointers[i][2];
         DmaCopy16(3, *src, *dest, 0x40);
     }
 }
