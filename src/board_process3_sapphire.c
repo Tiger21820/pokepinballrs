@@ -3,6 +3,8 @@
 #include "m4a.h"
 #include "main.h"
 #include "constants/bg_music.h"
+#include "constants/sapphire_states.h"
+
 //#include "constants/pinball_game.h"
 
 extern void HandleSapphireFlipperButtonInput(void);
@@ -14,16 +16,16 @@ void SapphireBoardProcess_3A_326F4(void)
     gCurrentPinballGame->pikachuSpinPrevFrame = 1;
 
     UpdatePikachuChargeCounter();
-    AnimateCatchCounterDisplay();
+    ProcessChargeIndicator();
     DrawPikachuSpinner();
     CalculateRubyBumperBounce();
     HandleRubyBumperHit();
 
-    gCurrentPinballGame->catchCounterAnimState = 0x100;
-    gCurrentPinballGame->catchCounterScaleY = 0x100;
+    gCurrentPinballGame->chargeIndicatorScaleX = 0x100;
+    gCurrentPinballGame->chargeIndicatorScaleY = 0x100;
 
-    InitSapphireEggCaveState();
-    UpdateSapphireEggCaveAnimation();
+    InitSapphireEggHatchState();
+    UpdateSapphireEggHatchAnimation();
     UpdateSapphireShopSignAnimation();
     DrawSapphireShopSignSprite();
     UpdatePelipperPondEntity();
@@ -58,13 +60,14 @@ void UpdateSapphireBoardEntityRendering(void)
 
     if (gCurrentPinballGame->cameraYViewport < 0x5a)
     {
-        UpdateSapphireEggCaveAnimation();
-        UpdateSapphireHoleLetterSystem();
+        UpdateSapphireEggHatchAnimation();
+        UpdateSapphireEggMachine();
     }
 
     if (gCurrentPinballGame->boardState < 3)
     {
-        if (gCurrentPinballGame->holeLetterCount == 3 && gCurrentPinballGame->holeLetterSystemState == 0)
+        if (gCurrentPinballGame->sapphireHatchMachineFrameIx == 3 && 
+            gCurrentPinballGame->sapphireHatchMachineState == 0)
         {
             gCurrentPinballGame->catchArrowPaletteActive = 1;
         }
@@ -101,7 +104,7 @@ void UpdateSapphireBoardEntityRendering(void)
 
     if (0x76 < gCurrentPinballGame->cameraYViewport)
     {
-        DrawZigzagoonAndShockWall();
+        DrawZigzagoonAndRouletteStopPrompt();
         DrawSapphireSeedotAndBasketSprites();
     }
 
@@ -110,8 +113,8 @@ void UpdateSapphireBoardEntityRendering(void)
     if (0xA8 < gCurrentPinballGame->cameraYViewport)
         DrawSpoinkSprite();
 
-    UpdateCatchModeLogic();
-    AnimateCatchCounterDisplay();
+    UpdateKickbackLogic();
+    ProcessChargeIndicator();
     UpdatePortraitSpritePositions();
     DrawBoardEdgeBanner();
 
@@ -131,7 +134,7 @@ void UpdateSapphireBoardEntityLogic(void)
         gCurrentPinballGame->mainBoardCountdownTimer--;
 
     UpdateZigzagoonEntity();
-    DecrementFieldTimer();
+    DecrementPelipperTimer();
     UpdateSapphireShopSignAnimation();
 
     if (!(gMain.modeChangeFlags & MODE_CHANGE_END_OF_GAME))
@@ -145,13 +148,13 @@ void DispatchSapphireCatchModeInit(void)
 
     switch (gCurrentPinballGame->ballCatchState)
     {
-    case 1:
+    case TRAP_CATCH_HOLE:
         InitSapphireWailmerCatch();
         break;
-    case 3:
+    case TRAP_EVO_SHOP_HOLE:
         InitSapphireEvolutionShopCatch();
         break;
-    case 4:
+    case TRAP_CENTER_HOLE:
         InitCenterTrapMode();
         break;
     }
@@ -166,13 +169,13 @@ void UpdateSapphireCatchModeAnimation(void)
 
     switch (gCurrentPinballGame->ballCatchState)
     {
-    case 1:
+    case TRAP_CATCH_HOLE:
         UpdateSapphireWailmerCatchSequence();
         break;
-    case 3:
+    case TRAP_EVO_SHOP_HOLE:
         UpdateSapphireEvolutionShopSequence();
         break;
-    case 4:
+    case TRAP_CENTER_HOLE:
         AnimateCenterTrapSequence(); //Center Hole
         break;
     }
@@ -240,7 +243,7 @@ void UpdateSapphireEvolutionShopSequence(void)
         gCurrentPinballGame->ballUpgradeTimerFrozen = 0;
         gCurrentPinballGame->ball->positionQ1.x = gCurrentPinballGame->ball->positionQ0.x * 2;
         gCurrentPinballGame->ball->positionQ1.y = gCurrentPinballGame->ball->positionQ0.y * 2;
-        gCurrentPinballGame->ballCatchState = 0;
+        gCurrentPinballGame->ballCatchState = NOT_TRAPPED;
 
         m4aSongNumStart(SE_UNKNOWN_0xC3);
 
@@ -352,7 +355,7 @@ void UpdateSapphireWailmerCatchSequence(void)
         gCurrentPinballGame->ball->positionQ1.x = gCurrentPinballGame->ball->positionQ0.x * 2;
         gCurrentPinballGame->ball->positionQ1.y = gCurrentPinballGame->ball->positionQ0.y * 2;
         gCurrentPinballGame->ball->prevPositionQ1 = gCurrentPinballGame->ball->positionQ1;
-        gCurrentPinballGame->ballCatchState = 0;
+        gCurrentPinballGame->ballCatchState = NOT_TRAPPED;
         gCurrentPinballGame->ballUpgradeTimerFrozen = 0;
         m4aSongNumStart(SE_WHISCASH_SPIT_BALL);
         gCurrentPinballGame->cameraScrollTarget = 0;
@@ -368,7 +371,7 @@ void HandleSapphireFlipperButtonInput(void)
     if (gCurrentPinballGame->newButtonActions[0])
     {
         if (gCurrentPinballGame->pikaKickbackTimer == 0 && gCurrentPinballGame->outLanePikaPosition != 2 &&
-            gCurrentPinballGame->pikaSaverTimer == 0 && gCurrentPinballGame->entityOverlayCollisionState == 0)
+            gCurrentPinballGame->pichuEntranceTimer == 0 && gCurrentPinballGame->kickbackFiring == 0)
         {
             gCurrentPinballGame->outLanePikaPosition = 0;
         }
@@ -388,7 +391,7 @@ void HandleSapphireFlipperButtonInput(void)
     if (gCurrentPinballGame->newButtonActions[1])
     {
         if (gCurrentPinballGame->pikaKickbackTimer == 0 && gCurrentPinballGame->outLanePikaPosition != 2 &&
-            gCurrentPinballGame->pikaSaverTimer == 0 && gCurrentPinballGame->entityOverlayCollisionState == 0)
+            gCurrentPinballGame->pichuEntranceTimer == 0 && gCurrentPinballGame->kickbackFiring == 0)
         {
             gCurrentPinballGame->outLanePikaPosition = 1;
         }
