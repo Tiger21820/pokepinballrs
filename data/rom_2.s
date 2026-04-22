@@ -7,6 +7,8 @@
 #include "gba/oam_types.h"
 	.include "asm/macros.inc"
 
+.align 2
+
 gIntrTableTemplate:: @ 0x086A4AA0
 	.4byte SerialIntr
 	.4byte Timer3Intr
@@ -37,67 +39,67 @@ gMainFuncs:: @ 0x086A4AD8
 	.4byte FieldSelectMain
 	.4byte BonusFieldSelectMain
 
-gUnknown_086A4B08:: @ 0x086A4B08
+gRumblePattern0:: @ 0x086A4B08
 	.4byte 2, 1, -1
 
-gUnknown_086A4B14:: @ 0x086A4B14
+gRumblePattern1:: @ 0x086A4B14
 	.4byte 2, 0, -1
 
-gUnknown_086A4B20:: @ 0x086A4B20
+gRumblePattern2:: @ 0x086A4B20
 	.4byte 2, 2, 1, -1
 
-gUnknown_086A4B30:: @ 0x086A4B30
+gRumblePattern3:: @ 0x086A4B30
 	.4byte 2, 2, 0, -1
 
-gUnknown_086A4B40:: @ 0x086A4B40
+gRumblePattern4:: @ 0x086A4B40
 	.4byte 2, 1, -21, 2, -1
 
-gUnknown_086A4B54:: @ 0x086A4B54
+gRumblePattern5:: @ 0x086A4B54
 	.4byte 2, 2, 1, 0, -11, 4, -1
 
-gUnknown_086A4B70:: @ 0x086A4B70
+gRumblePattern6:: @ 0x086A4B70
 	.4byte 2, 2, 1, -1
 
-gUnknown_086A4B80:: @ 0x086A4B80
+gRumblePattern7:: @ 0x086A4B80
 	.4byte 2, 2, 2, 1, -1
 
-gUnknown_086A4B94:: @ 0x086A4B94
+gRumblePattern8:: @ 0x086A4B94
 	.4byte 2, 2, 2, 2, 1, -1
 
-gUnknown_086A4BAC:: @ 0x086A4BAC
+gRumblePattern9:: @ 0x086A4BAC
 	.4byte 2, 2, 2, 2, 2, 1, -1
 
-gUnknown_086A4BC8:: @ 0x086A4BC8
+gRumblePattern10:: @ 0x086A4BC8
 	.4byte 1, 1, 2, 2, 2, 2, 1, -1
 
-gUnknown_086A4BE8:: @ 0x086A4BE8
+gRumblePattern11:: @ 0x086A4BE8
 	.4byte 2, 2, -10, 2, -1
 
-gUnknown_086A4BFC:: @ 0x086A4BFC
+gRumblePattern12:: @ 0x086A4BFC
 	.4byte 2, 2, 1, 1, -3, 4, -1
 
-gUnknown_086A4C18:: @ 0x086A4C18
+gRumblePattern13:: @ 0x086A4C18
 	.4byte 2, 2, -5, 2, -1
 
-gUnknown_086A4C2C:: @ 0x086A4C2C
+gRumblePattern14:: @ 0x086A4C2C
 	.4byte 2, 2, 1, -11, 3, -1
 
 gRumblePatterns:: @ 0x086A4C44
-	.4byte gUnknown_086A4B08
-	.4byte gUnknown_086A4B14
-	.4byte gUnknown_086A4B20
-	.4byte gUnknown_086A4B30
-	.4byte gUnknown_086A4B40
-	.4byte gUnknown_086A4B54
-	.4byte gUnknown_086A4B70
-	.4byte gUnknown_086A4B80
-	.4byte gUnknown_086A4B94
-	.4byte gUnknown_086A4BAC
-	.4byte gUnknown_086A4BC8
-	.4byte gUnknown_086A4BE8
-	.4byte gUnknown_086A4BFC
-	.4byte gUnknown_086A4C18
-	.4byte gUnknown_086A4C2C
+	.4byte gRumblePattern0
+	.4byte gRumblePattern1
+	.4byte gRumblePattern2
+	.4byte gRumblePattern3
+	.4byte gRumblePattern4
+	.4byte gRumblePattern5
+	.4byte gRumblePattern6
+	.4byte gRumblePattern7
+	.4byte gRumblePattern8
+	.4byte gRumblePattern9
+	.4byte gRumblePattern10
+	.4byte gRumblePattern11
+	.4byte gRumblePattern12
+	.4byte gRumblePattern13
+	.4byte gRumblePattern14
 
 	.align 2, 0
 gBonusFieldSelectSpriteSets:: @ 0x086A4C80
@@ -3819,23 +3821,23 @@ gFlipperBaseXPositions:: @ 0x086ACEF4
 
 gModeBannerTilemaps:: @ 0x086ACEF8
 	.4byte 0x000000
-	.4byte gUnknown_0851514C
-	.4byte gUnknown_085223AC
+	.4byte gRubyChinchouCatchBurstBanner_Gfx
+	.4byte gMainCatchModeBanner_Gfx
 	.4byte gMainBoardEvoBanner_Gfx
 	.4byte gMainBoardTravel_Gfx
 	.4byte gMainBoardJirachiBanner_Gfx
-	.4byte gUnknown_0851976C
-	.4byte gUnknown_0851DB8C
+	.4byte gRubyLotadCatchBurstBanner_Gfx
+	.4byte gSapphireShroomishCatchBurstBanner_Gfx
 
 gModeBannerPalettes:: @ 0x086ACF18
     .4byte 0x000000
-    .4byte gUnknown_0851956C
-    .4byte gUnknown_085267CC
-    .4byte gUnknown_085221AC
-    .4byte gUnknown_08526BCC
-    .4byte gUnknown_085269CC
-    .4byte gUnknown_0851958C
-    .4byte gUnknown_085195AC
+    .4byte gRubyChinchouCatchBurstBanner_Pal
+    .4byte gMainCatchModeBanner_Pal
+    .4byte gMainBoardEvoBanner_Pal
+    .4byte gMainBoardTravel_Pal
+    .4byte gMainBoardJirachiBanner_Pal
+    .4byte gRubyLotadCatchBurstBanner_Pal
+    .4byte gSapphireShroomishCatchBurstBanner_Pal
 
 gCaptureSequenceTimings:: @ 0x086ACF38
     @frame timer, 34 frame states.
@@ -4360,7 +4362,10 @@ gKecleonScopeFallTargets:: @ 0x086AEA3C
 	.incbin "baserom.gba", 0x6AEA3C, 0x14
 
 gKecleonOverlayTilemapPointers:: @ 0x086AEA50
-	.incbin "baserom.gba", 0x6AEA50, 0x10
+    .4byte gKecleonBerryOverlayTilemap
+    .4byte gKecleonOverlayTilemap1
+    .4byte gKecleonOverlayTilemap2
+    .4byte gKecleonOverlayTilemap3
 
 gKecleonOverlayTileAnimIndices:: @ 0x086AEA60
 	.incbin "baserom.gba", 0x6AEA60, 0x8
@@ -4369,10 +4374,70 @@ gKecleonBerryFlashAnimIndices:: @ 0x086AEA68
 	.incbin "baserom.gba", 0x6AEA68, 0x8
 
 gKecleonSpriteYSortData:: @ 0x086AEA70
-	.incbin "baserom.gba", 0x6AEA70, 0x70
+    @ 14 sets: {Pointer, 2 u8 vals, 0x2 spacer}
+    .4byte gUnknown_086BA394
+    .byte 131,0
+    .space 0x2
 
-gKyogreOceanPaletteProgression:: @ 0x086AEAE0
-	.incbin "baserom.gba", 0x6AEAE0, 0x18
+    .4byte gUnknown_086BA382
+    .byte 124,1
+    .space 0x2
+
+    .4byte gUnknown_086BA35E
+    .byte 123,2
+    .space 0x2
+
+    .4byte gUnknown_086BA370
+    .byte 116,3
+    .space 0x2
+
+    .4byte gUnknown_086BA34C
+    .byte 115,4
+    .space 0x2
+
+    .4byte gUnknown_086BA33A
+    .byte 112,5
+    .space 0x2
+
+    .4byte gUnknown_086BA29C
+    .byte 109,6
+    .space 0x2
+
+    .4byte gUnknown_086BA2BE
+    .byte 76,7
+    .space 0x2
+
+    .4byte gUnknown_086BA328
+    .byte 40,8
+    .space 0x2
+
+    .4byte gUnknown_086BA304
+    .byte 40,9
+    .space 0x2
+
+    .4byte gUnknown_086BA316
+    .byte 30,10
+    .space 0x2
+
+    .4byte gUnknown_086BA2F2
+    .byte 30,11
+    .space 0x2
+
+    .4byte gUnknown_086BA180
+    .byte 0,12
+    .space 0x2
+
+    .4byte gUnknown_086BA276
+    .byte 0,13
+    .space 0x2
+
+gKyogreFadeInPaletteProgression:: @ 0x086AEAE0
+    .4byte gKyogreFadeInPaletteStep0
+    .4byte gKyogreFadeInPaletteStep1
+    .4byte gKyogreFadeInPaletteStep2
+    .4byte gKyogreFadeInPaletteStep3
+    .4byte gKyogreFadeInPaletteStep4
+    .4byte gKyogreBoardPalette
 
 gKyogreAnimFramesetTable:: @ 0x086AEAF8
 	.incbin "baserom.gba", 0x6AEAF8, 0x2AC
@@ -4447,28 +4512,349 @@ gRayquazaMinionOrbitWaypoints:: @ 0x086AF744
 	.incbin "baserom.gba", 0x6AF744, 0x40
 
 gRayquazaCloudScrollPositions:: @ 0x086AF784
-	.incbin "baserom.gba", 0x6AF784, 0x33C
+	.incbin "baserom.gba", 0x6AF784, 0xC
+
+gSphealFlightPath0:: @ 0x086AF790
+    @vector 16 points
+    .2byte 0x00B5, 0x009E
+    .2byte 0x00B7, 0x009B
+    .2byte 0x00B9, 0x0097
+    .2byte 0x00BB, 0x0094
+    .2byte 0x00BD, 0x0090
+    .2byte 0x00C0, 0x008C
+    .2byte 0x00C2, 0x0089
+    .2byte 0x00C4, 0x0085
+    .2byte 0x00C7, 0x0082
+    .2byte 0x00C9, 0x007E
+    .2byte 0x00CB, 0x007B
+    .2byte 0x00CE, 0x0077
+    .2byte 0x00D0, 0x0074
+    .2byte 0x00D2, 0x0071
+    .2byte 0x00D4, 0x006D
+    .2byte 0x00D4, 0x0069
+    .2byte 0x00D4, 0x0066
+    .2byte 0x00D4, 0x0062
+    .2byte 0x00D4, 0x005F
+    .2byte 0x00D4, 0x005C
+    .2byte 0x00D4, 0x0058
+    .2byte 0x00D5, 0x0055
+    .2byte 0x00D5, 0x0052
+    .2byte 0x00D5, 0x004E
+    .2byte 0x00D5, 0x004B
+    .2byte 0x00D4, 0x0049
+    .2byte 0x00D2, 0x0047
+    .2byte 0x00D1, 0x0045
+    .2byte 0x00CF, 0x0043
+    .2byte 0x00CE, 0x0041
+    .2byte 0x00CB, 0x0040
+    .2byte 0x00C9, 0x003F
+    .2byte 0x00C7, 0x003F
+    .2byte 0x00C5, 0x003E
+    .2byte 0x00C2, 0x003D
+    .2byte 0x00C0, 0x003C
+    .2byte 0x00BE, 0x003D
+    .2byte 0x00BC, 0x003D
+    .2byte 0x00BA, 0x003D
+    .2byte 0x00B8, 0x003D
+    .2byte 0x00B6, 0x003E
+    .2byte 0x00B5, 0x003F
+    .2byte 0x00B3, 0x0040
+    .2byte 0x00B1, 0x0041
+    .2byte 0x00B0, 0x0042
+    .2byte 0x00AE, 0x0044
+    .2byte 0x00AD, 0x0045
+    .2byte 0x00AB, 0x0046
+    .2byte 0x00AA, 0x0048
+    .2byte 0x00A9, 0x004A
+    .2byte 0x00A8, 0x004C
+
+gSphealFlightPath1:: @ 0x086AF85C
+    @vector 16 points
+    .2byte 0x00B4, 0x009F
+    .2byte 0x00B6, 0x009B
+    .2byte 0x00B9, 0x0098
+    .2byte 0x00BB, 0x0094
+    .2byte 0x00BD, 0x0090
+    .2byte 0x00BF, 0x008D
+    .2byte 0x00C2, 0x0089
+    .2byte 0x00C4, 0x0086
+    .2byte 0x00C6, 0x0082
+    .2byte 0x00C9, 0x007F
+    .2byte 0x00CB, 0x007B
+    .2byte 0x00CD, 0x0078
+    .2byte 0x00D0, 0x0074
+    .2byte 0x00D2, 0x0071
+    .2byte 0x00D3, 0x006D
+    .2byte 0x00D3, 0x006A
+    .2byte 0x00D3, 0x0066
+    .2byte 0x00D3, 0x0063
+    .2byte 0x00D4, 0x005F
+    .2byte 0x00D4, 0x005C
+    .2byte 0x00D4, 0x0059
+    .2byte 0x00D5, 0x0056
+    .2byte 0x00D5, 0x0053
+    .2byte 0x00D6, 0x0050
+    .2byte 0x00D6, 0x004D
+    .2byte 0x00D5, 0x004B
+    .2byte 0x00D3, 0x0049
+    .2byte 0x00D2, 0x0047
+    .2byte 0x00D0, 0x0045
+    .2byte 0x00CF, 0x0043
+    .2byte 0x00CD, 0x0041
+    .2byte 0x00CB, 0x0040
+    .2byte 0x00C9, 0x0040
+    .2byte 0x00C7, 0x003F
+    .2byte 0x00C5, 0x003E
+    .2byte 0x00C3, 0x003D
+    .2byte 0x00C1, 0x003D
+    .2byte 0x00BF, 0x003D
+    .2byte 0x00BD, 0x003D
+    .2byte 0x00BB, 0x003D
+    .2byte 0x00B9, 0x003D
+    .2byte 0x00B7, 0x003D
+    .2byte 0x00B6, 0x003E
+    .2byte 0x00B5, 0x003F
+    .2byte 0x00B3, 0x0040
+    .2byte 0x00B2, 0x0041
+    .2byte 0x00B0, 0x0042
+    .2byte 0x00AF, 0x0044
+    .2byte 0x00AD, 0x0045
+    .2byte 0x00AC, 0x0046
+    .2byte 0x00AA, 0x0048
+    .2byte 0x00A9, 0x004A
+    .2byte 0x00A8, 0x004B
+
+gSphealFlightPath2:: @ 0x086AF930
+    @vector 16 points
+    .2byte 0x003B, 0x009E
+    .2byte 0x0039, 0x009B
+    .2byte 0x0037, 0x0097
+    .2byte 0x0034, 0x0093
+    .2byte 0x0032, 0x0090
+    .2byte 0x0030, 0x008C
+    .2byte 0x002E, 0x0089
+    .2byte 0x002B, 0x0085
+    .2byte 0x0029, 0x0082
+    .2byte 0x0027, 0x007E
+    .2byte 0x0024, 0x007B
+    .2byte 0x0022, 0x0077
+    .2byte 0x0020, 0x0074
+    .2byte 0x001D, 0x0070
+    .2byte 0x001B, 0x006D
+    .2byte 0x001A, 0x0069
+    .2byte 0x0019, 0x0066
+    .2byte 0x0019, 0x0062
+    .2byte 0x0018, 0x005F
+    .2byte 0x0017, 0x005B
+    .2byte 0x0017, 0x0058
+    .2byte 0x0016, 0x0054
+    .2byte 0x0018, 0x0052
+    .2byte 0x0018, 0x004F
+    .2byte 0x0019, 0x004C
+    .2byte 0x001A, 0x0049
+    .2byte 0x001B, 0x0047
+    .2byte 0x001D, 0x0045
+    .2byte 0x001F, 0x0043
+    .2byte 0x0021, 0x0041
+    .2byte 0x0024, 0x0040
+    .2byte 0x0026, 0x003F
+    .2byte 0x0028, 0x003E
+    .2byte 0x002A, 0x003D
+    .2byte 0x002D, 0x003D
+    .2byte 0x002F, 0x003D
+    .2byte 0x0032, 0x003D
+    .2byte 0x0034, 0x003D
+    .2byte 0x0036, 0x003D
+    .2byte 0x0038, 0x003E
+    .2byte 0x003A, 0x003F
+    .2byte 0x003C, 0x0040
+    .2byte 0x003E, 0x0041
+    .2byte 0x0040, 0x0042
+    .2byte 0x0041, 0x0044
+    .2byte 0x0042, 0x0045
+    .2byte 0x0043, 0x0047
+    .2byte 0x0044, 0x0049
+    .2byte 0x0045, 0x004B
+
+gSphealFlightPath3:: @ 0x086AF9F4
+    @vector 16 points
+    .2byte 0x003D, 0x00A0
+    .2byte 0x003A, 0x009C
+    .2byte 0x0038, 0x0099
+    .2byte 0x0036, 0x0095
+    .2byte 0x0034, 0x0091
+    .2byte 0x0031, 0x008E
+    .2byte 0x002F, 0x008A
+    .2byte 0x002D, 0x0087
+    .2byte 0x002A, 0x0083
+    .2byte 0x0028, 0x0080
+    .2byte 0x0026, 0x007C
+    .2byte 0x0023, 0x0079
+    .2byte 0x0021, 0x0075
+    .2byte 0x001F, 0x0072
+    .2byte 0x001C, 0x006F
+    .2byte 0x001A, 0x006C
+    .2byte 0x001A, 0x0068
+    .2byte 0x0019, 0x0064
+    .2byte 0x0018, 0x0061
+    .2byte 0x0018, 0x005D
+    .2byte 0x0017, 0x005A
+    .2byte 0x0016, 0x0056
+    .2byte 0x0017, 0x0054
+    .2byte 0x0018, 0x0051
+    .2byte 0x0018, 0x004E
+    .2byte 0x0019, 0x004C
+    .2byte 0x001A, 0x004A
+    .2byte 0x001C, 0x0047
+    .2byte 0x001D, 0x0045
+    .2byte 0x001F, 0x0043
+    .2byte 0x0021, 0x0042
+    .2byte 0x0023, 0x0040
+    .2byte 0x0026, 0x003F
+    .2byte 0x0028, 0x003E
+    .2byte 0x002A, 0x003D
+    .2byte 0x002D, 0x003D
+    .2byte 0x002F, 0x003D
+    .2byte 0x0031, 0x003D
+    .2byte 0x0033, 0x003D
+    .2byte 0x0035, 0x003D
+    .2byte 0x0037, 0x003D
+    .2byte 0x0039, 0x003E
+    .2byte 0x003B, 0x003F
+    .2byte 0x003D, 0x0040
+    .2byte 0x003F, 0x0041
+    .2byte 0x0040, 0x0042
+    .2byte 0x0042, 0x0044
+    .2byte 0x0043, 0x0046
+    .2byte 0x0044, 0x0048
+    .2byte 0x0045, 0x0049
+    .2byte 0x0046, 0x004B
 
 gSphealFlightPathData:: @ 0x086AFAC0
-	.incbin "baserom.gba", 0x6AFAC0, 0x20
+    @ 4 sets {pointer, s16, space}
+	.4byte gSphealFlightPath0
+    .2byte 51
+    .space 0x2
 
-gSphealFramesetToSpriteMap:: @ 0x086AFAE0
-	.incbin "baserom.gba", 0x6AFAE0, 0x2
+    .4byte gSphealFlightPath1
+    .2byte 53
+    .space 0x2
 
-gSphealAnimTimingTable:: @ 0x086AFAE2
-	.incbin "baserom.gba", 0x6AFAE2, 0x4A
+    .4byte gSphealFlightPath2
+    .2byte 49
+    .space 0x2
 
-gSphealFlyingEnemyFramesetTable:: @ 0x086AFB2C
+    .4byte gSphealFlightPath3
+    .2byte 51
+    .space 0x2
+
+gSealeoFramesetData:: @ 0x086AFAE0
+	.incbin "baserom.gba", 0x6AFAE0, 0x4C
+
+gSphealFramesetData:: @ 0x086AFB2C
 	.incbin "baserom.gba", 0x6AFB2C, 0xEA
 
 gSphealWhiscashAnimFrameset:: @ 0x086AFC16
 	.incbin "baserom.gba", 0x6AFC16, 0x9A
 
 gBoardCollisionDataSets:: @ 0x086AFCB0
-	.incbin "baserom.gba", 0x6AFCB0, 0xC0
+    @ Note: Only the layer 0 (1st column) from this data is referenced in code.
+    @ Also, only the ruby board has any actual differences when on the second set here.
+    @ Otherwise, all entries match what is listed in gFieldBoardConfigs
+    @ 2 sets each for Ruby/Sapphire board.
+
+    @ TileData, ???, ???, ???
+    @ AngleData, ???, ???, ???
+    @ TypeData, ???, ???, ???
+
+    @ Ruby default
+    .4byte gRubyBoardCollisionTileDataLayer0, gRubyBoardCollisionTileDataLayer1, gRubyBoardCollisionTileDataLayer2, 0
+    .4byte gRubyBoardCollisionAngleDataLayer0, gRubyBoardCollisionAngleDataLayer1, gRubyBoardCollisionAngleDataLayer2, 0
+    .4byte gRubyBoardCollisionTypeDataLayer0, gRubyBoardCollisionTypeDataLayer1, gRubyBoardCollisionTypeDataLayer2, 0
+
+    @ Ruby alternate
+    .4byte gRubyBoardCollisionTileDataLayer0Alt, gRubyBoardCollisionTileDataLayer1, gRubyBoardCollisionTileDataLayer2, 0
+    .4byte gRubyBoardCollisionAngleDataLayer0Alt, gRubyBoardCollisionAngleDataLayer1, gRubyBoardCollisionAngleDataLayer2, 0
+    .4byte gRubyBoardCollisionTypeDataLayer0Alt, gRubyBoardCollisionTypeDataLayer1, gRubyBoardCollisionTypeDataLayer2, 0
+
+    @ Sapphire default
+    .4byte gSapphireBoardCollisionTileDataLayer0, gSapphireBoardCollisionTileDataLayer1, gSapphireBoardCollisionTileDataLayer2, gSapphireBoardCollisionTileDataLayer3
+    .4byte gSapphireBoardCollisionAngleDataLayer0, gSapphireBoardCollisionAngleDataLayer1, gSapphireBoardCollisionAngleDataLayer2, gSapphireBoardCollisionAngleDataLayer3
+    .4byte gSapphireBoardCollisionTypeDataLayer0, gSapphireBoardCollisionTypeDataLayer1, gSapphireBoardCollisionTypeDataLayer2, gSapphireBoardCollisionTypeDataLayer3
+
+    @ Sapphire alternate (same as default)
+    .4byte gSapphireBoardCollisionTileDataLayer0, gSapphireBoardCollisionTileDataLayer1, gSapphireBoardCollisionTileDataLayer2, gSapphireBoardCollisionTileDataLayer3
+    .4byte gSapphireBoardCollisionAngleDataLayer0, gSapphireBoardCollisionAngleDataLayer1, gSapphireBoardCollisionAngleDataLayer2, gSapphireBoardCollisionAngleDataLayer3
+    .4byte gSapphireBoardCollisionTypeDataLayer0, gSapphireBoardCollisionTypeDataLayer1, gSapphireBoardCollisionTypeDataLayer2, gSapphireBoardCollisionTypeDataLayer3
 
 gFieldBoardConfigs:: @ 0x086AFD70
-	.incbin "baserom.gba", 0x6AFD70, 0x2A0
+    @ 8 boards of type FieldBoardLayout
+	@ each board has 12 u/s16, then 3 pointers, then 3 sets of 4 pointers
+
+    @ Ruby board 0x086AFD70
+    .2byte 0x0010, 0x010C, 0x0164, 0x0064, 0x0180, 0x0078
+    .2byte 0x0178, 0x004B, 0x0075, 0x00F2, 0x0171, 0x01C0
+
+    .4byte gRubyBoardPaletteSet0, gRubyBoardPaletteSet1, gRubyBoardPaletteSet2
+    .4byte gRubyBoardCollisionTileDataLayer0, gRubyBoardCollisionTileDataLayer1, gRubyBoardCollisionTileDataLayer2, 0
+    .4byte gRubyBoardCollisionAngleDataLayer0, gRubyBoardCollisionAngleDataLayer1, gRubyBoardCollisionAngleDataLayer2, 0
+    .4byte gRubyBoardCollisionTypeDataLayer0, gRubyBoardCollisionTypeDataLayer1, gRubyBoardCollisionTypeDataLayer2, 0
+
+    @ Sapphire board 0x086AFDC4
+    .2byte 0x0010, 0x010C, 0x0164, 0x004C, 0x0180, 0x0078
+    .2byte 0x0178, 0x004B, 0x0075, 0x00F2, 0x0171, 0x01C0
+    .4byte gSapphireBoardPaletteSet0, gSapphireBoardPaletteSet1, gSapphireBoardPaletteSet2
+    .4byte gSapphireBoardCollisionTileDataLayer0, gSapphireBoardCollisionTileDataLayer1, gSapphireBoardCollisionTileDataLayer2, gSapphireBoardCollisionTileDataLayer3
+    .4byte gSapphireBoardCollisionAngleDataLayer0, gSapphireBoardCollisionAngleDataLayer1, gSapphireBoardCollisionAngleDataLayer2, gSapphireBoardCollisionAngleDataLayer3
+    .4byte gSapphireBoardCollisionTypeDataLayer0, gSapphireBoardCollisionTypeDataLayer1, gSapphireBoardCollisionTypeDataLayer2, gSapphireBoardCollisionTypeDataLayer3
+
+    @ Dusclops board 0x086AFE18
+    .2byte 0x0000, 0x0018, 0x006C, 0x0051, 0x0098, 0x0000
+    .2byte 0x0090, 0x004B, 0x0075, 0x00A0, 0x0088, 0x00CA
+    .4byte gDusclopsBoardPaletteSet0, gDusclopsBoardPaletteSet1, gDusclopsBoardPaletteSet2
+    .4byte gDusclopsBoardCollisionTileDataAllLayers, gDusclopsBoardCollisionTileDataAllLayers, gDusclopsBoardCollisionTileDataAllLayers, gDusclopsBoardCollisionTileDataAllLayers
+    .4byte gDusclopsBoardCollisionAngleDataAllLayers, gDusclopsBoardCollisionAngleDataAllLayers, gDusclopsBoardCollisionAngleDataAllLayers, gDusclopsBoardCollisionAngleDataAllLayers
+    .4byte gDusclopsBoardCollisionTypeDataAllLayers, gDusclopsBoardCollisionTypeDataAllLayers, gDusclopsBoardCollisionTypeDataAllLayers, gDusclopsBoardCollisionTypeDataAllLayers
+
+    @ Kecleon board 0x086AFE6C
+    .2byte 0x0000, 0x0018, 0x006C, 0x0051, 0x0098, 0x0000
+    .2byte 0x0090, 0x004B, 0x0075, 0x00A0, 0x0088, 0x00CA
+    .4byte gKecleonBoardPaletteSet0, gKecleonBoardPaletteSet1, gKecleonBoardPaletteSet2
+    .4byte gKecleonBoardCollisionTileDataAllLayers, gKecleonBoardCollisionTileDataAllLayers, gKecleonBoardCollisionTileDataAllLayers, gKecleonBoardCollisionTileDataAllLayers
+    .4byte gKecleonBoardCollisionAngleDataAllLayers, gKecleonBoardCollisionAngleDataAllLayers, gKecleonBoardCollisionAngleDataAllLayers, gKecleonBoardCollisionAngleDataAllLayers
+    .4byte gKecleonBoardCollisionTypeDataAllLayers, gKecleonBoardCollisionTypeDataAllLayers, gKecleonBoardCollisionTypeDataAllLayers, gKecleonBoardCollisionTypeDataAllLayers
+
+    @ Kyogre board 0x086AFEC0
+    .2byte 0x0000, 0x0058, 0x00AC, 0x0091, 0x00D8, 0x0000
+    .2byte 0x00D0, 0x004B, 0x0075, 0x00A0, 0x00C8, 0x010A
+    .4byte gKyogreBoardPaletteSet0, gKyogreBoardPaletteSet1, gKyogreBoardPaletteSet2
+    .4byte gKyrGrouBoardCollisionTileDataAllLayers, gKyrGrouBoardCollisionTileDataAllLayers, gKyrGrouBoardCollisionTileDataAllLayers, gKyrGrouBoardCollisionTileDataAllLayers
+    .4byte gKyrGrouBoardCollisionAngleDataAllLayers, gKyrGrouBoardCollisionAngleDataAllLayers, gKyrGrouBoardCollisionAngleDataAllLayers, gKyrGrouBoardCollisionAngleDataAllLayers
+    .4byte gKyrGrouBoardCollisionTypeDataAllLayers, gKyrGrouBoardCollisionTypeDataAllLayers, gKyrGrouBoardCollisionTypeDataAllLayers, gKyrGrouBoardCollisionTypeDataAllLayers
+
+    @ Groudon board 0x086AFF14
+    .2byte 0x0000, 0x0058, 0x00AC, 0x0091, 0x00D8, 0x0000
+    .2byte 0x00D0, 0x004B, 0x0075, 0x00A0, 0x00C8, 0x010A
+    .4byte gGroudonBoardPaletteSet0, gGroudonBoardPaletteSet1, gGroudonBoardPaletteSet2
+    .4byte gKyrGrouBoardCollisionTileDataAllLayers, gKyrGrouBoardCollisionTileDataAllLayers, gKyrGrouBoardCollisionTileDataAllLayers, gKyrGrouBoardCollisionTileDataAllLayers
+    .4byte gKyrGrouBoardCollisionAngleDataAllLayers, gKyrGrouBoardCollisionAngleDataAllLayers, gKyrGrouBoardCollisionAngleDataAllLayers, gKyrGrouBoardCollisionAngleDataAllLayers
+    .4byte gKyrGrouBoardCollisionTypeDataAllLayers, gKyrGrouBoardCollisionTypeDataAllLayers, gKyrGrouBoardCollisionTypeDataAllLayers, gKyrGrouBoardCollisionTypeDataAllLayers
+
+    @ Rayquaza board 0x086AFF68
+    .2byte 0x0000, 0x0058, 0x00AC, 0x0091, 0x00D8, 0x0000
+    .2byte 0x00D0, 0x004B, 0x0075, 0x00A0, 0x00C8, 0x010A
+    .4byte gRayquazaBoardPaletteSet0, gRayquazaBoardPaletteSet1, gRayquazaBoardPaletteSet2
+    .4byte gRayquazaBoardCollisionTileDataAllLayers, gRayquazaBoardCollisionTileDataAllLayers, gRayquazaBoardCollisionTileDataAllLayers, gRayquazaBoardCollisionTileDataAllLayers
+    .4byte gRayquazaBoardCollisionAngleDataAllLayers, gRayquazaBoardCollisionAngleDataAllLayers, gRayquazaBoardCollisionAngleDataAllLayers, gRayquazaBoardCollisionAngleDataAllLayers
+    .4byte gRayquazaBoardCollisionTypeDataAllLayers, gRayquazaBoardCollisionTypeDataAllLayers, gRayquazaBoardCollisionTypeDataAllLayers, gRayquazaBoardCollisionTypeDataAllLayers
+
+    @ Spheal board 0x086AFFBC
+    .2byte 0x0000, 0x0058, 0x00AC, 0x0081, 0x00D8, 0x0000
+    .2byte 0x00D0, 0x004B, 0x0075, 0x00A0, 0x00C8, 0x010A
+    .4byte gSphealBoardPaletteSet0, gSphealBoardPaletteSet1, gSphealBoardPaletteSet2
+    .4byte gSphealBoardCollisionTileDataAllLayers, gSphealBoardCollisionTileDataAllLayers, gSphealBoardCollisionTileDataAllLayers, gSphealBoardCollisionTileDataAllLayers
+    .4byte gSphealBoardCollisionAngleDataAllLayers, gSphealBoardCollisionAngleDataAllLayers, gSphealBoardCollisionAngleDataAllLayers, gSphealBoardCollisionAngleDataAllLayers
+    .4byte gSphealBoardCollisionTypeDataAllLayers, gSphealBoardCollisionTypeDataAllLayers, gSphealBoardCollisionTypeDataAllLayers, gSphealBoardCollisionTypeDataAllLayers
 
 gScrollTileUpdateTable:: @ 0x086B0010
 	.incbin "baserom.gba", 0x6B0010, 0x118
@@ -4519,7 +4905,7 @@ gFieldInitFuncs:: @ 0x086B085C
 	.4byte MainGameFrameUpdate
 	.4byte BonusFieldFrameUpdate
 
-gUnknown_086B0864:: @ 0x086B0664
+gUnknown_086B0864:: @ 0x086B0864
 	.incbin "baserom.gba", 0x6B0864, 0x20
 
 gTimerWarningPalette_Fast:: @ 0x086B0884
@@ -4537,184 +4923,186 @@ gRubySlingshotAnimIndices:: @ 0x086B08CA
 gRubySlingshotTilePointers:: @ 0x086B08D4
     @ Arranged into 2(sides) sets of 3 sets of 5.
     @ Third set of 5 is the destination address.
-	.4byte gUnknown_082647F0, gUnknown_08264BF0, gUnknown_08264FF0, gUnknown_082653F0, gUnknown_08265810
-    .4byte gUnknown_08264850, gUnknown_08264C50, gUnknown_08265050, gUnknown_08265450, gUnknown_08265870
+	.4byte gRuby_LSlingshot_Off_R0, gRuby_LSlingshot_Off_R1, gRuby_LSlingshot_Off_R2, gRuby_LSlingshot_Off_R3, gRuby_LSlingshot_Off_R4
+    .4byte gRuby_LSlingshot_On_R0,  gRuby_LSlingshot_On_R1,  gRuby_LSlingshot_On_R2,  gRuby_LSlingshot_On_R3,  gRuby_LSlingshot_On_R4
     .4byte 0x0600DA00, 0x0600DA20, 0x0600DA60, 0x0600DAC0, 0x0600DB20
 
-    .4byte gUnknown_082648F0, gUnknown_08264CD0, gUnknown_082650B0, gUnknown_082654B0, gUnknown_082658B0
-    .4byte gUnknown_08264950, gUnknown_08264D30, gUnknown_08265110, gUnknown_08265510, gUnknown_08265910
+    .4byte gRuby_RSlingshot_Off_R0, gRuby_RSlingshot_Off_R1, gRuby_RSlingshot_Off_R2, gRuby_RSlingshot_Off_R3, gRuby_RSlingshot_Off_R4
+    .4byte gRuby_RSlingshot_On_R0, gRuby_RSlingshot_On_R1, gRuby_RSlingshot_On_R2, gRuby_RSlingshot_On_R3, gRuby_RSlingshot_On_R4
     .4byte 0x0600DB60, 0x0600DB80, 0x0600DBC0, 0x0600DC20, 0x0600DC80
 
 gShopItemTilePointers:: @ 0x086B094C
     @ Arranged into 3 sets of 3.
     @ Third set is the destination address.
-	.4byte gUnknown_08262BB0, gUnknown_08262FB0, gUnknown_08263430
-    .4byte gUnknown_08262C70, gUnknown_08263070, gUnknown_082634F0
+	.4byte gStoreSignText_08262BB0, gStoreSignText_08262FB0, gStoreSignText_08263430
+    .4byte gStoreSignText_08262C70, gStoreSignText_08263070, gStoreSignText_082634F0
     .4byte 0x0600D860, 0x0600D920, 0x0600D9E0
 
 gRubyProgressDigitTilePointers:: @ 0x086B0970
     @ 11 sets of 2.
     @ Eleventh has the destination address.
-    .4byte gUnknown_08262790, gUnknown_082628D0
-    .4byte gUnknown_082627B0, gUnknown_082628F0
-    .4byte gUnknown_082627D0, gUnknown_08262910
-    .4byte gUnknown_082627F0, gUnknown_08262930
-    .4byte gUnknown_08262810, gUnknown_08262950
-    .4byte gUnknown_08262830, gUnknown_08262970
-    .4byte gUnknown_08262850, gUnknown_08262990
-    .4byte gUnknown_08262870, gUnknown_082629B0
-    .4byte gUnknown_08262890, gUnknown_082629D0
-    .4byte gUnknown_082628B0, gUnknown_082629F0
+    .4byte gRubyBonusMultDigit_08262790, gRubyBonusMultDigit_082628D0
+    .4byte gRubyBonusMultDigit_082627B0, gRubyBonusMultDigit_082628F0
+    .4byte gRubyBonusMultDigit_082627D0, gRubyBonusMultDigit_08262910
+    .4byte gRubyBonusMultDigit_082627F0, gRubyBonusMultDigit_08262930
+    .4byte gRubyBonusMultDigit_08262810, gRubyBonusMultDigit_08262950
+    .4byte gRubyBonusMultDigit_08262830, gRubyBonusMultDigit_08262970
+    .4byte gRubyBonusMultDigit_08262850, gRubyBonusMultDigit_08262990
+    .4byte gRubyBonusMultDigit_08262870, gRubyBonusMultDigit_082629B0
+    .4byte gRubyBonusMultDigit_08262890, gRubyBonusMultDigit_082629D0
+    .4byte gRubyBonusMultDigit_082628B0, gRubyBonusMultDigit_082629F0
     .4byte 0x0600D820, 0x0600D840
 
 gRubyTrapIndicatorTilePointers:: @ 0x086B09C8
     @ 4 sets of 2
     @ fourth set has destination address
-    .4byte gUnknown_0825FF30, gUnknown_08260330
-    .4byte gUnknown_0825FF70, gUnknown_08260370
-    .4byte gUnknown_0825FFB0, gUnknown_082603B0
+    .4byte gRubyTrapTile_0825FF30, gRubyTrapTile_08260330
+    .4byte gRubyTrapTile_0825FF70, gRubyTrapTile_08260370
+    .4byte gRubyTrapTile_0825FFB0, gRubyTrapTile_082603B0
     .4byte 0x060081C0, 0x060085C0
 
 gRubyCatchLightTilePointers:: @ 0x086B09E8
     @ 3 sets of 7 sets of 2
     @ seventh set has destination address
-    .4byte gUnknown_0825FAB0, gUnknown_0825FEB0
-    .4byte gUnknown_0825FAF0, gUnknown_0825FEF0
-    .4byte gUnknown_0825FFF0, gUnknown_082603F0
-    .4byte gUnknown_08260030, gUnknown_08260430
-    .4byte gUnknown_08260170, gUnknown_08260570
-    .4byte gUnknown_082601B0, gUnknown_082605B0
+    .4byte gRubyCatchLight_0825FAB0, gRubyCatchLight_0825FEB0
+    .4byte gRubyCatchLight_0825FAF0, gRubyCatchLight_0825FEF0
+    .4byte gRubyCatchLight_0825FFF0, gRubyCatchLight_082603F0
+    .4byte gRubyCatchLight_08260030, gRubyCatchLight_08260430
+    .4byte gRubyCatchLight_08260170, gRubyCatchLight_08260570
+    .4byte gRubyCatchLight_082601B0, gRubyCatchLight_082605B0
     .4byte 0x0600A180, 0x0600A580
 
-    .4byte gUnknown_0825FAB0, gUnknown_0825FEB0
-    .4byte gUnknown_0825FAF0, gUnknown_0825FEF0
-    .4byte gUnknown_08260070, gUnknown_08260470
-    .4byte gUnknown_082600B0, gUnknown_082604B0
-    .4byte gUnknown_082601F0, gUnknown_082605F0
-    .4byte gUnknown_08260230, gUnknown_08260630
+    .4byte gRubyCatchLight_0825FAB0, gRubyCatchLight_0825FEB0
+    .4byte gRubyCatchLight_0825FAF0, gRubyCatchLight_0825FEF0
+    .4byte gRubyCatchLight_08260070, gRubyCatchLight_08260470
+    .4byte gRubyCatchLight_082600B0, gRubyCatchLight_082604B0
+    .4byte gRubyCatchLight_082601F0, gRubyCatchLight_082605F0
+    .4byte gRubyCatchLight_08260230, gRubyCatchLight_08260630
     .4byte 0x0600A1C0, 0x0600A5C0
 
-    .4byte gUnknown_0825FAB0, gUnknown_0825FEB0
-    .4byte gUnknown_0825FAF0, gUnknown_0825FEF0
-    .4byte gUnknown_082600F0, gUnknown_082604F0
-    .4byte gUnknown_08260130, gUnknown_08260530
-    .4byte gUnknown_08260270, gUnknown_08260670
-    .4byte gUnknown_082602B0, gUnknown_082606B0
+    .4byte gRubyCatchLight_0825FAB0, gRubyCatchLight_0825FEB0
+    .4byte gRubyCatchLight_0825FAF0, gRubyCatchLight_0825FEF0
+    .4byte gRubyCatchLight_082600F0, gRubyCatchLight_082604F0
+    .4byte gRubyCatchLight_08260130, gRubyCatchLight_08260530
+    .4byte gRubyCatchLight_08260270, gRubyCatchLight_08260670
+    .4byte gRubyCatchLight_082602B0, gRubyCatchLight_082606B0
     .4byte 0x0600A200, 0x0600A600
 
-gRubyModeTimerTilePointers:: @ 0x086B0A90
+gRubySaverTilePointers:: @ 0x086B0A90
     @ 3 sets of 4
     @ third set has destination address
-    .4byte gUnknown_08260770, gUnknown_08260B70, gUnknown_08260F90, gUnknown_082613F0
-    .4byte gUnknown_08260870, gUnknown_08260C70, gUnknown_08261090, gUnknown_082614F0
+    .4byte gRubySaverRow0Tile_Off, gRubySaverRow1Tile_Off, gRubySaverRow2Tile_Off, gRubySaverRow3Tile_Off
+    .4byte gRubySaverRow0Tile_On, gRubySaverRow1Tile_On, gRubySaverRow2Tile_On, gRubySaverRow3Tile_On
     .4byte 0x0600AD80, 0x0600B180, 0x0600B5A0, 0x0600BA00
 
-gRubyCatchArrowTilePointers:: @ 0x086B0AC0
+gRubyHatchArrowTilePointer:: @ 0x086B0AC0
     @ 3 sets of 4
     @ third set has destination address
-    .4byte gUnknown_08261770, gUnknown_08261B70, gUnknown_08261F70, gUnknown_08262370
-    .4byte gUnknown_082617F0, gUnknown_08261BF0, gUnknown_08261FF0, gUnknown_082623F0
+    .4byte gRubyHatchArrowRow0Tile_Off, gRubyHatchArrowRow1Tile_Off, gRubyHatchArrowRow2Tile_Off, gRubyHatchArrowRow3Tile_Off
+    .4byte gRubyHatchArrowRow0Tile_On, gRubyHatchArrowRow1Tile_On, gRubyHatchArrowRow2Tile_On, gRubyHatchArrowRow3Tile_On
     .4byte 0x0600B960, 0x0600BD60, 0x0600C160, 0x0600C560
 
-gRubyEvoArrowTilePointers:: @ 0x086B0AF0
+gRubyBumperArrowTilePointer:: @ 0x086B0AF0
     @ 3 sets of 4
     @ third set has destination address
-    .4byte gUnknown_082619B0, gUnknown_08261D70, gUnknown_08262170, gUnknown_08262570
-    .4byte gUnknown_08261A30, gUnknown_08261DF0, gUnknown_082621F0, gUnknown_082625F0
+    .4byte gRubyBumperArrowRow0Tile_Off, gRubyBumperArrowRow1Tile_Off, gRubyBumperArrowRow2Tile_Off, gRubyBumperArrowRow3Tile_Off
+    .4byte gRubyBumperArrowRow0Tile_On, gRubyBumperArrowRow1Tile_On, gRubyBumperArrowRow2Tile_On, gRubyBumperArrowRow3Tile_On
     .4byte 0x0600B620, 0x0600B9E0, 0x0600BDE0, 0x0600C1E0
 
-gRubyRouletteSlotTilePointers:: @ 0x086B0B20
+gRubyShopRampArrowTilePointsers:: @ 0x086B0B20
     @ 5 sets of 4
+    @ Mart mode is set one and two
+    @ Evo mode is set sets three and four:
     @ fifth set has the destination address
-    .4byte gUnknown_08263910, gUnknown_08263D10, gUnknown_08264110, gUnknown_08264510
-    .4byte gUnknown_082639B0, gUnknown_08263DB0, gUnknown_082641B0, gUnknown_082645B0
-    .4byte gUnknown_082637D0, gUnknown_08263BD0, gUnknown_08263FD0, gUnknown_082643D0
-    .4byte gUnknown_08263870, gUnknown_08263C70, gUnknown_08264070, gUnknown_08264470
+    .4byte gRubyMartArrow_R0_Off, gRubyMartArrow_R1_Off, gRubyMartArrow_R2_Off, gRubyMartArrow_R3_Off
+    .4byte gRubyMartArrow_R0_On,  gRubyMartArrow_R1_On,  gRubyMartArrow_R2_On,  gRubyMartArrow_R3_On
+    .4byte gRubyEvoArrow_R0_Off,  gRubyEvoArrow_R1_Off,  gRubyEvoArrow_R2_Off,  gRubyEvoArrow_R3_Off
+    .4byte gRubyEvoArrow_R0_On,   gRubyEvoArrow_R1_On,   gRubyEvoArrow_R2_On,   gRubyEvoArrow_R3_On
     .4byte 0x0600C620, 0x0600CA20, 0x0600CE20, 0x0600D220
 
 gRubyBallPowerUpLightTilePointers:: @ 0x086B0B70
     @ 3 sets of 3
     @ third value has the destination address
-    .4byte gUnknown_0825F730, gUnknown_0825F770, 0x060085C0
-    .4byte gUnknown_0825F7B0, gUnknown_0825F7F0, 0x06008600
-    .4byte gUnknown_0825F830, gUnknown_0825F870, 0x06008660
+    .4byte gRubyBallPowerUpLight0off, gRubyBallPowerUpLight0on, 0x060085C0
+    .4byte gRubyBallPowerUpLight1off, gRubyBallPowerUpLight1on, 0x06008600
+    .4byte gRubyBallPowerUpLight2off, gRubyBallPowerUpLight2on, 0x06008660
 
-gRubyCatchProgressArrowTilePointers:: @ 0x086B0B94
+gRubyCatchArrowTilePointer:: @ 0x086B0B94
     @ 3 sets of 4
     @ third set has the destination address
-	.4byte gUnknown_082618B0, gUnknown_08261C70, gUnknown_08262070, gUnknown_08262470
-    .4byte gUnknown_08261930, gUnknown_08261CF0, gUnknown_082620F0, gUnknown_082624F0
+	.4byte gRubyCatchArrowRow0Tile_Off, gRubyCatchArrowRow1Tile_Off, gRubyCatchArrowRow2Tile_Off, gRubyCatchArrowRow3Tile_Off
+    .4byte gRubyCatchArrowRow0Tile_On, gRubyCatchArrowRow1Tile_On, gRubyCatchArrowRow2Tile_On, gRubyCatchArrowRow3Tile_On
     .4byte 0x0600D2A0, 0x0600D660, 0x06008260, 0x06008660
 
 gRubyHoleIndicatorTilePointers:: @ 0x086B0BC4
     @ 4 sets of 4
     @ third value has the destination; fouth value blank.
-    .4byte gUnknown_0825F8B0, gUnknown_0825F8F0, 0x0600A460, 0
-    .4byte gUnknown_0825F930, gUnknown_0825F970, 0x0600A4C0, 0
-    .4byte gUnknown_0825F9B0, gUnknown_0825F9F0, 0x0600A6C0, 0
-    .4byte gUnknown_0825FA30, gUnknown_0825FA70, 0x0600A720, 0
+    .4byte gRubyHoleLightH_Off, gRubyHoleLightH_On, 0x0600A460, 0
+    .4byte gRubyHoleLightO_Off, gRubyHoleLightO_On, 0x0600A4C0, 0
+    .4byte gRubyHoleLightL_Off, gRubyHoleLightL_On, 0x0600A6C0, 0
+    .4byte gRubyHoleLightE_Off, gRubyHoleLightE_On, 0x0600A720, 0
 
 gRubyEvoArrowTilePtrs:: @ 0x086B0C04
     @ 3 sets of 5 sets of 3
     @ fifth set has the destination address
-	.4byte gUnknown_0825D310, gUnknown_0825D710, gUnknown_0825DB10
-    .4byte gUnknown_0825D310, gUnknown_0825D710, gUnknown_0825DB10
-    .4byte gUnknown_0825D370, gUnknown_0825D770, gUnknown_0825DB70
-    .4byte gUnknown_0825D3D0, gUnknown_0825D7D0, gUnknown_0825DBD0
+	.4byte gRubyEvo_EArrow_Top0, gRubyEvo_EArrow_Mid0, gRubyEvo_EArrow_Bot0
+    .4byte gRubyEvo_EArrow_Top0, gRubyEvo_EArrow_Mid0, gRubyEvo_EArrow_Bot0
+    .4byte gRubyEvo_EArrow_Top1, gRubyEvo_EArrow_Mid1, gRubyEvo_EArrow_Bot1
+    .4byte gRubyEvo_EArrow_Top2, gRubyEvo_EArrow_Mid2, gRubyEvo_EArrow_Bot2
     .4byte 0x0600D080, 0x0600D480, 0x06008080
 
-    .4byte gUnknown_0825D430, gUnknown_0825D830, gUnknown_0825DC30
-    .4byte gUnknown_0825D490, gUnknown_0825D890, gUnknown_0825DC90
-    .4byte gUnknown_0825D4F0, gUnknown_0825D8F0, gUnknown_0825DCF0
-    .4byte gUnknown_0825D550, gUnknown_0825D950, gUnknown_0825DD50
+    .4byte gRubyEvo_VArrow_Top0, gRubyEvo_VArrow_Mid0, gRubyEvo_VArrow_Bot0
+    .4byte gRubyEvo_VArrow_Top1, gRubyEvo_VArrow_Mid1, gRubyEvo_VArrow_Bot1
+    .4byte gRubyEvo_VArrow_Top2, gRubyEvo_VArrow_Mid2, gRubyEvo_VArrow_Bot2
+    .4byte gRubyEvo_VArrow_Top3, gRubyEvo_VArrow_Mid3, gRubyEvo_VArrow_Bot3
     .4byte 0x060080A0, 0x060084A0, 0x060088A0
 
-    .4byte gUnknown_0825D5B0, gUnknown_0825D9B0, gUnknown_0825DDB0
-    .4byte gUnknown_0825D5B0, gUnknown_0825D9B0, gUnknown_0825DDB0
-    .4byte gUnknown_0825D610, gUnknown_0825DA10, gUnknown_0825DE10
-    .4byte gUnknown_0825D670, gUnknown_0825DA70, gUnknown_0825DE70
+    .4byte gRubyEvo_OArrow_Top0, gRubyEvo_OArrow_Mid0, gRubyEvo_OArrow_Bot0
+    .4byte gRubyEvo_OArrow_Top0, gRubyEvo_OArrow_Mid0, gRubyEvo_OArrow_Bot0
+    .4byte gRubyEvo_OArrow_Top1, gRubyEvo_OArrow_Mid1, gRubyEvo_OArrow_Bot1
+    .4byte gRubyEvo_OArrow_Top2, gRubyEvo_OArrow_Mid2, gRubyEvo_OArrow_Bot2
     .4byte 0x060088C0, 0x06008CC0, 0x060090C0
 
 gRubyCoinRewardTilePtrs:: @ 0x086B0CB8
     @ 3 sets of 5 sets of 3
     @ fifth set has the destination address
-    .4byte gUnknown_0825DF10, gUnknown_0825E310, gUnknown_0825E710
-    .4byte gUnknown_0825DF10, gUnknown_0825E310, gUnknown_0825E710
-    .4byte gUnknown_0825DF70, gUnknown_0825E370, gUnknown_0825E770
-    .4byte gUnknown_0825DFD0, gUnknown_0825E3D0, gUnknown_0825E7D0
+    .4byte gRubyCoinArrow_0825DF10, gRubyCoinArrow_0825E310, gRubyCoinArrow_0825E710
+    .4byte gRubyCoinArrow_0825DF10, gRubyCoinArrow_0825E310, gRubyCoinArrow_0825E710
+    .4byte gRubyCoinArrow_0825DF70, gRubyCoinArrow_0825E370, gRubyCoinArrow_0825E770
+    .4byte gRubyCoinArrow_0825DFD0, gRubyCoinArrow_0825E3D0, gRubyCoinArrow_0825E7D0
     .4byte 0x0600B4E0, 0x0600B8E0, 0x0600BCE0
 
-    .4byte gUnknown_0825E030, gUnknown_0825E430, gUnknown_0825E830
-    .4byte gUnknown_0825E090, gUnknown_0825E490, gUnknown_0825E890
-    .4byte gUnknown_0825E0F0, gUnknown_0825E4F0, gUnknown_0825E8F0
-    .4byte gUnknown_0825E150, gUnknown_0825E550, gUnknown_0825E950
+    .4byte gRubyCoinArrow_0825E030, gRubyCoinArrow_0825E430, gRubyCoinArrow_0825E830
+    .4byte gRubyCoinArrow_0825E090, gRubyCoinArrow_0825E490, gRubyCoinArrow_0825E890
+    .4byte gRubyCoinArrow_0825E0F0, gRubyCoinArrow_0825E4F0, gRubyCoinArrow_0825E8F0
+    .4byte gRubyCoinArrow_0825E150, gRubyCoinArrow_0825E550, gRubyCoinArrow_0825E950
     .4byte 0x0600BCE0, 0x0600C0E0, 0x0600C4E0
 
-    .4byte gUnknown_0825E1B0, gUnknown_0825E5B0, gUnknown_0825E9B0
-    .4byte gUnknown_0825E1B0, gUnknown_0825E5B0, gUnknown_0825E9B0
-    .4byte gUnknown_0825E210, gUnknown_0825E610, gUnknown_0825EA10
-    .4byte gUnknown_0825E270, gUnknown_0825E670, gUnknown_0825EA70
+    .4byte gRubyCoinArrow_0825E1B0, gRubyCoinArrow_0825E5B0, gRubyCoinArrow_0825E9B0
+    .4byte gRubyCoinArrow_0825E1B0, gRubyCoinArrow_0825E5B0, gRubyCoinArrow_0825E9B0
+    .4byte gRubyCoinArrow_0825E210, gRubyCoinArrow_0825E610, gRubyCoinArrow_0825EA10
+    .4byte gRubyCoinArrow_0825E270, gRubyCoinArrow_0825E670, gRubyCoinArrow_0825EA70
     .4byte 0x0600C500, 0x0600C900, 0x0600CD00
 
-gRubyCatchArrowTilePtrs:: @ 0x086B0D6C
+gRubyGetArrowTilePtrs:: @ 0x086B0D6C
     @ 3 sets of 5 sets of 3
     @ fifth set has the destination address
-    .4byte gUnknown_0825EB10, gUnknown_0825EF10, gUnknown_0825F310
-    .4byte gUnknown_0825EB10, gUnknown_0825EF10, gUnknown_0825F310
-    .4byte gUnknown_0825EB70, gUnknown_0825EF70, gUnknown_0825F370
-    .4byte gUnknown_0825EBD0, gUnknown_0825EFD0, gUnknown_0825F3D0
+    .4byte gRubyGetArrow_0825EB10, gRubyGetArrow_0825EF10, gRubyGetArrow_0825F310
+    .4byte gRubyGetArrow_0825EB10, gRubyGetArrow_0825EF10, gRubyGetArrow_0825F310
+    .4byte gRubyGetArrow_0825EB70, gRubyGetArrow_0825EF70, gRubyGetArrow_0825F370
+    .4byte gRubyGetArrow_0825EBD0, gRubyGetArrow_0825EFD0, gRubyGetArrow_0825F3D0
     .4byte 0x0600D2E0, 0x0600D6E0, 0x060082E0
 
-    .4byte gUnknown_0825EC50, gUnknown_0825F050, gUnknown_0825F430
-    .4byte gUnknown_0825ECB0, gUnknown_0825F0B0, gUnknown_0825F490
-    .4byte gUnknown_0825ED10, gUnknown_0825F110, gUnknown_0825F4F0
-    .4byte gUnknown_0825ED70, gUnknown_0825F170, gUnknown_0825F550
+    .4byte gRubyGetArrow_0825EC50, gRubyGetArrow_0825F050, gRubyGetArrow_0825F430
+    .4byte gRubyGetArrow_0825ECB0, gRubyGetArrow_0825F0B0, gRubyGetArrow_0825F490
+    .4byte gRubyGetArrow_0825ED10, gRubyGetArrow_0825F110, gRubyGetArrow_0825F4F0
+    .4byte gRubyGetArrow_0825ED70, gRubyGetArrow_0825F170, gRubyGetArrow_0825F550
     .4byte 0x060082E0, 0x060086E0, 0x06008AC0
 
-    .4byte gUnknown_0825EDD0, gUnknown_0825F1B0, gUnknown_0825F5B0
-    .4byte gUnknown_0825EDD0, gUnknown_0825F1B0, gUnknown_0825F5B0
-    .4byte gUnknown_0825EE30, gUnknown_0825F210, gUnknown_0825F610
-    .4byte gUnknown_0825EE90, gUnknown_0825F270, gUnknown_0825F670
+    .4byte gRubyGetArrow_0825EDD0, gRubyGetArrow_0825F1B0, gRubyGetArrow_0825F5B0
+    .4byte gRubyGetArrow_0825EDD0, gRubyGetArrow_0825F1B0, gRubyGetArrow_0825F5B0
+    .4byte gRubyGetArrow_0825EE30, gRubyGetArrow_0825F210, gRubyGetArrow_0825F610
+    .4byte gRubyGetArrow_0825EE90, gRubyGetArrow_0825F270, gRubyGetArrow_0825F670
     .4byte 0x06008AC0, 0x06008EA0, 0x060092A0
 
 gBallShadowTileIndices:: @ 0x086B0E20
@@ -4728,242 +5116,243 @@ gBallShadowTileIndices:: @ 0x086B0E20
 gSlingshotHitFrameIndices:: @ 0x086B0E60
     .2byte 0,1,1,1,1,0
 
-gBumperHitCounterTilePtrs:: @ 0x086B0E6C
+gSapphirePSquareIndicator:: @ 0x086B0E6C
     @ 6 sets of 2
     @ sixth set has destination address
-    .4byte gUnknown_082DEEE0, gUnknown_082DF2E0
-    .4byte gUnknown_082DEF20, gUnknown_082DF320
-    .4byte gUnknown_082DEF60, gUnknown_082DF360
-    .4byte gUnknown_082DEFA0, gUnknown_082DF3A0
-    .4byte gUnknown_082DEFE0, gUnknown_082DF3E0
+    .4byte gSapphirePIndicator_082DEEE0, gSapphirePIndicator_082DF2E0
+    .4byte gSapphirePIndicator_082DEF20, gSapphirePIndicator_082DF320
+    .4byte gSapphirePIndicator_082DEF60, gSapphirePIndicator_082DF360
+    .4byte gSapphirePIndicator_082DEFA0, gSapphirePIndicator_082DF3A0
+    .4byte gSapphirePIndicator_082DEFE0, gSapphirePIndicator_082DF3E0
     .4byte 0x0600A640, 0x0600AA40
 
 gSapphireProgressDigitTilePtrs:: @ 0x086B0E9C
 	@ 11 sets of 4
     @ eleventh set has destination address
-    .4byte gUnknown_082DCE00, gUnknown_082DD200, gUnknown_082DCF40, gUnknown_082DD340
-    .4byte gUnknown_082DCE20, gUnknown_082DD220, gUnknown_082DCF60, gUnknown_082DD360
-    .4byte gUnknown_082DCE40, gUnknown_082DD240, gUnknown_082DCF80, gUnknown_082DD380
-    .4byte gUnknown_082DCE60, gUnknown_082DD260, gUnknown_082DCFA0, gUnknown_082DD3A0
-    .4byte gUnknown_082DCE80, gUnknown_082DD280, gUnknown_082DCFC0, gUnknown_082DD3C0
-    .4byte gUnknown_082DCEA0, gUnknown_082DD2A0, gUnknown_082DCFE0, gUnknown_082DD3E0
-    .4byte gUnknown_082DCEC0, gUnknown_082DD2C0, gUnknown_082DD000, gUnknown_082DD400
-    .4byte gUnknown_082DCEE0, gUnknown_082DD2E0, gUnknown_082DD020, gUnknown_082DD420
-    .4byte gUnknown_082DCF00, gUnknown_082DD300, gUnknown_082DD040, gUnknown_082DD440
-    .4byte gUnknown_082DCF20, gUnknown_082DD320, gUnknown_082DD060, gUnknown_082DD460
+    .4byte gSapphireBonusArrow_00_Top, gSapphireBonusArrow_00_Bot, gSapphireBonusArrow_0_Top, gSapphireBonusArrow_0_Bot
+    .4byte gSapphireBonusArrow_10_Top, gSapphireBonusArrow_10_Bot, gSapphireBonusArrow_1_Top, gSapphireBonusArrow_1_Bot
+    .4byte gSapphireBonusArrow_20_Top, gSapphireBonusArrow_20_Bot, gSapphireBonusArrow_2_Top, gSapphireBonusArrow_2_Bot
+    .4byte gSapphireBonusArrow_30_Top, gSapphireBonusArrow_30_Bot, gSapphireBonusArrow_3_Top, gSapphireBonusArrow_3_Bot
+    .4byte gSapphireBonusArrow_40_Top, gSapphireBonusArrow_40_Bot, gSapphireBonusArrow_4_Top, gSapphireBonusArrow_4_Bot
+    .4byte gSapphireBonusArrow_50_Top, gSapphireBonusArrow_50_Bot, gSapphireBonusArrow_5_Top, gSapphireBonusArrow_5_Bot
+    .4byte gSapphireBonusArrow_60_Top, gSapphireBonusArrow_60_Bot, gSapphireBonusArrow_6_Top, gSapphireBonusArrow_6_Bot
+    .4byte gSapphireBonusArrow_70_Top, gSapphireBonusArrow_70_Bot, gSapphireBonusArrow_7_Top, gSapphireBonusArrow_7_Bot
+    .4byte gSapphireBonusArrow_80_Top, gSapphireBonusArrow_80_Bot, gSapphireBonusArrow_8_Top, gSapphireBonusArrow_8_Bot
+    .4byte gSapphireBonusArrow_90_Top, gSapphireBonusArrow_90_Bot, gSapphireBonusArrow_9_Top, gSapphireBonusArrow_9_Bot
     .4byte 0x0600B220, 0x0600B620, 0x0600B240, 0x0600B640
 
 gRotatingBackgroundTilePtrs:: @ 0x086B0F4C
     @ 5 sets of 4
     @ fifth set has destination address
-    .4byte gUnknown_082E3EC0, gUnknown_082E42C0, gUnknown_082E46C0, gUnknown_082E4AC0
-    .4byte gUnknown_082E3F40, gUnknown_082E4340, gUnknown_082E4740, gUnknown_082E4B40
-    .4byte gUnknown_082E3FC0, gUnknown_082E43C0, gUnknown_082E47C0, gUnknown_082E4BC0
-    .4byte gUnknown_082E3F40, gUnknown_082E4340, gUnknown_082E4740, gUnknown_082E4B40
+    .4byte gWailmerWater_082E3EC0, gWailmerWater_082E42C0, gWailmerWater_082E46C0, gWailmerWater_082E4AC0
+    .4byte gWailmerWater_082E3F40, gWailmerWater_082E4340, gWailmerWater_082E4740, gWailmerWater_082E4B40
+    .4byte gWailmerWater_082E3FC0, gWailmerWater_082E43C0, gWailmerWater_082E47C0, gWailmerWater_082E4BC0
+    .4byte gWailmerWater_082E3F40, gWailmerWater_082E4340, gWailmerWater_082E4740, gWailmerWater_082E4B40
     .4byte 0x0600AEA0, 0x0600B2A0, 0x0600B6A0, 0x0600BAA0
 
 gHatchMachineDrawSegment:: @ 0x086B0F9C
     @ 10 sets of 3 sets of 2
     @ third set has destination address
-    .4byte gUnknown_082DE1E0, gUnknown_082DE5E0
-    .4byte gUnknown_082DE620, gUnknown_082DEA20
+    .4byte gHatchMachine_082DE1E0, gHatchMachine_082DE5E0
+    .4byte gHatchMachine_082DE620, gHatchMachine_082DEA20
     .4byte 0x0600DD40, 0x0600DD80
 
-    .4byte gUnknown_082DE660, gUnknown_082DEA60
-    .4byte gUnknown_082DE6A0, gUnknown_082DEAA0
+    .4byte gHatchMachine_082DE660, gHatchMachine_082DEA60
+    .4byte gHatchMachine_082DE6A0, gHatchMachine_082DEAA0
     .4byte 0x0600DDC0, 0x0600DE00
 
-    .4byte gUnknown_082DE6E0, gUnknown_082DEAE0
-    .4byte gUnknown_082DE720, gUnknown_082DEB20
+    .4byte gHatchMachine_082DE6E0, gHatchMachine_082DEAE0
+    .4byte gHatchMachine_082DE720, gHatchMachine_082DEB20
     .4byte 0x0600D9C0, 0x0600DAC0
 
-    .4byte gUnknown_082DEB60, gUnknown_082DEB60
-    .4byte gUnknown_082DEBA0, gUnknown_082DEBA0
+    .4byte gHatchMachine_082DEB60, gHatchMachine_082DEB60
+    .4byte gHatchMachine_082DEBA0, gHatchMachine_082DEBA0
     .4byte 0x0600DE40, 0x0600DE40
 
-    .4byte gUnknown_082DE7E0, gUnknown_082DEBE0
-    .4byte gUnknown_082DE820, gUnknown_082DEC20
+    .4byte gHatchMachine_082DE7E0, gHatchMachine_082DEBE0
+    .4byte gHatchMachine_082DE820, gHatchMachine_082DEC20
     .4byte 0x0600D900, 0x0600DA00
 
-    .4byte gUnknown_082DE860, gUnknown_082DEC60
-    .4byte gUnknown_082DE8A0, gUnknown_082DECA0
+    .4byte gHatchMachine_082DE860, gHatchMachine_082DEC60
+    .4byte gHatchMachine_082DE8A0, gHatchMachine_082DECA0
     .4byte 0x0600DE80, 0x0600DEC0
 
-    .4byte gUnknown_082DE8E0, gUnknown_082DECE0
-    .4byte gUnknown_082DE920, gUnknown_082DED20
+    .4byte gHatchMachine_082DE8E0, gHatchMachine_082DECE0
+    .4byte gHatchMachine_082DE920, gHatchMachine_082DED20
     .4byte 0x0600DF00, 0x0600DF40
 
-    .4byte gUnknown_082DE960, gUnknown_082DED60
-    .4byte gUnknown_082DE9A0, gUnknown_082DEDA0
+    .4byte gHatchMachine_082DE960, gHatchMachine_082DED60
+    .4byte gHatchMachine_082DE9A0, gHatchMachine_082DEDA0
     .4byte 0x0600DF80, 0x0600DFC0
 
-    .4byte gUnknown_082DE9E0, gUnknown_082DEDE0
-    .4byte gUnknown_082DEE20, gUnknown_082DF220
+    .4byte gHatchMachine_082DE9E0, gHatchMachine_082DEDE0
+    .4byte gHatchMachine_082DEE20, gHatchMachine_082DF220
     .4byte 0x0600E000, 0x0600E040
 
-    .4byte gUnknown_082DEE60, gUnknown_082DF260
-    .4byte gUnknown_082DEEA0, gUnknown_082DF2A0
+    .4byte gHatchMachine_082DEE60, gHatchMachine_082DF260
+    .4byte gHatchMachine_082DEEA0, gHatchMachine_082DF2A0
     .4byte 0x0600E080, 0x0600E0C0
 
 gSapphireSlingshotTilePtrs:: @ 0x086B108C
     @ 2 sets (sides) of 3 sets of 5
     @ third set has destination address
-    .4byte gUnknown_082E2AA0, gUnknown_082E2EA0, gUnknown_082E32A0, gUnknown_082E36A0, gUnknown_082E3AC0
-    .4byte gUnknown_082E2B00, gUnknown_082E2F00, gUnknown_082E3300, gUnknown_082E3700, gUnknown_082E3B20
+    .4byte gSapphireSlingshot_082E2AA0, gSapphireSlingshot_082E2EA0, gSapphireSlingshot_082E32A0, gSapphireSlingshot_082E36A0, gSapphireSlingshot_082E3AC0
+    .4byte gSapphireSlingshot_082E2B00, gSapphireSlingshot_082E2F00, gSapphireSlingshot_082E3300, gSapphireSlingshot_082E3700, gSapphireSlingshot_082E3B20
     .4byte 0x0600E100, 0x0600E120, 0x0600E160, 0x0600E1C0, 0x0600E220
 
-    .4byte gUnknown_082E2BA0, gUnknown_082E2F80, gUnknown_082E3360, gUnknown_082E3760, gUnknown_082E3B60
-    .4byte gUnknown_082E2C00, gUnknown_082E2FE0, gUnknown_082E33C0, gUnknown_082E37C0, gUnknown_082E3BC0
+    .4byte gSapphireSlingshot_082E2BA0, gSapphireSlingshot_082E2F80, gSapphireSlingshot_082E3360, gSapphireSlingshot_082E3760, gSapphireSlingshot_082E3B60
+    .4byte gSapphireSlingshot_082E2C00, gSapphireSlingshot_082E2FE0, gSapphireSlingshot_082E33C0, gSapphireSlingshot_082E37C0, gSapphireSlingshot_082E3BC0
     .4byte 0x0600E260, 0x0600E280, 0x0600E2C0, 0x0600E320, 0x0600E380
 
 gSapphireTrapIndicatorTilePtrs:: @ 0x086B1104
     @ 4 sets of 2
     @ fourth set has destination address
-    .4byte gUnknown_082DDE20, gUnknown_082DE220
-    .4byte gUnknown_082DDE60, gUnknown_082DE260
-    .4byte gUnknown_082DDEA0, gUnknown_082DE2A0
+    .4byte gSapphireCenterTrap_082DDE20, gSapphireCenterTrap_082DE220
+    .4byte gSapphireCenterTrap_082DDE60, gSapphireCenterTrap_082DE260
+    .4byte gSapphireCenterTrap_082DDEA0, gSapphireCenterTrap_082DE2A0
     .4byte 0x060081C0, 0x060085C0
 
 gSapphireCatchLightTilePtrs:: @ 0x086B1124
     @ 3 sets of 7 sets of 2
     @ seventh set has destination address
-    .4byte gUnknown_082DD9A0, gUnknown_082DDDA0
-    .4byte gUnknown_082DD9E0, gUnknown_082DDDE0
-    .4byte gUnknown_082DDEE0, gUnknown_082DE2E0
-    .4byte gUnknown_082DDF20, gUnknown_082DE320
-    .4byte gUnknown_082DE060, gUnknown_082DE460
-    .4byte gUnknown_082DE0A0, gUnknown_082DE4A0
+    .4byte gSapphireCatchLight_082DD9A0, gSapphireCatchLight_082DDDA0
+    .4byte gSapphireCatchLight_082DD9E0, gSapphireCatchLight_082DDDE0
+    .4byte gSapphireCatchLight_082DDEE0, gSapphireCatchLight_082DE2E0
+    .4byte gSapphireCatchLight_082DDF20, gSapphireCatchLight_082DE320
+    .4byte gSapphireCatchLight_082DE060, gSapphireCatchLight_082DE460
+    .4byte gSapphireCatchLight_082DE0A0, gSapphireCatchLight_082DE4A0
     .4byte 0x0600A180, 0x0600A580
 
-    .4byte gUnknown_082DD9A0, gUnknown_082DDDA0
-    .4byte gUnknown_082DD9E0, gUnknown_082DDDE0
-    .4byte gUnknown_082DDF60, gUnknown_082DE360
-    .4byte gUnknown_082DDFA0, gUnknown_082DE3A0
-    .4byte gUnknown_082DE0E0, gUnknown_082DE4E0
-    .4byte gUnknown_082DE120, gUnknown_082DE520
+    .4byte gSapphireCatchLight_082DD9A0, gSapphireCatchLight_082DDDA0
+    .4byte gSapphireCatchLight_082DD9E0, gSapphireCatchLight_082DDDE0
+    .4byte gSapphireCatchLight_082DDF60, gSapphireCatchLight_082DE360
+    .4byte gSapphireCatchLight_082DDFA0, gSapphireCatchLight_082DE3A0
+    .4byte gSapphireCatchLight_082DE0E0, gSapphireCatchLight_082DE4E0
+    .4byte gSapphireCatchLight_082DE120, gSapphireCatchLight_082DE520
     .4byte 0x0600A1C0, 0x0600A5C0
 
-    .4byte gUnknown_082DD9A0, gUnknown_082DDDA0
-    .4byte gUnknown_082DD9E0, gUnknown_082DDDE0
-    .4byte gUnknown_082DDFE0, gUnknown_082DE3E0
-    .4byte gUnknown_082DE020, gUnknown_082DE420
-    .4byte gUnknown_082DE160, gUnknown_082DE560
-    .4byte gUnknown_082DE1A0, gUnknown_082DE5A0
+    .4byte gSapphireCatchLight_082DD9A0, gSapphireCatchLight_082DDDA0
+    .4byte gSapphireCatchLight_082DD9E0, gSapphireCatchLight_082DDDE0
+    .4byte gSapphireCatchLight_082DDFE0, gSapphireCatchLight_082DE3E0
+    .4byte gSapphireCatchLight_082DE020, gSapphireCatchLight_082DE420
+    .4byte gSapphireCatchLight_082DE160, gSapphireCatchLight_082DE560
+    .4byte gSapphireCatchLight_082DE1A0, gSapphireCatchLight_082DE5A0
     .4byte 0x0600A200, 0x0600A600
 
-gSapphireModeTimerDisplayTilePtrs:: @ 0x086B11CC
+gSapphireSaverDisplayTilePtrs:: @ 0x086B11CC
     @ 3 sets of 4
     @ third set has destination address
-    .4byte gUnknown_082DF660, gUnknown_082DFA60, gUnknown_082DFE80, gUnknown_082E02E0
-    .4byte gUnknown_082DF760, gUnknown_082DFB60, gUnknown_082DFF80, gUnknown_082E03E0
+    .4byte gSapphireSaver_082DF660, gSapphireSaver_082DFA60, gSapphireSaver_082DFE80, gSapphireSaver_082E02E0
+    .4byte gSapphireSaver_082DF760, gSapphireSaver_082DFB60, gSapphireSaver_082DFF80, gSapphireSaver_082E03E0
     .4byte 0x0600AD80, 0x0600B180, 0x0600B5A0, 0x0600BA00
 
-gSapphireCatchArrowPaletteTilePtrs:: @ 0x086B11FC
+gSapphireHatchArrowTilePtrs:: @ 0x086B11FC
     @ 3 sets of 4
     @ third set has destination address
-    .4byte gUnknown_082E06A0, gUnknown_082E0A60, gUnknown_082E0E60, gUnknown_082E1260
-    .4byte gUnknown_082E0720, gUnknown_082E0AE0, gUnknown_082E0EE0, gUnknown_082E12E0
+    .4byte gSapphireHatchArrow_082E06A0, gSapphireHatchArrow_082E0A60, gSapphireHatchArrow_082E0E60, gSapphireHatchArrow_082E1260
+    .4byte gSapphireHatchArrow_082E0720, gSapphireHatchArrow_082E0AE0, gSapphireHatchArrow_082E0EE0, gSapphireHatchArrow_082E12E0
     .4byte 0x0600CEA0, 0x0600D260, 0x0600D660, 0x06008260
 
-gSapphireEvoArrowPaletteTilePtrs:: @ 0x086B122C
+gSapphireBumperArrowTilePtrs:: @ 0x086B122C
     @ 3 sets of 4
     @ third set has destination address
-    .4byte gUnknown_082E0860, gUnknown_082E0C60, gUnknown_082E1060, gUnknown_082E1460
-    .4byte gUnknown_082E08E0, gUnknown_082E0CE0, gUnknown_082E10E0, gUnknown_082E14E0
+    @ note: first row data has blank tiles, and not actually referenced.
+    .4byte gSapphireBumperArrow_082E0860, gSapphireBumperArrow_082E0C60, gSapphireBumperArrow_082E1060, gSapphireBumperArrow_082E1460
+    .4byte gSapphireBumperArrow_082E08E0, gSapphireBumperArrow_082E0CE0, gSapphireBumperArrow_082E10E0, gSapphireBumperArrow_082E14E0
     .4byte 0x0600A9A0, 0x0600ADA0, 0x0600B1A0, 0x0600B5A0
 
-gSapphireRouletteSlotTilePtrs:: @ 0x086B125C
+gSapphireShopArrowTilePtrs:: @ 0x086B125C
     @ 5 sets of 4
     @ fifth set has destination address
-    .4byte gUnknown_082E1680, gUnknown_082E1A80, gUnknown_082E1E80, gUnknown_082E2280
-    .4byte gUnknown_082E1700, gUnknown_082E1B00, gUnknown_082E1F00, gUnknown_082E2300
-    .4byte gUnknown_082E1780, gUnknown_082E1B80, gUnknown_082E1F80, gUnknown_082E2380
-    .4byte gUnknown_082E1800, gUnknown_082E1C00, gUnknown_082E2000, gUnknown_082E2400
+    .4byte gSapphireMartArrow_082E1680, gSapphireMartArrow_082E1A80, gSapphireMartArrow_082E1E80, gSapphireMartArrow_082E2280
+    .4byte gSapphireMartArrow_082E1700, gSapphireMartArrow_082E1B00, gSapphireMartArrow_082E1F00, gSapphireMartArrow_082E2300
+    .4byte gSapphireEvoArrow_082E1780, gSapphireEvoArrow_082E1B80, gSapphireEvoArrow_082E1F80, gSapphireEvoArrow_082E2380
+    .4byte gSapphireEvoArrow_082E1800, gSapphireEvoArrow_082E1C00, gSapphireEvoArrow_082E2000, gSapphireEvoArrow_082E2400
     .4byte 0x0600BD20, 0x0600C120, 0x0600C520, 0x0600C920
 
 gSapphireBallPowerUpLightTilePtrs:: @ 0x086B12AC
     @ 3 sets of 3
     @ third value has destination address
-    .4byte gUnknown_082DD620, gUnknown_082DD660, 0x06008540
-    .4byte gUnknown_082DD6A0, gUnknown_082DD6E0, 0x060085A0
-    .4byte gUnknown_082DD720, gUnknown_082DD760, 0x060085E0
+    .4byte gSapphireBallPowerUpLight0off, gSapphireBallPowerUpLight0on, 0x06008540
+    .4byte gSapphireBallPowerUpLight1off, gSapphireBallPowerUpLight1on, 0x060085A0
+    .4byte gSapphireBallPowerUpLight2off, gSapphireBallPowerUpLight2on, 0x060085E0
 
-gSapphireCatchFlashTilePtrs:: @ 0x086B12D0
+gSapphireCatchArrowTilePtrs:: @ 0x086B12D0
     @ 3 sets of 4
     @ third set has destination address
-    .4byte gUnknown_082E0780, gUnknown_082E0B60, gUnknown_082E0F60, gUnknown_082E1360
-    .4byte gUnknown_082E0800, gUnknown_082E0BE0, gUnknown_082E0FE0, gUnknown_082E13E0
+    .4byte gSapphireCatchArrow_082E0780, gSapphireCatchArrow_082E0B60, gSapphireCatchArrow_082E0F60, gSapphireCatchArrow_082E1360
+    .4byte gSapphireCatchArrow_082E0800, gSapphireCatchArrow_082E0BE0, gSapphireCatchArrow_082E0FE0, gSapphireCatchArrow_082E13E0
     .4byte 0x0600C260, 0x0600C640, 0x0600CA40, 0x0600CE40
 
 gSapphireHoleIndicatorTilePtrs:: @ 0x086B1300
     @ 4 sets of 4
     @ third value has the destination; fouth value blank.
-	.4byte gUnknown_082DD7A0, gUnknown_082DD7E0, 0x0600A460, 0
-    .4byte gUnknown_082DD820, gUnknown_082DD860, 0x0600A4C0, 0
-    .4byte gUnknown_082DD8A0, gUnknown_082DD8E0, 0x0600A6C0, 0
-    .4byte gUnknown_082DD920, gUnknown_082DD960, 0x0600A720, 0
+	.4byte gSapphireHoleLightH_Off, gSapphireHoleLightH_On, 0x0600A460, 0
+    .4byte gSapphireHoleLightO_Off, gSapphireHoleLightO_On, 0x0600A4C0, 0
+    .4byte gSapphireHoleLightL_Off, gSapphireHoleLightL_On, 0x0600A6C0, 0
+    .4byte gSapphireHoleLightE_Off, gSapphireHoleLightE_On, 0x0600A720, 0
 
 gSapphireEvoArrowTilePtrs:: @ 0x086B1340
     @ 3 sets of 5 sets of 3
     @ fifth set has destination address
-    .4byte gUnknown_082DA9E0, gUnknown_082DADE0, gUnknown_082DB1E0
-    .4byte gUnknown_082DA9E0, gUnknown_082DADE0, gUnknown_082DB1E0
-    .4byte gUnknown_082DAA40, gUnknown_082DAE40, gUnknown_082DB240
-    .4byte gUnknown_082DAAA0, gUnknown_082DAEA0, gUnknown_082DB2A0
+    .4byte gSapphireEvo_EArrow_Top0, gSapphireEvo_EArrow_Mid0, gSapphireEvo_EArrow_Bot0
+    .4byte gSapphireEvo_EArrow_Top0, gSapphireEvo_EArrow_Mid0, gSapphireEvo_EArrow_Bot0
+    .4byte gSapphireEvo_EArrow_Top1, gSapphireEvo_EArrow_Mid1, gSapphireEvo_EArrow_Bot1
+    .4byte gSapphireEvo_EArrow_Top2, gSapphireEvo_EArrow_Mid2, gSapphireEvo_EArrow_Bot2
     .4byte 0x0600D080, 0x0600D480, 0x06008080
 
-    .4byte gUnknown_082DAB00, gUnknown_082DAF00, gUnknown_082DB300
-    .4byte gUnknown_082DAB60, gUnknown_082DAF60, gUnknown_082DB360
-    .4byte gUnknown_082DABC0, gUnknown_082DAFC0, gUnknown_082DB3C0
-    .4byte gUnknown_082DAC20, gUnknown_082DB020, gUnknown_082DB420
+    .4byte gSapphireEvo_VArrow_Top0, gSapphireEvo_VArrow_Mid0, gSapphireEvo_VArrow_Bot0
+    .4byte gSapphireEvo_VArrow_Top1, gSapphireEvo_VArrow_Mid1, gSapphireEvo_VArrow_Bot1
+    .4byte gSapphireEvo_VArrow_Top2, gSapphireEvo_VArrow_Mid2, gSapphireEvo_VArrow_Bot2
+    .4byte gSapphireEvo_VArrow_Top3, gSapphireEvo_VArrow_Mid3, gSapphireEvo_VArrow_Bot3
     .4byte 0x060080A0, 0x060084A0, 0x060088A0
 
-    .4byte gUnknown_082DAC80, gUnknown_082DB080, gUnknown_082DB4A0
-    .4byte gUnknown_082DAC80, gUnknown_082DB080, gUnknown_082DB4A0
-    .4byte gUnknown_082DACE0, gUnknown_082DB0E0, gUnknown_082DB500
-    .4byte gUnknown_082DAD40, gUnknown_082DB140, gUnknown_082DB560
+    .4byte gSapphireEvo_OArrow_Top0, gSapphireEvo_OArrow_Mid0, gSapphireEvo_OArrow_Bot0
+    .4byte gSapphireEvo_OArrow_Top0, gSapphireEvo_OArrow_Mid0, gSapphireEvo_OArrow_Bot0
+    .4byte gSapphireEvo_OArrow_Top1, gSapphireEvo_OArrow_Mid1, gSapphireEvo_OArrow_Bot1
+    .4byte gSapphireEvo_OArrow_Top2, gSapphireEvo_OArrow_Mid2, gSapphireEvo_OArrow_Bot2
     .4byte 0x060088C0, 0x06008CC0, 0x060090E0
 
 gSapphireCoinRewardTilePtrs:: @ 0x086B13F4
     @ 3 sets of 5 sets of 3
     @ fourth set has destination address; fifth has spacers
-    .4byte gUnknown_082DB5E0, gUnknown_082DB9E0, gUnknown_082DBDE0
-    .4byte gUnknown_082DB640, gUnknown_082DBA40, gUnknown_082DBE40
-    .4byte gUnknown_082DB6A0, gUnknown_082DBAA0, gUnknown_082DBEA0
+    .4byte gSapphireCoinArrow_082DB5E0, gSapphireCoinArrow_082DB9E0, gSapphireCoinArrow_082DBDE0
+    .4byte gSapphireCoinArrow_082DB640, gSapphireCoinArrow_082DBA40, gSapphireCoinArrow_082DBE40
+    .4byte gSapphireCoinArrow_082DB6A0, gSapphireCoinArrow_082DBAA0, gSapphireCoinArrow_082DBEA0
     .4byte 0x0600C4A0, 0x0600C8A0, 0x0600CCA0
     .4byte 0,0,0
 
-    .4byte gUnknown_082DB720, gUnknown_082DBB20, gUnknown_082DBF20
-    .4byte gUnknown_082DB780, gUnknown_082DBB80, gUnknown_082DBF80
-    .4byte gUnknown_082DB7E0, gUnknown_082DBBE0, gUnknown_082DBFE0
+    .4byte gSapphireCoinArrow_082DB720, gSapphireCoinArrow_082DBB20, gSapphireCoinArrow_082DBF20
+    .4byte gSapphireCoinArrow_082DB780, gSapphireCoinArrow_082DBB80, gSapphireCoinArrow_082DBF80
+    .4byte gSapphireCoinArrow_082DB7E0, gSapphireCoinArrow_082DBBE0, gSapphireCoinArrow_082DBFE0
     .4byte 0x0600CCE0, 0x0600D0E0, 0x0600D4C0
     .4byte 0,0,0
 
-    .4byte gUnknown_082DB820, gUnknown_082DBC20, gUnknown_082DC020
-    .4byte gUnknown_082DB880, gUnknown_082DBC80, gUnknown_082DC080
-    .4byte gUnknown_082DB8E0, gUnknown_082DBCE0, gUnknown_082DC0E0
+    .4byte gSapphireCoinArrow_082DB820, gSapphireCoinArrow_082DBC20, gSapphireCoinArrow_082DC020
+    .4byte gSapphireCoinArrow_082DB880, gSapphireCoinArrow_082DBC80, gSapphireCoinArrow_082DC080
+    .4byte gSapphireCoinArrow_082DB8E0, gSapphireCoinArrow_082DBCE0, gSapphireCoinArrow_082DC0E0
     .4byte 0x0600D0E0, 0x0600D4E0, 0x060080E0
     .4byte 0,0,0
 
-gSapphireCatchArrowTilePtrs:: @ 0x086B14A8
+gSapphireGetArrowTilePtrs:: @ 0x086B14A8
 	@ 3 sets of 5 sets of 3
     @ fifth set has destination address
-    .4byte gUnknown_082DC1E0, gUnknown_082DC5E0, gUnknown_082DC9E0
-    .4byte gUnknown_082DC1E0, gUnknown_082DC5E0, gUnknown_082DC9E0
-    .4byte gUnknown_082DC240, gUnknown_082DC640, gUnknown_082DCA40
-    .4byte gUnknown_082DC2A0, gUnknown_082DC6A0, gUnknown_082DCAA0
+    .4byte gSapphireGetArrow_082DC1E0, gSapphireGetArrow_082DC5E0, gSapphireGetArrow_082DC9E0
+    .4byte gSapphireGetArrow_082DC1E0, gSapphireGetArrow_082DC5E0, gSapphireGetArrow_082DC9E0
+    .4byte gSapphireGetArrow_082DC240, gSapphireGetArrow_082DC640, gSapphireGetArrow_082DCA40
+    .4byte gSapphireGetArrow_082DC2A0, gSapphireGetArrow_082DC6A0, gSapphireGetArrow_082DCAA0
     .4byte 0x0600D2E0, 0x0600D6E0, 0x060082E0
 
-    .4byte gUnknown_082DC320, gUnknown_082DC720, gUnknown_082DCB00
-    .4byte gUnknown_082DC380, gUnknown_082DC780, gUnknown_082DCB60
-    .4byte gUnknown_082DC3E0, gUnknown_082DC7E0, gUnknown_082DCBC0
-    .4byte gUnknown_082DC440, gUnknown_082DC840, gUnknown_082DCC20
+    .4byte gSapphireGetArrow_082DC320, gSapphireGetArrow_082DC720, gSapphireGetArrow_082DCB00
+    .4byte gSapphireGetArrow_082DC380, gSapphireGetArrow_082DC780, gSapphireGetArrow_082DCB60
+    .4byte gSapphireGetArrow_082DC3E0, gSapphireGetArrow_082DC7E0, gSapphireGetArrow_082DCBC0
+    .4byte gSapphireGetArrow_082DC440, gSapphireGetArrow_082DC840, gSapphireGetArrow_082DCC20
     .4byte 0x060082E0, 0x060086E0, 0x06008AC0
 
-    .4byte gUnknown_082DC4A0, gUnknown_082DC880, gUnknown_082DCC80
-    .4byte gUnknown_082DC4A0, gUnknown_082DC880, gUnknown_082DCC80
-    .4byte gUnknown_082DC500, gUnknown_082DC8E0, gUnknown_082DCCE0
-    .4byte gUnknown_082DC560, gUnknown_082DC940, gUnknown_082DCD40
+    .4byte gSapphireGetArrow_082DC4A0, gSapphireGetArrow_082DC880, gSapphireGetArrow_082DCC80
+    .4byte gSapphireGetArrow_082DC4A0, gSapphireGetArrow_082DC880, gSapphireGetArrow_082DCC80
+    .4byte gSapphireGetArrow_082DC500, gSapphireGetArrow_082DC8E0, gSapphireGetArrow_082DCCE0
+    .4byte gSapphireGetArrow_082DC560, gSapphireGetArrow_082DC940, gSapphireGetArrow_082DCD40
     .4byte 0x06008AC0, 0x06008EA0, 0x060092A0
 
 gFieldSpriteSets:: @ 0x086B155C
@@ -4993,7 +5382,23 @@ gMonHatchSpriteGroupPals:: @ 0x086B159C
 	.4byte gMonHatchSpriteGroup5_Pals
 
 gMonIconPalettes:: @ 0x086B15B4
-	.incbin "baserom.gba", 0x6B15B4, 0x44
+    .4byte gMonCatchSpriteGroup0_Pal
+    .4byte gMonCatchSpriteGroup1_Pal
+    .4byte gMonCatchSpriteGroup2_Pal
+    .4byte gMonCatchSpriteGroup3_Pal
+    .4byte gMonCatchSpriteGroup4_Pal
+    .4byte gMonCatchSpriteGroup5_Pal
+    .4byte gMonCatchSpriteGroup6_Pal
+    .4byte gMonCatchSpriteGroup7_Pal
+    .4byte gMonCatchSpriteGroup8_Pal
+    .4byte gMonCatchSpriteGroup9_Pal
+    .4byte gMonCatchSpriteGroup10_Pal
+    .4byte gMonCatchSpriteGroup11_Pal
+    .4byte gMonCatchSpriteGroup12_Pal
+    .4byte gMonCatchSpriteGroup13_Pal
+    .4byte gMonCatchSpriteGroup14_Pal
+    .4byte gMonCatchSpriteGroup15_Pal
+    .4byte gMonCatchSpriteGroup16_Pal
 
 gUnknown_086B15F8:: @ 0x086B15F8
 .2byte 1
@@ -13307,7 +13712,23 @@ gMonHatchSpriteGroupGfx:: @ 0x086BB6DC
 	.4byte gMonHatchSpriteGroup5_Gfx
 
 gCatchSpriteGfxPtrs:: @ 0x086BB6F4
-	.incbin "baserom.gba", 0x6BB6F4, 0x44
+    .4byte gMonCatchSpriteGroup0_Gfx
+    .4byte gMonCatchSpriteGroup1_Gfx
+    .4byte gMonCatchSpriteGroup2_Gfx
+    .4byte gMonCatchSpriteGroup3_Gfx
+    .4byte gMonCatchSpriteGroup4_Gfx
+    .4byte gMonCatchSpriteGroup5_Gfx
+    .4byte gMonCatchSpriteGroup6_Gfx
+    .4byte gMonCatchSpriteGroup7_Gfx
+    .4byte gMonCatchSpriteGroup8_Gfx
+    .4byte gMonCatchSpriteGroup9_Gfx
+    .4byte gMonCatchSpriteGroup10_Gfx
+    .4byte gMonCatchSpriteGroup11_Gfx
+    .4byte gMonCatchSpriteGroup12_Gfx
+    .4byte gMonCatchSpriteGroup13_Gfx
+    .4byte gMonCatchSpriteGroup14_Gfx
+    .4byte gMonCatchSpriteGroup15_Gfx
+    .4byte gMonCatchSpriteGroup16_Gfx
 
 gMonPortraitGroupGfx:: @ 0x086BB738
 	.4byte gMonPortraitsGroup0_Gfx
@@ -13325,7 +13746,32 @@ gMonPortraitGroupGfx:: @ 0x086BB738
 	.4byte gMonPortraitsGroup12_Gfx
 	.4byte gMonPortraitsGroup13_Gfx
 
-.incbin "baserom.gba", 0x6BB770, 0x1A0 @ 0x6BB910 - 0x6BB770
+gUnknown_086BB770:: @ 0x086BB770
+    .incbin "baserom.gba", 0x6BB770, 0x64
+
+gUnknown_086BB7D4:: @ 0x086BB7D4
+    .incbin "baserom.gba", 0x6BB7D4, 0x14
+
+gUnknown_086BB7E8:: @ 0x086BB7E8
+    .incbin "baserom.gba", 0x6BB7E8, 0x6E
+
+gUnknown_086BB856:: @ 0x086BB856
+    .incbin "baserom.gba", 0x6BB856, 0x12
+
+gUnknown_086BB868:: @ 0x086BB868
+    .incbin "baserom.gba", 0x6BB868, 0xA
+
+gUnknown_086BB872:: @ 0x086BB872
+    .incbin "baserom.gba", 0x6BB872, 0x12
+
+gUnknown_086BB884:: @ 0x086BB884
+    .incbin "baserom.gba", 0x6BB884, 0x1C
+
+gUnknown_086BB8A0:: @ 0x086BB8A0
+    .incbin "baserom.gba", 0x6BB8A0, 0x5A
+
+gUnknown_086BB8FA:: @ 0x086BB8FA
+    .incbin "baserom.gba", 0x6BB8FA, 0x16
 
 gButtonInfoTable:: @ 0x086BB910
 	.2byte A_BUTTON, 0x4, 0x0, 0x8
@@ -13350,12 +13796,185 @@ gButtonAnimData:: @ 0x086BB9B4
 	.incbin "baserom.gba", 0x6BB9B4, 0x38
 
 gOptionsSpriteSets:: @ 0x086BB9EC
-	.incbin "baserom.gba", 0x6BB9EC, 0x80
+    .4byte gUnknown_086BB7D4
+    .4byte gUnknown_086BB770
+    .4byte gUnknown_086BB770
+    .4byte gUnknown_086BB770
+    .4byte gUnknown_086BB770
+    .4byte gUnknown_086BB770
+    .4byte gUnknown_086BB770
+    .4byte gUnknown_086BB872
+    .4byte gUnknown_086BB7E8
+    .4byte gUnknown_086BB868
+    .4byte gUnknown_086BB868
+    .4byte gUnknown_086BB868
+    .4byte gUnknown_086BB868
+    .4byte gUnknown_086BB868
+    .4byte gUnknown_086BB868
+    .4byte gUnknown_086BB868
+    .4byte gUnknown_086BB868
+    .4byte gUnknown_086BB868
+    .4byte gUnknown_086BB868
+    .4byte gUnknown_086BB868
+    .4byte gUnknown_086BB868
+    .4byte gUnknown_086BB868
+    .4byte gUnknown_086BB868
+    .4byte gUnknown_086BB868
+    .4byte gUnknown_086BB868
+    .4byte gUnknown_086BB868
+    .4byte gUnknown_086BB868
+    .4byte gUnknown_086BB884
+    .4byte gUnknown_086BB856
+    .4byte gUnknown_086BB7E8
+    .4byte gUnknown_086BB8A0
+    .4byte gUnknown_086BB8FA
 
 gSaveFileSignature:: @ 0x086BBA6C
 	.ascii "POKEPINAGB"
+    .space 0x2
 
-	.incbin "baserom.gba", 0x6BBA76, 0x564 @ 0x6BBA6C + 0xA, 0x6BBFD0 - 0x6BBA6C
+    .4byte gUnknown_086BBB04
+    .4byte gUnknown_086BBB0C
+    .4byte gUnknown_086BBB14
+    .4byte gUnknown_086BBB1C
+    .4byte gUnknown_086BBB24
+    .4byte gUnknown_086BBB2C
+    .4byte gUnknown_086BBB34
+    .4byte gUnknown_086BBB3C
+    .4byte gUnknown_086BBB44
+    .4byte gUnknown_086BBB4C
+    .4byte gUnknown_086BBB54
+    .4byte gUnknown_086BBB5C
+    .4byte gUnknown_086BBB64
+    .4byte gUnknown_086BBB6C
+    .4byte gUnknown_086BBB74
+    .4byte gUnknown_086BBB7C
+    .4byte gUnknown_086BBB84
+    .4byte gUnknown_086BBB8C
+    .4byte gUnknown_086BBB94
+    .4byte gUnknown_086BBB9C
+    .4byte gUnknown_086BBBA4
+    .4byte gUnknown_086BBBAC
+    .4byte gUnknown_086BBBB4
+    .4byte gUnknown_086BBBBC
+    .4byte gUnknown_086BBBCA
+    .4byte gUnknown_086BBBD2
+    .4byte gUnknown_086BBBE0
+    .4byte gUnknown_086BBBEE
+    .4byte gUnknown_086BBBF6
+    .4byte gUnknown_086BBC04
+    .4byte gUnknown_086BBC12
+    .4byte gUnknown_086BBC20
+    .4byte gUnknown_086BBC2E
+    .4byte gUnknown_086BBC3C
+    .4byte gUnknown_086BBC44
+
+gUnknown_086BBB04:: @ 0x086BBB04
+    .incbin "baserom.gba", 0x6BBB04, 0x8
+
+gUnknown_086BBB0C:: @ 0x086BBB0C
+    .incbin "baserom.gba", 0x6BBB0C, 0x8
+
+gUnknown_086BBB14:: @ 0x086BBB14
+    .incbin "baserom.gba", 0x6BBB14, 0x8
+
+gUnknown_086BBB1C:: @ 0x086BBB1C
+    .incbin "baserom.gba", 0x6BBB1C, 0x8
+
+gUnknown_086BBB24:: @ 0x086BBB24
+    .incbin "baserom.gba", 0x6BBB24, 0x8
+
+gUnknown_086BBB2C:: @ 0x086BBB2C
+    .incbin "baserom.gba", 0x6BBB2C, 0x8
+
+gUnknown_086BBB34:: @ 0x086BBB34
+    .incbin "baserom.gba", 0x6BBB34, 0x8
+
+gUnknown_086BBB3C:: @ 0x086BBB3C
+    .incbin "baserom.gba", 0x6BBB3C, 0x8
+
+gUnknown_086BBB44:: @ 0x086BBB44
+    .incbin "baserom.gba", 0x6BBB44, 0x8
+
+gUnknown_086BBB4C:: @ 0x086BBB4C
+    .incbin "baserom.gba", 0x6BBB4C, 0x8
+
+gUnknown_086BBB54:: @ 0x086BBB54
+    .incbin "baserom.gba", 0x6BBB54, 0x8
+
+gUnknown_086BBB5C:: @ 0x086BBB5C
+    .incbin "baserom.gba", 0x6BBB5C, 0x8
+
+gUnknown_086BBB64:: @ 0x086BBB64
+    .incbin "baserom.gba", 0x6BBB64, 0x8
+
+gUnknown_086BBB6C:: @ 0x086BBB6C
+    .incbin "baserom.gba", 0x6BBB6C, 0x8
+
+gUnknown_086BBB74:: @ 0x086BBB74
+    .incbin "baserom.gba", 0x6BBB74, 0x8
+
+gUnknown_086BBB7C:: @ 0x086BBB7C
+    .incbin "baserom.gba", 0x6BBB7C, 0x8
+
+gUnknown_086BBB84:: @ 0x086BBB84
+    .incbin "baserom.gba", 0x6BBB84, 0x8
+
+gUnknown_086BBB8C:: @ 0x086BBB8C
+    .incbin "baserom.gba", 0x6BBB8C, 0x8
+
+gUnknown_086BBB94:: @ 0x086BBB94
+    .incbin "baserom.gba", 0x6BBB94, 0x8
+
+gUnknown_086BBB9C:: @ 0x086BBB9C
+    .incbin "baserom.gba", 0x6BBB9C, 0x8
+
+gUnknown_086BBBA4:: @ 0x086BBBA4
+    .incbin "baserom.gba", 0x6BBBA4, 0x8
+
+gUnknown_086BBBAC:: @ 0x086BBBAC
+    .incbin "baserom.gba", 0x6BBBAC, 0x8
+
+gUnknown_086BBBB4:: @ 0x086BBBB4
+    .incbin "baserom.gba", 0x6BBBB4, 0x8
+
+gUnknown_086BBBBC:: @ 0x086BBBBC
+    .incbin "baserom.gba", 0x6BBBBC, 0xE
+
+gUnknown_086BBBCA:: @ 0x086BBBCA
+    .incbin "baserom.gba", 0x6BBBCA, 0x8
+
+gUnknown_086BBBD2:: @ 0x086BBBD2
+    .incbin "baserom.gba", 0x6BBBD2, 0xE
+
+gUnknown_086BBBE0:: @ 0x086BBBE0
+    .incbin "baserom.gba", 0x6BBBE0, 0xE
+
+gUnknown_086BBBEE:: @ 0x086BBBEE
+    .incbin "baserom.gba", 0x6BBBEE, 0x8
+
+gUnknown_086BBBF6:: @ 0x086BBBF6
+    .incbin "baserom.gba", 0x6BBBF6, 0xE
+
+gUnknown_086BBC04:: @ 0x086BBC04
+    .incbin "baserom.gba", 0x6BBC04, 0xE
+
+gUnknown_086BBC12:: @ 0x086BBC12
+    .incbin "baserom.gba", 0x6BBC12, 0xE
+
+gUnknown_086BBC20:: @ 0x086BBC20
+    .incbin "baserom.gba", 0x6BBC20, 0xE
+
+gUnknown_086BBC2E:: @ 0x086BBC2E
+    .incbin "baserom.gba", 0x6BBC2E, 0xE
+
+gUnknown_086BBC3C:: @ 0x086BBC3C
+    .incbin "baserom.gba", 0x6BBC3C, 0x8
+
+gUnknown_086BBC44:: @ 0x086BBC44
+    .incbin "baserom.gba", 0x6BBC44, 0x38C @ 0x6BBFD0 - 0x6BBC44
+
+.align 2
 
 @ rom end 0x6BBFD0
 

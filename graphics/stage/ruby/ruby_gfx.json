@@ -296,6 +296,49 @@
       "oam":true,
       "mheight": 6,
       "mwidth": 6
+    },
+    {
+      "gfx_filename": "travel_paint",
+      "segments": [
+        {
+          "segfile": "travel_paint_space",
+          "width": 4
+        },
+        {
+          "segfile": "travel_paint_brush1",
+          "width": 8
+        },
+        {
+          "segfile": "travel_paint_brush1_tail",
+          "width": 4
+        },
+        {
+          "segfile": "travel_paint_brush2",
+          "width": 4
+        },
+        {
+          "segfile": "travel_paint_brush3",
+          "width": 8
+        },
+        {
+          "segfile": "travel_paint_brush4",
+          "oam": true,
+          "mheight": 4,
+          "mwidth": 5
+        }
+      ]
+    },
+    {
+      "gfx_filename": "chinchou_catch_burst_banner",
+      "oam": true,
+      "mheight": 9,
+      "mwidth": 30
+    },
+    {
+      "gfx_filename": "lotad_catch_burst_banner",
+      "oam": true,
+      "mheight": 9,
+      "mwidth": 30
     }
   ]
 }

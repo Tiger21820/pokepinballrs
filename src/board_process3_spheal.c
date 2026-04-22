@@ -28,9 +28,8 @@ extern const u8 gSphealResultsScreenGfx[];
 extern const u8 gWhiscash_Gfx[][0x480];
 extern const u8 gPelipper_Gfx[][0x480];
 extern const s16 gWaterTilePaletteCycle[];
-extern const u16 gSphealFramesetToSpriteMap[][2];
-extern const u16 gSphealAnimTimingTable[][2];
-extern const u16 gSphealFlyingEnemyFramesetTable[][3];
+extern const u16 gSealeoFramesetData[][2];
+extern const u16 gSphealFramesetData[][3];
 extern const u16 gSphealFlyingEnemyOamData[126][4][3];
 
 
@@ -310,7 +309,7 @@ void UpdateSealeoEntityLogic(void)
                 }
                 else
                 {
-                    if (gSphealAnimTimingTable[gCurrentPinballGame->minionFramesetIx[i]][0] > gCurrentPinballGame->minionStateTimer[i])
+                    if (gSealeoFramesetData[gCurrentPinballGame->minionFramesetIx[i]][1] > gCurrentPinballGame->minionStateTimer[i])
                     {
                         gCurrentPinballGame->minionStateTimer[i]++;
                     }
@@ -348,7 +347,7 @@ void UpdateSealeoEntityLogic(void)
                 }
                 else
                 {
-                    if (gSphealAnimTimingTable[gCurrentPinballGame->minionFramesetIx[i]][0] > gCurrentPinballGame->minionStateTimer[i])
+                    if (gSealeoFramesetData[gCurrentPinballGame->minionFramesetIx[i]][1] > gCurrentPinballGame->minionStateTimer[i])
                     {
                         gCurrentPinballGame->minionStateTimer[i]++;
                     }
@@ -376,7 +375,7 @@ void UpdateSealeoEntityLogic(void)
         if (gCurrentPinballGame->minionHitFlashTimer[0] > 0)
             var0 = 0;
         else
-            var0 = gSphealFramesetToSpriteMap[gCurrentPinballGame->minionFramesetIx[0]][0];
+            var0 = gSealeoFramesetData[gCurrentPinballGame->minionFramesetIx[0]][0];
 
         DmaCopy16(3, gSphealMinionBodySprites[var0], (void *)0x060114A0, 0x600);
         oamSimple = &group->oam[0];
@@ -392,7 +391,7 @@ void UpdateSealeoEntityLogic(void)
         if (gCurrentPinballGame->minionHitFlashTimer[1] > 0)
             var0 = 0;
         else
-            var0 = gSphealFramesetToSpriteMap[gCurrentPinballGame->minionFramesetIx[1]][0];
+            var0 = gSealeoFramesetData[gCurrentPinballGame->minionFramesetIx[1]][0];
 
         DmaCopy16(3, gSphealMinionBodySprites[var0], (void *)0x06010CA0, 0x600);
         oamSimple = &group->oam[0];
@@ -489,7 +488,7 @@ void UpdateSphealEntityLogic(void)
                 gCurrentPinballGame->flyingEnemyCollisionType[i] = 0;
                 break;
             case 2:
-                if (gSphealFlyingEnemyFramesetTable[gCurrentPinballGame->flyingEnemyFramesetIndex[i]][1] > gCurrentPinballGame->flyingEnemyAnimTimer[i])
+                if (gSphealFramesetData[gCurrentPinballGame->flyingEnemyFramesetIndex[i]][1] > gCurrentPinballGame->flyingEnemyAnimTimer[i])
                 {
                     gCurrentPinballGame->flyingEnemyAnimTimer[i]++;
                 }
@@ -511,7 +510,7 @@ void UpdateSphealEntityLogic(void)
                 gCurrentPinballGame->flyingEnemyCollisionType[i] = 1;
                 break;
             case 3:
-                if (gSphealFlyingEnemyFramesetTable[gCurrentPinballGame->flyingEnemyFramesetIndex[i]][1] > gCurrentPinballGame->flyingEnemyAnimTimer[i])
+                if (gSphealFramesetData[gCurrentPinballGame->flyingEnemyFramesetIndex[i]][1] > gCurrentPinballGame->flyingEnemyAnimTimer[i])
                 {
                     gCurrentPinballGame->flyingEnemyAnimTimer[i]++;
                 }
@@ -578,7 +577,7 @@ void UpdateSphealEntityLogic(void)
                 }
                 break;
             case 6:
-                if (gSphealFlyingEnemyFramesetTable[gCurrentPinballGame->flyingEnemyFramesetIndex[i]][1] > gCurrentPinballGame->flyingEnemyAnimTimer[i])
+                if (gSphealFramesetData[gCurrentPinballGame->flyingEnemyFramesetIndex[i]][1] > gCurrentPinballGame->flyingEnemyAnimTimer[i])
                 {
                     gCurrentPinballGame->flyingEnemyAnimTimer[i]++;
                 }
@@ -600,7 +599,7 @@ void UpdateSphealEntityLogic(void)
 
                 break;
             case 7:
-                if (gSphealFlyingEnemyFramesetTable[gCurrentPinballGame->flyingEnemyFramesetIndex[i]][1] > gCurrentPinballGame->flyingEnemyAnimTimer[i])
+                if (gSphealFramesetData[gCurrentPinballGame->flyingEnemyFramesetIndex[i]][1] > gCurrentPinballGame->flyingEnemyAnimTimer[i])
                 {
                     gCurrentPinballGame->flyingEnemyAnimTimer[i]++;
                 }
@@ -671,7 +670,7 @@ void UpdateSphealEntityLogic(void)
                 }
                 break;
             case 9:
-                if (gSphealFlyingEnemyFramesetTable[gCurrentPinballGame->flyingEnemyFramesetIndex[i]][1] > gCurrentPinballGame->flyingEnemyAnimTimer[i])
+                if (gSphealFramesetData[gCurrentPinballGame->flyingEnemyFramesetIndex[i]][1] > gCurrentPinballGame->flyingEnemyAnimTimer[i])
                 {
                     gCurrentPinballGame->flyingEnemyAnimTimer[i]++;
                 }
@@ -840,8 +839,8 @@ void UpdateSphealEntityLogic(void)
         if (group->available)
         {
             sp4 = gCurrentPinballGame->flyingEnemyPrevSpriteIndex[i];
-            gCurrentPinballGame->flyingEnemyPrevSpriteIndex[i] = gSphealFlyingEnemyFramesetTable[gCurrentPinballGame->flyingEnemyFramesetIndex[i]][2] + (1 - gCurrentPinballGame->flyingEnemyDirection[i]) * 30 ;
-            var2 = gSphealFlyingEnemyFramesetTable[gCurrentPinballGame->flyingEnemyFramesetIndex[i]][0];
+            gCurrentPinballGame->flyingEnemyPrevSpriteIndex[i] = gSphealFramesetData[gCurrentPinballGame->flyingEnemyFramesetIndex[i]][2] + (1 - gCurrentPinballGame->flyingEnemyDirection[i]) * 30 ;
+            var2 = gSphealFramesetData[gCurrentPinballGame->flyingEnemyFramesetIndex[i]][0];
 
             group->baseX = (gCurrentPinballGame->flyingEnemyPositionQ8[i].x / 256) - (gCurrentPinballGame->cameraXOffset + 12);
             group->baseY = (gCurrentPinballGame->flyingEnemyPositionQ8[i].y / 256) - (gCurrentPinballGame->cameraYOffset + 14);

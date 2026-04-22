@@ -499,7 +499,7 @@ struct PinballGame
     /*0x37D*/ s8 zigzagoonAnimKeyframeIndex;
     /*0x37E*/ u16 sapphireBumperAnimFrame;
     /*0x380*/ u16 sapphireBumperTimer;
-    /*0x382*/ s8 bossPhaseCounter;
+    /*0x382*/ s8 bossLightFadeInCounter;
     /*0x383*/ s8 ballGrabbed;
     /*0x384*/ s8 legendaryHitsRequired;
     /*0x385*/ s8 bonusModeHitCount;
@@ -765,7 +765,7 @@ struct PinballGame
     /*0x6CC*/ s8 hatchFrameId;
     /*0x6CD*/ u8 hatchTileShufflePool[6];
     /*0x6D3*/ u8 hatchTilePalette[6];
-    /*0x6D9*/ s8 rouletteAreaIndex[2];
+    /*0x6D9*/ s8 roulettePortraitIndexes[2];
     /*0x6DB*/ u8 creatureOamPriority;
     /*0x6DC*/ u8 rouletteOutcomeId;
     /*0x6DD*/ s8 shopPurchaseConfirmed;
@@ -808,7 +808,7 @@ struct PinballGame
     /*0x727*/ u8 filler727[0x1];
     /*0x728*/ s8 catchArrowPaletteActive;
     /*0x729*/ s8 evoArrowPaletteActive;
-    /*0x72A*/ s8 rouletteSlotActive;
+    /*0x72A*/ s8 shopArrowActive;
     /*0x72B*/ s8 coinRewardLevel;
     /*0x72C*/ u16 coinRewardLevelTimer;
     /*0x72E*/ s8 evoArrowProgress;
@@ -885,6 +885,13 @@ struct ReplayInputFrame
     /*0x2*/ u8 heldButtonBits;
 };
 
+struct BoardCollisionDataSet
+{
+    const s16 *tileData[4];
+    const u16 *angleData[4];
+    const u8 *typeData[4];
+};
+
 struct FieldBoardLayout
 {
     /* These field offsets are intentionally kept as relative to
@@ -903,9 +910,7 @@ struct FieldBoardLayout
     /*0x28*/ s16 ballSpawnY;
     /*0x2A*/ s16 ballDrainY;
     /*0x2C*/ u8 *objPaletteSets[3];
-    /*0x38*/ const s16 *collisionTileMap[4];
-    /*0x48*/ const u16 *collisionAngleMap[4];
-    /*0x58*/ const u8 *collisionTypeMap[4];
+    /*0x38*/ struct BoardCollisionDataSet collision;
 };
 
 struct BoardConfig
@@ -935,7 +940,7 @@ extern u32 gReplayFrameCounter;
 extern struct BoardConfig gBoardConfig;
 extern u8 gKecleonSpriteOrderMap[];
 extern u16 gFieldPaletteVariants[][6][16];
-extern u16 gDusclopsBossAnimFrames[]; 
+extern u16 gDusclopsBossGuardReadyTileOffsets[]; 
 extern const u8 gBallPalettes[][0x20];
 extern const u8 gDusclopsBonusClear_Gfx[];
 extern struct ReplayInputFrame gIdleBoardConfig0;

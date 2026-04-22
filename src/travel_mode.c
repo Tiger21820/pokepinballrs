@@ -5,7 +5,7 @@
 #include "constants/ruby_states.h"
 
 extern const s16 gAreaRouletteTable[][7];
-extern const s16 gAreaToSpeciesTable[];
+extern const s16 gAreaPortraitIndexes[];
 extern const u16 gAreaRouletteOamFramesets[18][27];
 
 extern const u8 gTravelPortraitPalette[];
@@ -13,8 +13,8 @@ extern const u8 gAreaRouletteSelectedFx_Gfx[];
 
 extern const u8 gDefaultBallPalette[];
 
-extern const s16 gPondDialAnimFrames[];
-extern const s16 gBumperAnimFrames[];
+extern const s16 gPondBumperRetractFrames[];
+extern const s16 gBoardArrowAnimFrames[];
 
 void InitAreaRoulette(void)
 {
@@ -26,9 +26,9 @@ void InitAreaRoulette(void)
     gCurrentPinballGame->areaVisitCount = 0;
     gCurrentPinballGame->areaRouletteSlotIndex = (Random() + gMain.systemFrameCount) % 6;
     gCurrentPinballGame->area = gAreaRouletteTable[gMain.selectedField][gCurrentPinballGame->areaRouletteSlotIndex];
-    gCurrentPinballGame->rouletteAreaIndex[1] = gAreaToSpeciesTable[gCurrentPinballGame->area];
+    gCurrentPinballGame->roulettePortraitIndexes[1] = gAreaPortraitIndexes[gCurrentPinballGame->area];
     gCurrentPinballGame->area = gAreaRouletteTable[gMain.selectedField][(gCurrentPinballGame->areaRouletteSlotIndex + 1) % 6];
-    gCurrentPinballGame->rouletteAreaIndex[0] = gAreaToSpeciesTable[gCurrentPinballGame->area];
+    gCurrentPinballGame->roulettePortraitIndexes[0] = gAreaPortraitIndexes[gCurrentPinballGame->area];
     LoadPortraitGraphics(0, 0);
     LoadPortraitGraphics(0, 1);
     for (i = 0; i < 6; i++)
@@ -88,13 +88,13 @@ void UpdateAreaRoulette(void)
         if (gMain.selectedField == FIELD_RUBY)
         {
             if (gCurrentPinballGame->rubyPondChangeTimer < 143)
-                gCurrentPinballGame->pondBumperStates[0] = gPondDialAnimFrames[gCurrentPinballGame->rubyPondChangeTimer / 8];
+                gCurrentPinballGame->pondBumperStates[0] = gPondBumperRetractFrames[gCurrentPinballGame->rubyPondChangeTimer / 8];
 
             if (gCurrentPinballGame->rubyPondChangeTimer >= 18 && gCurrentPinballGame->rubyPondChangeTimer < 161)
-                gCurrentPinballGame->pondBumperStates[2] = gPondDialAnimFrames[(gCurrentPinballGame->rubyPondChangeTimer - 18) / 8];
+                gCurrentPinballGame->pondBumperStates[2] = gPondBumperRetractFrames[(gCurrentPinballGame->rubyPondChangeTimer - 18) / 8];
 
             if (gCurrentPinballGame->rubyPondChangeTimer >= 36 && gCurrentPinballGame->rubyPondChangeTimer < 179)
-                gCurrentPinballGame->pondBumperStates[1] = gPondDialAnimFrames[(gCurrentPinballGame->rubyPondChangeTimer - 36) / 8];
+                gCurrentPinballGame->pondBumperStates[1] = gPondBumperRetractFrames[(gCurrentPinballGame->rubyPondChangeTimer - 36) / 8];
 
             gCurrentPinballGame->rubyPondChangeTimer++;
         }
@@ -102,7 +102,7 @@ void UpdateAreaRoulette(void)
         gCurrentPinballGame->rouletteSubOffset = (gCurrentPinballGame->rouletteFrameIndex * 32) / gCurrentPinballGame->rouletteRotationPeriod;
         gCurrentPinballGame->portraitDisplayState = 1;
         gCurrentPinballGame->stageTimer++;
-        UpdateRouletteAnimState();
+        UpdateBoardArrowAnimState();
         break;
     case 3:
         if (gCurrentPinballGame->stageTimer < 15)
@@ -115,7 +115,7 @@ void UpdateAreaRoulette(void)
                 gCurrentPinballGame->rouletteSpinSpeed = 0;
             }
         }
-        SetRouletteActiveState(0);
+        SetBoardArrowState(0);
         /* fallthrough */
     case 4:
     case 5:
@@ -193,7 +193,7 @@ void UpdateAreaRoulette(void)
         gCurrentPinballGame->rouletteSubOffset = (gCurrentPinballGame->rouletteFrameIndex * 32) / gCurrentPinballGame->rouletteRotationPeriod;
         if (gCurrentPinballGame->rouletteFrameIndex == 0)
         {
-            gCurrentPinballGame->rouletteAreaIndex[0] = gCurrentPinballGame->rouletteAreaIndex[1];
+            gCurrentPinballGame->roulettePortraitIndexes[0] = gCurrentPinballGame->roulettePortraitIndexes[1];
             LoadPortraitGraphics(0, 0);
         }
 
@@ -213,7 +213,7 @@ void UpdateAreaRoulette(void)
             }
 
             gCurrentPinballGame->area = gAreaRouletteTable[gMain.selectedField][gCurrentPinballGame->areaRouletteSlotIndex];
-            gCurrentPinballGame->rouletteAreaIndex[1] = gAreaToSpeciesTable[gCurrentPinballGame->area];
+            gCurrentPinballGame->roulettePortraitIndexes[1] = gAreaPortraitIndexes[gCurrentPinballGame->area];
             LoadPortraitGraphics(0, 1);
             m4aSongNumStart(SE_ROULETTE_TICK);
         }
@@ -268,34 +268,34 @@ void UpdateAreaRoulette(void)
     }
 }
 
-void UpdateRouletteAnimState(void)
+void UpdateBoardArrowAnimState(void)
 {
     s16 index;
 
     index = (gMain.systemFrameCount % 100) / 10;
     gCurrentPinballGame->hudAnimFrameCounter = 0;
-    gCurrentPinballGame->catchArrowProgress = gBumperAnimFrames[index];
-    gCurrentPinballGame->evoArrowProgress = gBumperAnimFrames[index];
-    gCurrentPinballGame->coinRewardLevel = gBumperAnimFrames[index];
+    gCurrentPinballGame->catchArrowProgress = gBoardArrowAnimFrames[index];
+    gCurrentPinballGame->evoArrowProgress = gBoardArrowAnimFrames[index];
+    gCurrentPinballGame->coinRewardLevel = gBoardArrowAnimFrames[index];
     if (index == 7 || index == 9)
     {
         gCurrentPinballGame->catchArrowPaletteActive = 1;
-        gCurrentPinballGame->rouletteSlotActive = 1;
+        gCurrentPinballGame->shopArrowActive = 1;
         gCurrentPinballGame->evoArrowPaletteActive = 1;
     }
     else
     {
         gCurrentPinballGame->catchArrowPaletteActive = 0;
-        gCurrentPinballGame->rouletteSlotActive = 0;
+        gCurrentPinballGame->shopArrowActive = 0;
         gCurrentPinballGame->evoArrowPaletteActive = 0;
     }
 }
 
-void SetRouletteActiveState(s16 arg0)
+void SetBoardArrowState(s16 arg0)
 {
     if (arg0)
     {
-        gCurrentPinballGame->rouletteSlotActive = 1;
+        gCurrentPinballGame->shopArrowActive = 1;
         gCurrentPinballGame->catchArrowPaletteActive = 1;
         gCurrentPinballGame->catchProgressFlashing = 1;
         gCurrentPinballGame->evoArrowProgress = 3;
@@ -306,7 +306,7 @@ void SetRouletteActiveState(s16 arg0)
     else
     {
         gCurrentPinballGame->evoArrowPaletteActive = 0;
-        gCurrentPinballGame->rouletteSlotActive = 0;
+        gCurrentPinballGame->shopArrowActive = 0;
         gCurrentPinballGame->catchArrowPaletteActive = 0;
         gCurrentPinballGame->evoArrowProgress = 0;
         gCurrentPinballGame->coinRewardLevel = 0;

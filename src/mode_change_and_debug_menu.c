@@ -10,7 +10,7 @@ extern s16 gGameOverLetterYOffsets[];
 
 extern const u8 gDebugTextStrings[];
 extern const u8 gDebugMenuValueTemplate[];
-extern u8 gDebugMenuCursorGfx[];
+extern u8 gDebugMenuCursorText[];
 extern const u8 gMainBoardBallSave_Gfx[];
 extern const u8 gMainBoardBallSaveLatios_Gfx[];
 extern const u8 gMainBoardBallSaveLatiosArm_Gfx[];
@@ -22,17 +22,6 @@ extern const u8 gBonusStagePal_Dark[];
 extern const u8 gBonusClearTextPal_Lit[];
 extern const u8 gBonusClearTextPal_Dark[];
 extern const s8 gBonusSummaryTextTemplates[][3][20];
-
-struct BoardCollisionDataSet
-{
-    const s16 *tileData;
-    u8 filler4[0xC];
-    const u16 *angleData;
-    u8 filler14[0xC];
-    const u8 *typeData;
-    u8 filler24[0xC];
-};
-extern const struct BoardCollisionDataSet gBoardCollisionDataSets[][2];
 
 // Handle debug system flags
 void BonusStage_HandleModeChangeFlags(void)
@@ -96,7 +85,7 @@ void DebugMenu_RenderAndHandleInput(void)
     if (JOY_HELD(B_BUTTON))
     {
         if (gMain.systemFrameCount & 0x8)
-            DrawTextToTilemap(gDebugMenuCursorGfx, gMain.debugMenuCursorIndex + 26, 0);
+            DrawTextToTilemap(gDebugMenuCursorText, gMain.debugMenuCursorIndex + 26, 0);
 
         if (JOY_NEW(DPAD_UP) && gMain.debugMenuCursorIndex != 0)
             gMain.debugMenuCursorIndex--;
@@ -119,7 +108,7 @@ void DebugMenu_RenderAndHandleInput(void)
             break;
         }
 
-        DrawTextToTilemap(gDebugMenuCursorGfx, gMain.debugMenuCursorIndex + 26, 0);
+        DrawTextToTilemap(gDebugMenuCursorText, gMain.debugMenuCursorIndex + 26, 0);
     }
 
     for (i = 0x340; i < 0x380; i++)
