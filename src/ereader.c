@@ -508,11 +508,11 @@ void UpdateEReaderSprites(void)
 
     puVar9 = &gMain_spriteGroups[gEReaderStatusSpriteIndex];
     puVar5 = &gMain_spriteGroups[gEReaderHeaderSpriteIndex];
-    puVar9->available = gEReaderStatusSpriteVisible;
-    puVar5->available = TRUE;
+    puVar9->active = gEReaderStatusSpriteVisible;
+    puVar5->active = TRUE;
     LoadSpriteSets(gCatchHatchSpriteSets, 13, gMain_spriteGroups);
 
-    if (puVar9->available == 1)
+    if (puVar9->active == TRUE)
     {
         if (gEReaderStatusSpriteIndex == 0)
         {
@@ -546,8 +546,8 @@ void UpdateEReaderSprites(void)
         gOamBuffer[test2->oamId].y = test2->yOffset + puVar5->baseY;
     }
 
-    puVar9->available = FALSE;
-    puVar5->available = FALSE;
+    puVar9->active = FALSE;
+    puVar5->active = FALSE;
 }
 
 void UpdateEReaderSpritesViaOam(void) {
@@ -559,11 +559,11 @@ void UpdateEReaderSpritesViaOam(void) {
 
     puVar9 = &gMain_spriteGroups[gEReaderStatusSpriteIndex];
     puVar5 = &gMain_spriteGroups[gEReaderHeaderSpriteIndex];
-    puVar9->available = gEReaderStatusSpriteVisible;
-    puVar5->available = TRUE;
+    puVar9->active = gEReaderStatusSpriteVisible;
+    puVar5->active = TRUE;
     LoadSpriteSetsWithCpuCopy(gCatchHatchSpriteSets, 13, gMain_spriteGroups);
 
-    if (puVar9->available == 1)
+    if (puVar9->active == TRUE)
     {
         if (gEReaderStatusSpriteIndex == 0)
         {
@@ -597,8 +597,8 @@ void UpdateEReaderSpritesViaOam(void) {
         gOamBuffer[test2->oamId].y = test2->yOffset + puVar5->baseY;
     }
 
-    puVar9->available = FALSE;
-    puVar5->available = FALSE;
+    puVar9->active = FALSE;
+    puVar5->active = FALSE;
 }
 
 void InitEReaderLinkBuffers(void)

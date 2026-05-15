@@ -1015,16 +1015,16 @@ void RenderPokedexSprites(void)
     group8 = &gMain_spriteGroups[24];
     group9 = &gMain_spriteGroups[25 + gPokedexSpriteIndexBase * 2 + gPokedexPageIndicatorBlink];
 
-    group0->available = TRUE;
-    group1->available = TRUE;
-    group2->available = gPokedexShowPortrait;
-    group3->available = gPokedexShowCatchHatch[0];
-    group4->available = gPokedexShowCatchHatch[1];
-    group5->available = gPokedexShowAnimSprite;
-    group6->available = gPokedexShowPopupWindow;
-    group7->available = gPokedexShowButtonPrompt;
-    group8->available = gPokedexShowLinkCableIcon;
-    group9->available = gPokedexShowPageIndicator;
+    group0->active = TRUE;
+    group1->active = TRUE;
+    group2->active = gPokedexShowPortrait;
+    group3->active = gPokedexShowCatchHatch[0];
+    group4->active = gPokedexShowCatchHatch[1];
+    group5->active = gPokedexShowAnimSprite;
+    group6->active = gPokedexShowPopupWindow;
+    group7->active = gPokedexShowButtonPrompt;
+    group8->active = gPokedexShowLinkCableIcon;
+    group9->active = gPokedexShowPageIndicator;
     LoadSpriteSets(gPokedexSpriteSets, 29, group0);
 
     group0->baseX = 20 + gPokedexCursorBlinkOffset;
@@ -1046,7 +1046,7 @@ void RenderPokedexSprites(void)
     gOamBuffer[groupOam->oamId].x = groupOam->xOffset + group1->baseX;
     gOamBuffer[groupOam->oamId].y = groupOam->yOffset + group1->baseY;
 
-    if (group2->available == 1)
+    if (group2->active == TRUE)
     {
         group2->baseX = 36;
         group2->baseY = 36;
@@ -1059,7 +1059,7 @@ void RenderPokedexSprites(void)
         }
     }
 
-    if (group3->available == 1)
+    if (group3->active == TRUE)
     {
         group3->baseX = 36;
         group3->baseY = 28;
@@ -1081,7 +1081,7 @@ void RenderPokedexSprites(void)
         }
     }
 
-    if (group4->available == 1)
+    if (group4->active == TRUE)
     {
         if (gPokedexCatchAnimIndices[gPokedexSelectedMon] == -1)
         {
@@ -1113,7 +1113,7 @@ void RenderPokedexSprites(void)
         }
     }
 
-    if (group5->available == 1)
+    if (group5->active == TRUE)
     {
         group5->baseX = 36;
         group5->baseY = 64;
@@ -1134,7 +1134,7 @@ void RenderPokedexSprites(void)
         }
     }
 
-    if (group6->available == 1)
+    if (group6->active == TRUE)
     {
         if (gPokedexPopupTypeIndex == POKEDEX_POPUP_TRANSMISSION_CONNECT_PROMPT ||
             gPokedexPopupTypeIndex == POKEDEX_POPUP_DELETE_CONFIRMATION_PROMPT)
@@ -1158,7 +1158,7 @@ void RenderPokedexSprites(void)
         }
     }
 
-    if (group7->available == 1)
+    if (group7->active == TRUE)
     {
         group7->baseX = 158;
         group7->baseY = 148;
@@ -1171,7 +1171,7 @@ void RenderPokedexSprites(void)
         }
     }
 
-    if (group8->available == 1)
+    if (group8->active == TRUE)
     {
         group8->baseX = 168;
         group8->baseY = 84;
@@ -1184,7 +1184,7 @@ void RenderPokedexSprites(void)
         }
     }
 
-    if (group9->available == 1)
+    if (group9->active == TRUE)
     {
         group9->baseX = 120;
         group9->baseY = 132;
@@ -1200,10 +1200,10 @@ void RenderPokedexSprites(void)
         gPokedexButtonPromptFrame = 1 - gPokedexButtonPromptFrame;
     }
 
-    group5->available = FALSE;
-    group6->available = FALSE;
-    group7->available = FALSE;
-    group9->available = FALSE;
+    group5->active = FALSE;
+    group6->active = FALSE;
+    group7->active = FALSE;
+    group9->active = FALSE;
 }
 
 static void RenderLinkGraphics(void)
@@ -1229,14 +1229,14 @@ static void RenderLinkGraphics(void)
     group7 = &gMain_spriteGroups[17 + gPokedexPopupTypeIndex];
     group5 = &gMain_spriteGroups[24];
 
-    group0->available = TRUE;
-    group1->available = TRUE;
-    group2->available = gPokedexShowPortrait;
-    group3->available = gPokedexShowCatchHatch[0];
-    group4->available = gPokedexShowCatchHatch[1];
-    group6->available = FALSE;
-    group7->available = gPokedexShowPopupWindow;
-    group5->available = gPokedexShowLinkCableIcon;
+    group0->active = TRUE;
+    group1->active = TRUE;
+    group2->active = gPokedexShowPortrait;
+    group3->active = gPokedexShowCatchHatch[0];
+    group4->active = gPokedexShowCatchHatch[1];
+    group6->active = FALSE;
+    group7->active = gPokedexShowPopupWindow;
+    group5->active = gPokedexShowLinkCableIcon;
     LoadSpriteSetsWithCpuCopy(gPokedexSpriteSets, 29, group0);
 
     group0->baseX = 20 + gPokedexCursorBlinkOffset;
@@ -1254,7 +1254,7 @@ static void RenderLinkGraphics(void)
     gOamBuffer[groupOam->oamId].x = groupOam->xOffset + group1->baseX;
     gOamBuffer[groupOam->oamId].y = groupOam->yOffset + group1->baseY;
 
-    if (group2->available == 1)
+    if (group2->active == TRUE)
     {
         group2->baseX = 36;
         group2->baseY = 36;
@@ -1266,7 +1266,7 @@ static void RenderLinkGraphics(void)
         }
     }
 
-    if (group3->available == 1)
+    if (group3->active == TRUE)
     {
         group3->baseX = 36;
         group3->baseY = 28;
@@ -1280,7 +1280,7 @@ static void RenderLinkGraphics(void)
         }
     }
 
-    if (group4->available == 1)
+    if (group4->active == TRUE)
     {
         group4->baseX = 48;
         group4->baseY = 40;
@@ -1294,7 +1294,7 @@ static void RenderLinkGraphics(void)
         }
     }
 
-    if (group6->available == 1)
+    if (group6->active == TRUE)
     {
         group6->baseX = 36;
         group6->baseY = 64;
@@ -1307,7 +1307,7 @@ static void RenderLinkGraphics(void)
         }
     }
 
-    if (group7->available == 1)
+    if (group7->active == TRUE)
     {
         if (gPokedexPopupTypeIndex == POKEDEX_POPUP_TRANSMISSION_CONNECT_PROMPT ||
             gPokedexPopupTypeIndex == POKEDEX_POPUP_DELETE_CONFIRMATION_PROMPT)
@@ -1330,7 +1330,7 @@ static void RenderLinkGraphics(void)
         }
     }
 
-    if (group5->available == 1)
+    if (group5->active == TRUE)
     {
         group5->baseX = 168;
         group5->baseY = 84;
@@ -1343,7 +1343,7 @@ static void RenderLinkGraphics(void)
         }
     }
 
-    group7->available = FALSE;
+    group7->active = FALSE;
 }
 
 static void InitLinkTransferState(void)

@@ -755,7 +755,7 @@ s16 LoadSpriteSetsWithCpuCopy(const struct SpriteSet *const *spriteSets, u16 num
 
     for (i = 0; i < numSpriteSets; i++) {
         spriteGroup = &spriteGroups[i];
-        if (!spriteGroup->available) {
+        if (!spriteGroup->active) {
             continue;
         }
         numSpritesInGroup = spriteSets[i]->count;

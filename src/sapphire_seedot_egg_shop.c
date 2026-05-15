@@ -2,6 +2,7 @@
 #include "m4a.h"
 #include "main.h"
 #include "constants/bg_music.h"
+#include "constants/board/sapphire_states.h"
 
 extern const u16 gHatchCaveOamFramesets[40][2][3];
 extern const u16 gSeedotBasketBounceFrames[];
@@ -24,7 +25,7 @@ extern const u8 gSapphireShopSignPalettes[][0x20];
 extern const u8 gSapphireShopSignTileGfx[][0x480];
 
 
-void InitSapphireEggHatchState(void)
+void InitSapphireEggHatchAnimation(void)
 {
     gCurrentPinballGame->eggAnimationPhase = 1;
     gCurrentPinballGame->prevEggAnimFrame = 0;
@@ -114,7 +115,7 @@ void UpdateSapphireEggHatchAnimation(void)
             }
 
             if (gCurrentPinballGame->eggAnimFrameIndex == 20)
-                LoadEggSpriteGraphics();
+                LoadMonFieldSpriteGraphics();
 
             if ((gCurrentPinballGame->eggAnimFrameIndex == 8 || gCurrentPinballGame->eggAnimFrameIndex == 27) && gCurrentPinballGame->eggFrameTimer == 0)
                 m4aMPlayAllStop();
@@ -123,7 +124,7 @@ void UpdateSapphireEggHatchAnimation(void)
                 m4aSongNumStart(MUS_EGG_MODE_START);
 
             if (gCurrentPinballGame->eggAnimFrameIndex == 29)
-                RequestBoardStateTransition(5);
+                RequestBoardStateTransition(MAIN_BOARD_STATE_EGG_HATCH_MODE);
 
             if (gCurrentPinballGame->eggAnimFrameIndex == 28)
                 m4aSongNumStart(SE_HATCH_FLOURISH);
@@ -167,7 +168,7 @@ void UpdateSapphireEggHatchAnimation(void)
     }
 
     group = &gMain.spriteGroups[51];
-    if (group->available)
+    if (group->active)
     {
         group->baseX = 192 - gCurrentPinballGame->cameraXOffset;
         if (gCurrentPinballGame->sapphireHatchMachineState > 2 && gMain.modeChangeFlags)
@@ -188,9 +189,9 @@ void UpdateSapphireSeedotCollection(void)
 
     if (gCurrentPinballGame->seedotCollisionTrigger)
     {
-        if (gCurrentPinballGame->boardState != 7)
+        if (gCurrentPinballGame->boardState != MAIN_BOARD_STATE_TRAVEL_MODE)
         {
-            if (gCurrentPinballGame->boardState < 3)
+            if (gCurrentPinballGame->boardState <= MAIN_BOARD_STATE_BONUS_HOLE_ACTIVE)
             {
                 if (gCurrentPinballGame->seedotCount < 3)
                 {
@@ -264,7 +265,7 @@ void UpdateSapphireSeedotCollection(void)
                 gCurrentPinballGame->seedotState[i] = 2;
                 gCurrentPinballGame->seedotAnimTimer[i] = 0;
                 if (i == 2)
-                    RequestBoardStateTransition(7);
+                    RequestBoardStateTransition(MAIN_BOARD_STATE_TRAVEL_MODE);
             }
             break;
         case 2:
@@ -392,7 +393,7 @@ void DrawSapphireSeedotAndBasketSprites(void)
     int var0;
 
     group = &gMain.spriteGroups[64];
-    if (!group->available)
+    if (!group->active)
         return;
 
     group->baseX = 10 - gCurrentPinballGame->cameraXOffset;
@@ -494,7 +495,8 @@ void UpdateSapphireShopSignAnimation(void)
         }
         else
         {
-            if (gCurrentPinballGame->boardState != 6 && gCurrentPinballGame->evolutionShopActive == 1)
+            if (gCurrentPinballGame->boardState != MAIN_BOARD_STATE_EVO_MODE
+                && gCurrentPinballGame->evolutionShopActive == 1)
             {
                 gCurrentPinballGame->shopTransitionActive = 1;
                 gCurrentPinballGame->shopAnimTimer = 0;
@@ -544,7 +546,7 @@ void DrawSapphireShopSignSprite(void)
     s16 index;
 
     group = &gMain.spriteGroups[69];
-    if (group->available)
+    if (group->active)
     {
         group->baseX = 16 - gCurrentPinballGame->cameraXOffset;
         group->baseY = 115 - gCurrentPinballGame->cameraYOffset;
@@ -572,7 +574,7 @@ void UpdateSapphireEggMachine(void)
     case 0:
         if (gCurrentPinballGame->hatchMachineNewHit)
         {
-            if (gCurrentPinballGame->boardState < 3)
+            if (gCurrentPinballGame->boardState <= MAIN_BOARD_STATE_BONUS_HOLE_ACTIVE)
             {
                 if (gCurrentPinballGame->sapphireHatchMachineFrameIx < 3)
                 {
@@ -726,7 +728,7 @@ void UpdateSapphireEggMachine(void)
     for (i = 0; i < 4; i++)
     {
         group = &gMain.spriteGroups[47 + i];
-        if (group->available)
+        if (group->active)
         {
             if (gSplashEffectFrameDurations[gCurrentPinballGame->splashEffectFrameIndex[i]][0] > gCurrentPinballGame->splashEffectFrameTimer[i])
             {
@@ -738,7 +740,7 @@ void UpdateSapphireEggMachine(void)
                 gCurrentPinballGame->splashEffectFrameIndex[i]++;
                 if (gCurrentPinballGame->splashEffectFrameIndex[i] == 6)
                 {
-                    group->available = 0;
+                    group->active = FALSE;
                     gCurrentPinballGame->splashEffectFrameIndex[i] = 5;
                 }
             }

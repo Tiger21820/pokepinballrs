@@ -2,6 +2,9 @@
 #include "agb_sram.h"
 #include "main.h"
 #include "m4a.h"
+#include "constants/board/main_board.h"
+#include "constants/board/groudon_states.h"
+#include "constants/board/rayquaza_states.h"
 
 extern u8 gBoardGfxBuffer[];
 extern u8 gBoardBGTileBufferAlt[];
@@ -15,11 +18,11 @@ extern const u8 gAreaRouletteSelectedFx_Gfx[];
 extern const u8 gCaptureModeTilesGfx[];
 extern const u8 gCaptureScreenTilesGfx[];
 
-extern const u8 gHatchRevealTilesGfx[];
-extern const u8 gHatchStartTilesGfx[];
-extern const u8 gHatchStage2TilesGfx[];
-extern const u8 gHatchStage3TilesGfx[];
-extern const u8 gHatchFinalTilesGfx[];
+extern const u8 gCatchTile_RevealTilesGfx[];
+extern const u8 gCatchTile_BurstStart_Gfx[];
+extern const u8 gCatchTile_BurstStage2_Gfx[];
+extern const u8 gCatchTile_BurstStage3_Gfx[];
+extern const u8 gCatchTile_BurstStage4_Gfx[];
 
 extern const u8 *gEvoItemAppear_GfxList[];
 extern const s16 gEvoShopAnimFrames[][7];
@@ -37,7 +40,7 @@ extern const u8 gRubyBoardShop_Gfx[][0x500];
 
 extern const u8 gSapphireTravelPaint_Gfx[];
 extern const u8 gSapphirePainterPalette[];
-extern const u8 gSapphireCatchTilesGfx[];
+extern const u8 gCatchMonAppearFx_Gfx[];
 extern const u8 gSapphireBoardZigzagoonFx_Gfx[];
 
 extern const u8 gAlphabetTilesGfx[][0x40];
@@ -90,7 +93,7 @@ void SaveGameStateSnapshot(s16 arg0)
     }
 
     for (i = 0; i < 100; i++)
-        gCurrentPinballGame->savedSpriteAvailability[gMain.isBonusField][i] = gMain.spriteGroups[i].available;
+        gCurrentPinballGame->savedSpriteAvailability[gMain.isBonusField][i] = gMain.spriteGroups[i].active;
 
     DmaCopy16(3, (void *)OBJ_PLTT, gCurrentPinballGame->savedObjPalette[gMain.isBonusField], OBJ_PLTT_SIZE);
     DmaCopy16(3, (void *)BG_PLTT, gCurrentPinballGame->savedBgPalette[gMain.isBonusField], BG_PLTT_SIZE);
@@ -230,7 +233,7 @@ void RestoreGameState(u16 arg0)
     DmaCopy16(3, gBG0TilemapBuffer, (void *)0x6002000, 0x1000);
     if (gMain.scoreOverlayActive)
     {
-        if (gCurrentPinballGame->boardState == 6)
+        if (gCurrentPinballGame->boardState == MAIN_BOARD_STATE_EVO_MODE)
         {
             for (j = 0; j <= gCurrentPinballGame->cutsceneTilemapColumn; j++)
             {
@@ -284,7 +287,7 @@ void RestoreGameState(u16 arg0)
     }
 
     for (i = 0; i < 100; i++)
-        gMain.spriteGroups[i].available = gCurrentPinballGame->savedSpriteAvailability[gMain.isBonusField][i];
+        gMain.spriteGroups[i].active = gCurrentPinballGame->savedSpriteAvailability[gMain.isBonusField][i];
 
     if (arg0 == 1)
     {
@@ -358,25 +361,25 @@ void RestoreFieldSpecificGraphics(void)
         DmaCopy16(3, gModeBannerTilemaps[gCurrentPinballGame->bannerGfxIndex], (void *)0x6015800, 0x25E0);
         break;
     case 4:
-        DmaCopy16(3, gHatchStartTilesGfx, (void *)0x6015800, 0x2000);
+        DmaCopy16(3, gCatchTile_BurstStart_Gfx, (void *)0x6015800, 0x2000);
         break;
     case 5:
-        DmaCopy16(3, gHatchStage2TilesGfx, (void *)0x6015800, 0x800);
+        DmaCopy16(3, gCatchTile_BurstStage2_Gfx, (void *)0x6015800, 0x800);
         break;
     case 6:
-        DmaCopy16(3, gHatchStage3TilesGfx, (void *)0x6015800, 0x2000);
+        DmaCopy16(3, gCatchTile_BurstStage3_Gfx, (void *)0x6015800, 0x2000);
         break;
     case 7:
-        DmaCopy16(3, gHatchFinalTilesGfx, (void *)0x6015800, 0x1800);
+        DmaCopy16(3, gCatchTile_BurstStage4_Gfx, (void *)0x6015800, 0x1800);
         break;
     case 8:
         DmaCopy16(3, gCaptureScreenTilesGfx, (void *)0x6015800, 0x1C00);
         break;
     case 9:
-        DmaCopy16(3, gSapphireCatchTilesGfx, (void *)0x6015800, 0x1400);
+        DmaCopy16(3, gCatchMonAppearFx_Gfx, (void *)0x6015800, 0x1400);
         break;
     case 10:
-        DmaCopy16(3, gHatchRevealTilesGfx, (void *)0x6015800, 0x2800);
+        DmaCopy16(3, gCatchTile_RevealTilesGfx, (void *)0x6015800, 0x2800);
         break;
     case 11:
         DmaCopy16(3, gAreaRouletteSelectedFx_Gfx, (void *)0x6015800, 0x280);
@@ -430,7 +433,7 @@ void RestoreFieldSpecificGraphics(void)
         DmaCopy16(3, gBoardActionTilesGfx, (void *)0x6015800, 0x2400);
         break;
     case 16:
-        DmaCopy16(3, gHatchFinalTilesGfx, (void *)0x6015800, 0x1800);
+        DmaCopy16(3, gCatchTile_BurstStage4_Gfx, (void *)0x6015800, 0x1800);
         break;
     case 17:
         DmaCopy16(3, gPokemonNameDisplayGfx, (void *)0x6015C00, 0x940);
@@ -473,7 +476,7 @@ void RestoreMainFieldDynamicGraphics(void)
     s16 var0;
 
     LoadCatchSpriteGraphics();
-    LoadEggSpriteGraphics();
+    LoadMonFieldSpriteGraphics();
 
     for (i = 0; i <= 1; i++)
     {
@@ -540,7 +543,7 @@ void RestoreMainFieldDynamicGraphics(void)
         }
     }
 
-    if (gCurrentPinballGame->boardState == 4)
+    if (gCurrentPinballGame->boardState == MAIN_BOARD_STATE_CATCH_EM_MODE)
     {
         switch (gCurrentPinballGame->boardSubState)
         {
@@ -571,7 +574,7 @@ void RestoreMainFieldDynamicGraphics(void)
         }
     }
 
-    if (gCurrentPinballGame->boardState == 8)
+    if (gCurrentPinballGame->boardState == MAIN_BOARD_STATE_JIRACHI_CATCH_MODE)
     {
         switch (gCurrentPinballGame->boardSubState)
         {
@@ -682,7 +685,7 @@ void RestoreKyogreBonusGraphics(void)
 
 void RestoreGroudonBonusGraphics(void)
 {
-    if (gCurrentPinballGame->boardState < 2)
+    if (gCurrentPinballGame->boardState <= LEGENDARY_BOARD_STATE_BATTLE_PHASE)
     {
         DmaCopy16(3, gGroudonBoardBackgroundGfx, (void *)0x6015800, 0x2000);
     }
@@ -703,11 +706,11 @@ void RestoreRayquazaBonusGraphics(void)
 {
     u8 var0;
 
-    if (gCurrentPinballGame->boardState == 0)
+    if (gCurrentPinballGame->boardState == LEGENDARY_BOARD_STATE_INTRO)
     {
         DmaCopy16(3, gRayquazaSkyBackgroundGfx, (void *)0x6015800, 0x2800);
     }
-    else if (gCurrentPinballGame->boardState == 1)
+    else if (gCurrentPinballGame->boardState == LEGENDARY_BOARD_STATE_BATTLE_PHASE)
     {
         DmaCopy16(3, gRayquazaWindBoardGfx, (void *)0x6015800, 0x1C00);
     }
@@ -717,7 +720,7 @@ void RestoreRayquazaBonusGraphics(void)
     }
 
     var0 = gCurrentPinballGame->bossEntityState - 2;
-    if (var0 > 9)
+    if (var0 > 9) // bossEntityState > RAYQUAZA_ENTITY_STATE_DEPARTS
     {
         DmaCopy16(3, gRayquazaSpriteSheet, (void *)0x6011620, 0x860);
     }

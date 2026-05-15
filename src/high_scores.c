@@ -940,7 +940,7 @@ void UpdateNameEntryCursor(void)
     struct SpriteGroup *spriteGroup;
 
     spriteGroup = &gMain_spriteGroups[gHighScoreScreenState.nameFlashToggle];
-    spriteGroup->available = TRUE;
+    spriteGroup->active = TRUE;
     LoadSpriteSets(gNameEntryCursorSpriteSets, 2, gMain_spriteGroups);
 
     spriteGroup->baseX = gHighScoreNamePixelPositions[gHighScoreScreenState.mainField][gHighScoreScreenState.highScoreIndex].x + gHighScoreScreenState.currentNameCharIndex * 8;
@@ -951,7 +951,7 @@ void UpdateNameEntryCursor(void)
         gOamBuffer[spriteGroup->oam[i].oamId].y = spriteGroup->oam[i].yOffset + spriteGroup->baseY;
     }
 
-    spriteGroup->available = FALSE;
+    spriteGroup->active = FALSE;
 }
 
 extern s8 gHighScoreDisplayMode;
@@ -990,19 +990,19 @@ void RenderHighScoreSprites(void)
     spriteGroups = gMain_spriteGroups;
     spriteGroup1 = spriteGroups;
     spriteGroup2 = &spriteGroups[1];
-    spriteGroup3 = &spriteGroups[(s8)gDialogType + 2];
+    spriteGroup3 = &spriteGroups[2 + (s8)gDialogType];
     var1_02002858 = &gHighScoreScreenState;
-    spriteGroup4 = &spriteGroups[gHighScoreDisplayMode + 7];
+    spriteGroup4 = &spriteGroups[7 + gHighScoreDisplayMode];
 
     if (gScrollXOffset == 0)
     {
-        spriteGroups->available = TRUE;
-        spriteGroup2->available = FALSE;
-        spriteGroup3->available = gShowDialogFlag;
-        spriteGroup4->available = var1_02002858->collisionCooldownTimer;
+        spriteGroups->active = TRUE;
+        spriteGroup2->active = FALSE;
+        spriteGroup3->active = gShowDialogFlag;
+        spriteGroup4->active = var1_02002858->collisionCooldownTimer;
         LoadSpriteSets(gHighScoreScreenSpriteSets, 9, spriteGroups);
         RenderHighScoreSprites_HELPER(220, spriteGroup1, spriteGroup4, spriteGroup3);
-        if (spriteGroup4->available == 1)
+        if (spriteGroup4->active == TRUE)
         {
             spriteGroup4->baseX = 84;
             spriteGroup4->baseY = 150;
@@ -1014,7 +1014,7 @@ void RenderHighScoreSprites(void)
                 gOamBuffer[oamData->oamId].y = oamData->yOffset + spriteGroup4->baseY;
             }
         }
-        if (spriteGroup3->available == 1)
+        if (spriteGroup3->active == TRUE)
         {
             switch ((s8)gDialogType)
             {
@@ -1039,13 +1039,13 @@ void RenderHighScoreSprites(void)
     }
     else if (gScrollXOffset == 240)
     {
-        spriteGroup1->available = FALSE;
-        spriteGroup2->available = TRUE;
-        spriteGroup3->available = gShowDialogFlag;
-        spriteGroup4->available = var1_02002858->collisionCooldownTimer;
+        spriteGroup1->active = FALSE;
+        spriteGroup2->active = TRUE;
+        spriteGroup3->active = gShowDialogFlag;
+        spriteGroup4->active = var1_02002858->collisionCooldownTimer;
         LoadSpriteSets(gHighScoreScreenSpriteSets, 2, gMain_spriteGroups);
         RenderHighScoreSprites_HELPER(4, spriteGroup2, spriteGroup4, spriteGroup3);
-        if (spriteGroup4->available == 1)
+        if (spriteGroup4->active == TRUE)
     {
         spriteGroup4->baseX = 84;
         spriteGroup4->baseY = 150;
@@ -1057,7 +1057,7 @@ void RenderHighScoreSprites(void)
             gOamBuffer[oamData->oamId].y = oamData->yOffset + spriteGroup4->baseY;
         }
     }
-    if (spriteGroup3->available == 1)
+    if (spriteGroup3->active == TRUE)
     {
         switch ((s8)gDialogType)
         {
@@ -1082,13 +1082,13 @@ void RenderHighScoreSprites(void)
     }
     else
     {
-        spriteGroup1->available = FALSE;
-        spriteGroup2->available = FALSE;
+        spriteGroup1->active = FALSE;
+        spriteGroup2->active = FALSE;
         LoadSpriteSets(gHighScoreScreenSpriteSets, 9, gMain_spriteGroups);
     }
 
-    spriteGroup3->available = FALSE;
-    spriteGroup4->available = FALSE;
+    spriteGroup3->active = FALSE;
+    spriteGroup4->active = FALSE;
 }
 #else
 NAKED
@@ -1604,9 +1604,9 @@ void RenderCompletionBanner(void)
     struct SpriteGroup *spriteGroup;
 
     spriteGroup = &gMain_spriteGroups[gCompletionBannerFrame];
-    spriteGroup->available = gCompletionBannerVisible;
+    spriteGroup->active = gCompletionBannerVisible;
     LoadSpriteSets(gCompletionBannerSpriteSets, 5, gMain_spriteGroups);
-    if (spriteGroup->available == 1)
+    if (spriteGroup->active == TRUE)
     {
         spriteGroup->baseX = 120;
         spriteGroup->baseY = gCompletionBannerY;
@@ -1617,7 +1617,7 @@ void RenderCompletionBanner(void)
         }
     }
 
-    spriteGroup->available = FALSE;
+    spriteGroup->active = FALSE;
 }
 
 void InitLinkExchangeBuffers(void)

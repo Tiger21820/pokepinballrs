@@ -20,7 +20,7 @@ gSphealBoardBG1Tilemap:: @ 0x0838E028
 gSphealBoardCompressedBGTiles:: @ 0x0838E828
 	.incbin "baserom.gba", 0x38E828, 0x3224
 
-gSphealCrackedIceCollisionMap:: @ 0x08391A4C
+gSphealRampCollisionMap:: @ 0x08391A4C
 	.incbin "baserom.gba", 0x391A4C, 0x2000
 
 gSphealFrozenIceCollisionMap:: @ 0x08393A4C

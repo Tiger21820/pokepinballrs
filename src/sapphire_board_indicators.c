@@ -2,6 +2,7 @@
 #include "m4a.h"
 #include "main.h"
 #include "constants/bg_music.h"
+#include "constants/board/sapphire_states.h"
 
 extern const u8 *gSapphirePSquareIndicator[][2];
 extern const u8 *gHatchMachineDrawSegment[][3][2];
@@ -77,7 +78,8 @@ void UpdateSapphireBoardAnimations(void)
     if (gCurrentPinballGame->hudSpriteBaseY >= 8 && gCurrentPinballGame->hudSpriteBaseY < 182)
         AnimatePelipperBumper();
 
-    if (gCurrentPinballGame->saverTimeRemaining && gCurrentPinballGame->ballCatchState == 0)
+    if (gCurrentPinballGame->saverTimeRemaining
+        && gCurrentPinballGame->ballCatchState == NOT_TRAPPED)
         gCurrentPinballGame->saverTimeRemaining--;
 }
 
@@ -390,7 +392,7 @@ void DrawSapphireEvoArrowProgress(void)
     const u8 **src;
     const u8 **dest;
 
-    if (gCurrentPinballGame->boardState < 3)
+    if (gCurrentPinballGame->boardState <= MAIN_BOARD_STATE_BONUS_HOLE_ACTIVE)
     {
         if (gCurrentPinballGame->evoArrowProgress == 0)
         {
@@ -458,7 +460,7 @@ void DrawSapphireCatchArrowProgress(void)
     const u8 **src;
     const u8 **dest;
 
-    if (gCurrentPinballGame->boardState < 3)
+    if (gCurrentPinballGame->boardState <= MAIN_BOARD_STATE_BONUS_HOLE_ACTIVE)
     {
         if (gCurrentPinballGame->catchArrowProgress == 0)
         {
@@ -529,7 +531,8 @@ void AnimateSapphireHatchArrowFlash(void)
 
     index = 0;
     gCurrentPinballGame->catchProgressFlashing = 0;
-    if (gCurrentPinballGame->catchArrowProgress > 1 && gCurrentPinballGame->boardState < 3)
+    if (gCurrentPinballGame->catchArrowProgress > 1
+        && gCurrentPinballGame->boardState <= MAIN_BOARD_STATE_BONUS_HOLE_ACTIVE)
         gCurrentPinballGame->catchProgressFlashing = 1;
 
     if (gCurrentPinballGame->catchProgressFlashing > 0)
@@ -568,7 +571,7 @@ void AnimateSapphireShopArrow(void)
     index = 0;
     if (gCurrentPinballGame->shopShockWallAnimState == 3)
         gCurrentPinballGame->shopArrowActive = 1;
-    else if (gCurrentPinballGame->boardState)
+    else if (gCurrentPinballGame->boardState != MAIN_BOARD_STATE_BOARD_INTRO)
         gCurrentPinballGame->shopArrowActive = 0;
 
     if (gCurrentPinballGame->shopArrowActive > 0)

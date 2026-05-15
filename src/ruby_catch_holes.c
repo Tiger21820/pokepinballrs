@@ -2,7 +2,7 @@
 #include "main.h"
 #include "m4a.h"
 #include "constants/bg_music.h"
-#include "constants/ruby_states.h"
+#include "constants/board/ruby_states.h"
 #include "functions_ruby.h"
 
 void InitSharpedoCatchMode(void);
@@ -64,7 +64,7 @@ void InitSharpedoCatchMode(void)
 {
     if (gCurrentPinballGame->catchArrowProgress > 1)
     {
-        RequestBoardStateTransition(4);
+        RequestBoardStateTransition(MAIN_BOARD_STATE_CATCH_EM_MODE);
     }
 
     gCurrentPinballGame->cameraScrollOffset = 0;
@@ -398,6 +398,6 @@ void AnimateRubyEvolutionShopSequence(void)
 
     if (gCurrentPinballGame->evoArrowProgress > 2 && gCurrentPinballGame->evolvablePartySize > 0)
     {
-        RequestBoardStateTransition(6);
+        RequestBoardStateTransition(MAIN_BOARD_STATE_EVO_MODE);
     }
 }

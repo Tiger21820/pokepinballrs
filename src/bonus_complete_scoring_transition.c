@@ -2,6 +2,12 @@
 #include "m4a.h"
 #include "main.h"
 #include "constants/bg_music.h"
+#include "constants/board/main_board.h"
+#include "constants/board/groudon_states.h"
+#include "constants/board/dusclops_states.h"
+#include "constants/board/kecleon_states.h"
+#include "constants/board/kyogre_states.h"
+#include "constants/board/rayquaza_states.h"
 
 extern struct SpriteGroup gMain_spriteGroups_12;
 extern struct SpriteGroup gMain_spriteGroups_14;
@@ -16,12 +22,12 @@ void FadeToMainBoard(void)
     gCurrentPinballGame->startButtonDisabled = 1;
     switch (gCurrentPinballGame->boardSubState)
     {
-    case 0:
+    case BONUS_BOARD_SUBSTATE_ACTIVE:
         gCurrentPinballGame->stageTimer = 65;
-        gCurrentPinballGame->boardSubState = 1;
+        gCurrentPinballGame->boardSubState = BONUS_BOARD_SUBSTATE_FADETRANSITION;
         gMain.blendControl = 0x9F;
         break;
-    case 1:
+    case BONUS_BOARD_SUBSTATE_FADETRANSITION:
         if (gCurrentPinballGame->stageTimer)
         {
             gCurrentPinballGame->stageTimer--;
@@ -30,7 +36,7 @@ void FadeToMainBoard(void)
                 gCurrentPinballGame->boardSubState++;
         }
         break;
-    case 2:
+    case BONUS_BOARD_SUBSTATE_TRANSFER_TO_MAIN_BOARD:
         if (gCurrentPinballGame->stageTimer < 30)
         {
             gCurrentPinballGame->stageTimer++;
@@ -38,9 +44,9 @@ void FadeToMainBoard(void)
         else
         {
             gCurrentPinballGame->stageTimer = 0;
-            gCurrentPinballGame->boardSubState = 0;
-            gMain.spriteGroups[6].available = 0;
-            gMain.spriteGroups[5].available = 0;
+            gCurrentPinballGame->boardSubState = DEFAULT_MODE_SUBSTATE_INIT;
+            gMain.spriteGroups[6].active = FALSE;
+            gMain.spriteGroups[5].active = FALSE;
             if (gMain.tempField != gMain.selectedField)
             {
                 TransitionFromBonusToMainBoard();
@@ -78,27 +84,29 @@ void ProcessBonusBannerAndScoring(void)
     switch (gMain.selectedField)
     {
     case FIELD_DUSCLOPS:
-        if (gCurrentPinballGame->boardState == 5 && gCurrentPinballGame->stageTimer < 180)
+        if (gCurrentPinballGame->boardState == DUSCLOPS_BOARD_STATE_SCORE_PHASE
+            && gCurrentPinballGame->stageTimer < 180)
             var0 = (gCurrentPinballGame->stageTimer % 24) / 12 + 8;
         var1 = 30000000;
         break;
     case FIELD_KECLEON:
-        if (gCurrentPinballGame->boardState == 3 && gCurrentPinballGame->stageTimer < 180)
+        if (gCurrentPinballGame->boardState == KECLEON_BOARD_STATE_SCORING && gCurrentPinballGame->stageTimer < 180)
             var0 = (gCurrentPinballGame->stageTimer % 24) / 12 + 8;
         var1 = 30000000;
         break;
     case FIELD_KYOGRE:
-        if (gCurrentPinballGame->boardState == 3 && gCurrentPinballGame->stageTimer < 180)
+        if (gCurrentPinballGame->boardState == LEGENDARY_BOARD_STATE_SUCCESS_SCORING && gCurrentPinballGame->stageTimer < 180)
             var0 = (gCurrentPinballGame->stageTimer % 24) / 12 + 8;
         var1 = 50000000;
         break;
     case FIELD_GROUDON:
-        if (gCurrentPinballGame->boardState == 3 && gCurrentPinballGame->stageTimer < 180)
+        if (gCurrentPinballGame->boardState == LEGENDARY_BOARD_STATE_SUCCESS_SCORING
+            && gCurrentPinballGame->stageTimer < 180)
             var0 = (gCurrentPinballGame->stageTimer % 24) / 12 + 8;
         var1 = 50000000;
         break;
     case FIELD_RAYQUAZA:
-        if (gCurrentPinballGame->boardState == 3 && gCurrentPinballGame->stageTimer < 180)
+        if (gCurrentPinballGame->boardState == LEGENDARY_BOARD_STATE_SUCCESS_SCORING && gCurrentPinballGame->stageTimer < 180)
             var0 = (gCurrentPinballGame->stageTimer % 24) / 12 + 8;
         var1 = 99999999;
         break;
@@ -106,7 +114,7 @@ void ProcessBonusBannerAndScoring(void)
 
     DmaCopy16(3, gBoardConfig.fieldLayout.objPaletteSets[0] + var0 * 0x20, (void *)0x05000300, 0x20);
 
-    if (group->available)
+    if (group->active)
     {
         group->baseX = 120;
         group->baseY = gCurrentPinballGame->bannerSlideYOffset + 50;
@@ -194,7 +202,7 @@ void RenderBonusStageOverlaySprites(void)
     case 0:
     case 1:
     case 8:
-        if (!group->available)
+        if (!group->active)
             break;
 
         group->baseX = 240;
@@ -208,7 +216,7 @@ void RenderBonusStageOverlaySprites(void)
         if (gCurrentPinballGame->bossAnimLoopCount <= 0)
             break;
 
-        if (!group->available)
+        if (!group->active)
             break;
 
         group->baseX = 240;
@@ -227,7 +235,7 @@ void RenderBonusStageOverlaySprites(void)
     }
 
     group = &gMain_spriteGroups_12;
-    if (!group->available)
+    if (!group->active)
         return;
 
     group->baseX = 240;
@@ -259,12 +267,13 @@ void TransitionFromBonusToMainBoard(void)
 
     gMain.subState = 0;
     gCurrentPinballGame->prevBoardState = 3;
-    gCurrentPinballGame->boardState = 1;
-    gCurrentPinballGame->boardTransitionPhase = 0;
+    gCurrentPinballGame->boardState = MAIN_BOARD_STATE_DEFAULT;
+    gCurrentPinballGame->boardTransitionPhase = BOARD_STATE_DISPATCHER_STATE_INIT;
     gCurrentPinballGame->boardEntityActive = 0;
     gCurrentPinballGame->cameraYAdjust = 0;
-    LoadPortraitGraphics(0, 0);
-    gCurrentPinballGame->portraitDisplayState = 0;
+    LoadPortraitGraphics(PORTRAIT_STATE_CURRENT_LOCATION,
+        PORTRAIT_MAIN_SLOT);
+    gCurrentPinballGame->portraitDisplayState = PORTRAIT_DISPLAY_MODE_BOARD_CENTER;
     if (gCurrentPinballGame->allHolesLit)
         gCurrentPinballGame->allHolesLitDelayTimer = 120;
 }

@@ -227,15 +227,15 @@ void RenderBonusFieldSelectSprites(void)
     r8 = &gMain.spriteGroups[12 + gSelectedBallSpeed * 2 + gBallSpeedDisplayToggle];
     for (j = 0; j < 6; j++)
     {
-        sgptrs[j]->available = TRUE;
+        sgptrs[j]->active = TRUE;
     }
-    sgptrs[gSelectedBonusField]->available = FALSE;
-    r10->available = TRUE;
-    r8->available = gBallSpeedSubmenuVisible;
+    sgptrs[gSelectedBonusField]->active = FALSE;
+    r10->active = TRUE;
+    r8->active = gBallSpeedSubmenuVisible;
     LoadSpriteSets(gBonusFieldSelectSpriteSets, 16, gMain_spriteGroups);
     for (i = 0; i < 6; i++)
     {
-        if (sgptrs[i]->available == 1)
+        if (sgptrs[i]->active == TRUE)
         {
             sgptrs[i]->baseX = gBonusFieldStageIconPositions[i].x;
             sgptrs[i]->baseY = gBonusFieldStageIconPositions[i].y;
@@ -258,7 +258,7 @@ void RenderBonusFieldSelectSprites(void)
         gOamBuffer[simple->oamId].x = simple->xOffset + r10->baseX;
         gOamBuffer[simple->oamId].y = simple->yOffset + r10->baseY;
     }
-    if (r8->available == 1)
+    if (r8->active == TRUE)
     {
         r8->baseX = gBonusFieldSpeedIndicatorPositions[gSelectedBonusField].x;
         r8->baseY = gBonusFieldSpeedIndicatorPositions[gSelectedBonusField].y;
@@ -272,8 +272,8 @@ void RenderBonusFieldSelectSprites(void)
     }
     for (j = 0; j < 6; j++)
     {
-        sgptrs[j]->available = FALSE;
+        sgptrs[j]->active = FALSE;
     }
-    r10->available = FALSE;
-    r8->available = FALSE;
+    r10->active = FALSE;
+    r8->active = FALSE;
 }

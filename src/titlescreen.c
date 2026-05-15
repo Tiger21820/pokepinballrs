@@ -679,12 +679,12 @@ static void RenderTitlePressStartSprites(void)
     struct SpriteGroup *startAndFlippersGroup = &gMain_spriteGroups[gTitlescreen.pressStartAnimFrame];
     struct SpriteGroup *deleteMenuGroup = &gMain_spriteGroups[gTitlescreen.deleteSaveGroupId];
 
-    startAndFlippersGroup->available = gTitlescreen.pressStartAndFlippersVisible;
-    deleteMenuGroup->available = gTitlescreen.deleteSaveWindowVisible;
+    startAndFlippersGroup->active = gTitlescreen.pressStartAndFlippersVisible;
+    deleteMenuGroup->active = gTitlescreen.deleteSaveWindowVisible;
 
     LoadSpriteSets(gTitlePressStartSpriteSets, 5, gMain_spriteGroups);
 
-    if (startAndFlippersGroup->available == TRUE)
+    if (startAndFlippersGroup->active == TRUE)
     {
         startAndFlippersGroup->baseX = 120;
         startAndFlippersGroup->baseY = 102;
@@ -698,7 +698,7 @@ static void RenderTitlePressStartSprites(void)
         }
     }
 
-    if (deleteMenuGroup->available == TRUE)
+    if (deleteMenuGroup->active == TRUE)
     {
         deleteMenuGroup->baseX = 120;
         deleteMenuGroup->baseY = 80;
@@ -711,8 +711,8 @@ static void RenderTitlePressStartSprites(void)
         }
     }
 
-    startAndFlippersGroup->available = FALSE;
-    deleteMenuGroup->available = FALSE;
+    startAndFlippersGroup->active = FALSE;
+    deleteMenuGroup->active = FALSE;
 }
 
 struct UnknownStruct1
@@ -738,13 +738,13 @@ void RenderTitleMenuNoSavedGame(void)
     r9 = &gMain.spriteGroups[gTitlescreen.cursorSpriteGroupId];
     r8 = &gMain.spriteGroups[gTitlescreen.selectorSpriteGroupId];
 
-    menuSpriteGroup->available = gTitlescreen.menuVisible;
-    r9->available = gTitlescreen.cursorArrowVisible;
-    r8->available = gTitlescreen.selectorVisible;
+    menuSpriteGroup->active = gTitlescreen.menuVisible;
+    r9->active = gTitlescreen.cursorArrowVisible;
+    r8->active = gTitlescreen.selectorVisible;
 
     LoadSpriteSets((const struct SpriteSet *const *)gTitleNoSaveMenuSpriteSets, 7, gMain.spriteGroups);
 
-    if (menuSpriteGroup->available == 1)
+    if (menuSpriteGroup->active == TRUE)
     {
         menuSpriteGroup->baseX = 0x78;
         menuSpriteGroup->baseY = 0x66;
@@ -761,7 +761,7 @@ void RenderTitleMenuNoSavedGame(void)
         }
     }
 
-    if (r9->available == 1)
+    if (r9->active == TRUE)
     {
         struct OamDataSimple *r5;
 
@@ -774,7 +774,7 @@ void RenderTitleMenuNoSavedGame(void)
         gOamBuffer[r5->oamId].y = r5->yOffset + r9->baseY;
     }
 
-    if (r8->available == 1)
+    if (r8->active == TRUE)
     {
         struct OamDataSimple *r5;
 
@@ -787,9 +787,9 @@ void RenderTitleMenuNoSavedGame(void)
         gOamBuffer[r5->oamId].y = r5->yOffset + r8->baseY;
     }
 
-    menuSpriteGroup->available = FALSE;
-    r9->available = FALSE;
-    r8->available = FALSE;
+    menuSpriteGroup->active = FALSE;
+    r9->active = FALSE;
+    r8->active = FALSE;
 }
 
 void RenderTitleMenuSavedGame(void)
@@ -809,13 +809,13 @@ void RenderTitleMenuSavedGame(void)
     r9 = &gMain.spriteGroups[gTitlescreen.cursorSpriteGroupId];
     r8 = &gMain.spriteGroups[gTitlescreen.selectorSpriteGroupId];
 
-    r10->available = gTitlescreen.menuVisible;
-    r9->available = gTitlescreen.cursorArrowVisible;
-    r8->available = gTitlescreen.selectorVisible;
+    r10->active = gTitlescreen.menuVisible;
+    r9->active = gTitlescreen.cursorArrowVisible;
+    r8->active = gTitlescreen.selectorVisible;
 
     LoadSpriteSets((const struct SpriteSet *const *)gTitleSavedMenuSpriteSets, 7, gMain.spriteGroups);
 
-    if (r10->available == 1)
+    if (r10->active == TRUE)
     {
         r10->baseX = 0x78;
         r10->baseY = 0x66;
@@ -832,7 +832,7 @@ void RenderTitleMenuSavedGame(void)
         }
     }
 
-    if (r9->available == 1)
+    if (r9->active == TRUE)
     {
         struct OamDataSimple *r5;
 
@@ -845,7 +845,7 @@ void RenderTitleMenuSavedGame(void)
         gOamBuffer[r5->oamId].y = r5->yOffset + r9->baseY;
     }
 
-    if (r8->available == 1)
+    if (r8->active == TRUE)
     {
         struct OamDataSimple *r5;
 
@@ -858,9 +858,9 @@ void RenderTitleMenuSavedGame(void)
         gOamBuffer[r5->oamId].y = r5->yOffset + r8->baseY;
     }
 
-    r10->available = FALSE;
-    r9->available = FALSE;
-    r8->available = FALSE;
+    r10->active = FALSE;
+    r9->active = FALSE;
+    r8->active = FALSE;
 }
 
 void DeleteSaveFile(void)

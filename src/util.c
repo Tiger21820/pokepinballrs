@@ -74,7 +74,7 @@ s16 LoadSpriteSets(const struct SpriteSet *const *spriteSets, u16 numSpriteSets,
     for (i = 0; i < numSpriteSets; i++)
     {
         spriteGroup = &spriteGroups[i];
-        if (spriteGroup->available)
+        if (spriteGroup->active)
         {
             u16 curSpriteSetCount = spriteSets[i]->count;
             DmaCopy16(3, spriteSets[i]->oamData, &gOamBuffer[loadedCount], curSpriteSetCount * sizeof(struct OamData));
@@ -102,7 +102,7 @@ void ResetDisplayState(void)
     gMain.modeChangeFlags = MODE_CHANGE_NONE;
     gMain.debugMenuCursorIndex = 0;
     gMain.fieldFrameCount = 0;
-    gMain.pendingModeChangeType = 0;
+    gMain.pendingModeChangeType = MODE_CHANGE_NONE;
     gMain.animationTimer = 0;
     gMain.modeChangeDelayTimer = 0;
     gMain.vCount = 144;
@@ -152,7 +152,7 @@ void ClearSprites(void)
 
     for (i = 0; i < NUM_SPRITE_GROUPS; i++)
     {
-        gMain.spriteGroups[i].available = 0;
+        gMain.spriteGroups[i].active = FALSE;
         gMain.spriteGroups[i].baseX = 0;
         gMain.spriteGroups[i].baseY = 0;
         for (j = 0; j < MAX_SPRITES_IN_GROUP; j++)

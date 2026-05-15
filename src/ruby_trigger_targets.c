@@ -2,7 +2,7 @@
 #include "m4a.h"
 #include "main.h"
 #include "constants/bg_music.h"
-#include "constants/ruby_states.h"
+#include "constants/board/ruby_states.h"
 
 extern const u8 gSideBumperGfx[][0x100];
 extern const s16 gSideBumperGfxFrameIndices[][2];
@@ -38,7 +38,7 @@ void UpdateChikoritaAttackAnimation(void)
         }
         else
         {
-            group->available = 0;
+            group->active = FALSE;
             group->baseX = 176 - gCurrentPinballGame->cameraXOffset;
         }
     }
@@ -52,13 +52,13 @@ void UpdateChikoritaAttackAnimation(void)
         }
         else
         {
-            group->available = 0;
+            group->active = FALSE;
             group->baseX = 32 - gCurrentPinballGame->cameraXOffset;
         }
 
     }
 
-    if (group->available)
+    if (group->active)
     {
         group->baseY = 296 - gCurrentPinballGame->cameraYOffset;
         if (group->baseY > 180)
@@ -73,7 +73,7 @@ void UpdateChikoritaAttackAnimation(void)
     }
 
     group = &gMain.spriteGroups[13];
-    if (group->available)
+    if (group->active)
     {
         if (gCurrentPinballGame->chikoritaProjectileTimer < 120)
         {
@@ -93,7 +93,7 @@ void UpdateChikoritaAttackAnimation(void)
             gCurrentPinballGame->chikoritaProjectileTimer++;
             if (gCurrentPinballGame->chikoritaProjectileTimer == 27)
             {
-                gMain.spriteGroups[14].available = 1;
+                gMain.spriteGroups[14].active = TRUE;
                 m4aSongNumStart(SE_UNKNOWN_0xC7);
                 if (gCurrentPinballGame->sideBumperBounceCount[1] > 0)
                 {
@@ -108,7 +108,7 @@ void UpdateChikoritaAttackAnimation(void)
 
             if (gCurrentPinballGame->chikoritaProjectileTimer == 100)
             {
-                gMain.spriteGroups[14].available = 1;
+                gMain.spriteGroups[14].active = TRUE;
                 m4aSongNumStart(SE_UNKNOWN_0xC7);
                 if (gCurrentPinballGame->sideBumperBounceCount[0] > 0)
                 {
@@ -128,7 +128,7 @@ void UpdateChikoritaAttackAnimation(void)
             gCurrentPinballGame->chikoritaProjectileY = 190;
             gCurrentPinballGame->chikoritaProjectileVelX = 100;
             gCurrentPinballGame->chikoritaProjectileUnused = 0;
-            group->available = 0;
+            group->active = FALSE;
         }
 
         group->baseX = (gCurrentPinballGame->chikoritaProjectileX / 20) + 71u - gCurrentPinballGame->cameraXOffset;
@@ -160,7 +160,7 @@ void AnimateChikoritaSprite(void)
             gCurrentPinballGame->chikoritaProjectileY = 0;
             gCurrentPinballGame->chikoritaProjectileVelX = 100;
             gCurrentPinballGame->chikoritaProjectileUnused = 0;
-            gMain.spriteGroups[13].available = 1;
+            gMain.spriteGroups[13].active = TRUE;
         }
 
         if (gCurrentPinballGame->chikoritaFlashTimer < 54)
@@ -269,7 +269,7 @@ void UpdateGulpinBossState(void)
                 {
                     gCurrentPinballGame->gulpinCurrentLevel = 3;
                     gCurrentPinballGame->gulpinAnimFrameIndex = 35;
-                    RequestBoardStateTransition(7);
+                    RequestBoardStateTransition(MAIN_BOARD_STATE_TRAVEL_MODE);
                 }
 
                 if (gCurrentPinballGame->gulpinAnimFrameIndex == 32)
@@ -364,9 +364,9 @@ void UpdateRubySideBumperAnimation(void)
     {
         if (gCurrentPinballGame->sideBumperHitFlag == 1)
         {
-            if (gCurrentPinballGame->boardState != 7)
+            if (gCurrentPinballGame->boardState != MAIN_BOARD_STATE_TRAVEL_MODE)
             {
-                if (gCurrentPinballGame->boardState < 3) {
+                if (gCurrentPinballGame->boardState <= MAIN_BOARD_STATE_BONUS_HOLE_ACTIVE) {
                     if (gCurrentPinballGame->seedotCount < 3)
                     {
                         gCurrentPinballGame->seedotCount++;
@@ -442,7 +442,7 @@ void DrawRubySideBumperSprites(void)
         index = gSideBumperGfxFrameIndices[gCurrentPinballGame->sideBumperAnimPhase[i]][0];
         DmaCopy16(3, gSideBumperGfx[index], (void *)0x06012A20 + i * 0x100, 0x100);
         group = &gMain.spriteGroups[59 + i];
-        if (group->available)
+        if (group->active)
         {
             int var0 = i * 120 - (gCurrentPinballGame->cameraXOffset - 48);
             group->baseX = var0 + ((1 - (i * 2)) * (gCurrentPinballGame->sideBumperShakeOffset[i] - 14));

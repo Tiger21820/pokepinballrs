@@ -694,7 +694,7 @@ gShopSignTransitionFrames:: @ 0x08137D06
 gDusclopsBossGuardReadyTileOffsets:: @ 0x08137D40
 	.2byte 12,13,12,14
 
-gWhirlwindGrabAnimFrameIndices:: @ 0x08137D48
+gLightningGrabAnimFrameIndices:: @ 0x08137D48
 	.2byte 0,1,2,3,4,7,2,1,7,5,6,0
 
 gSphealScoreDigitSpriteIndices:: @ 0x08137D60
@@ -1018,40 +1018,40 @@ gCatchTargetCollisionBitmap:: @ 0x0839A28C
 
 .include "data/graphics/mon_portraits_pals.inc"
 
-gSapphireCatchTilesGfx:: @ 0x0839C78C
+gCatchMonAppearFx_Gfx:: @ 0x0839C78C
 	.incbin "baserom.gba", 0x39C78C, 0x1420
 
-gSapphireCatchPalette:: @ 0x0839DBAC
+gCatchMonAppearFx_Pal:: @ 0x0839DBAC
 	.incbin "baserom.gba", 0x39DBAC, 0x200
 
-gHatchRevealTilesGfx:: @ 0x0839DDAC
+gCatchTile_RevealTilesGfx:: @ 0x0839DDAC
 	.incbin "baserom.gba", 0x39DDAC, 0x2820
 
-gHatchRevealPalette:: @ 0x083A05CC
+gCatchTile_RevealPalette:: @ 0x083A05CC
 	.incbin "baserom.gba", 0x3A05CC, 0x200
 
-gHatchStartTilesGfx:: @ 0x083A07CC
+gCatchTile_BurstStart_Gfx:: @ 0x083A07CC
 	.incbin "baserom.gba", 0x3A07CC, 0x2020
 
-gHatchStartPalette:: @ 0x083A27EC
+gCatchTile_BurstStart_Pal:: @ 0x083A27EC
 	.incbin "baserom.gba", 0x3A27EC, 0x200
 
-gHatchStage2TilesGfx:: @ 0x083A29EC
+gCatchTile_BurstStage2_Gfx:: @ 0x083A29EC
 	.incbin "baserom.gba", 0x3A29EC, 0x820
 
-gHatchStage2Palette:: @ 0x083A320C
+gCatchTile_BurstStage2_Pal:: @ 0x083A320C
 	.incbin "baserom.gba", 0x3A320C, 0x200
 
-gHatchStage3TilesGfx:: @ 0x083A340C
+gCatchTile_BurstStage3_Gfx:: @ 0x083A340C
 	.incbin "baserom.gba", 0x3A340C, 0x2020
 
-gHatchStage3Palette:: @ 0x083A542C
+gCatchTile_BurstStage3_Pal:: @ 0x083A542C
 	.incbin "baserom.gba", 0x3A542C, 0x200
 
-gHatchFinalTilesGfx:: @ 0x083A562C
+gCatchTile_BurstStage4_Gfx:: @ 0x083A562C
 	.incbin "baserom.gba", 0x3A562C, 0x1820
 
-gHatchFinalPalette:: @ 0x083A6E4C
+gCatchTile_BurstStage4_Pal:: @ 0x083A6E4C
 	.incbin "baserom.gba", 0x3A6E4C, 0x200
 
 gEggModeTilesGfx:: @ 0x083A704C
@@ -1262,7 +1262,7 @@ gLotadBumperTiles:: @ 0x0844928C
 gRubyStageCyndaquil_Gfx:: @ 0x08449D8C
 	.incbin "graphics/stage/ruby/cyndaquil.4bpp"
 
-gBasketAnimationTilesGfx:: @ 0x0844AA0C
+gJirachiFx_Gfx:: @ 0x0844AA0C
 	.incbin "graphics/stage/main/gunk_0844AA0C.4bpp"
 
 gSapphireStageBasket_Gfx:: @ 0x0844F20C
