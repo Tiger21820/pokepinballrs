@@ -1,5 +1,5 @@
 # Pokémon Pinball: Ruby & Sapphire
-sadf
+
 This is a disassembly of Pokémon Pinball: Ruby & Sapphire!
 
 It builds the following rom:
