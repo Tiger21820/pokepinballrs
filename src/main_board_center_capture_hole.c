@@ -5,6 +5,8 @@
 #include "constants/board/main_board.h"
 #include "constants/board/bonus_board.h"
 #include "constants/anglemath.h"
+#include "inline_load_lighting_pal.h"
+
 
 extern struct SongHeader se_roulette_tick;
 extern struct SongHeader se_mon_catch_ball_woosh;
@@ -390,7 +392,7 @@ void GivePrize(void)
 
             gCurrentPinballGame->ballUpgradeTimer = TICKS_FOR_TIME(1,0);
             MPlayStart(&gMPlayInfo_SE1, &se_ball_upgrade);
-            DmaCopy16(3, gBall_Pals[gCurrentPinballGame->ballUpgradeType], OBJ_PLTT_SLOT(1), 0x20);
+            DmaCopy16(3, gBall_Pals[gCurrentPinballGame->ballUpgradeType], OBJ_PLTT_SLOT(PAL_IX_BALL), PLTT_SLOT_SIZE);
         }
         break;
     case PRIZE_BALL_UPGRADE_TO_MASTER:
@@ -399,7 +401,7 @@ void GivePrize(void)
             gCurrentPinballGame->ballUpgradeType = BALL_UPGRADE_TYPE_MASTER_BALL;
             gCurrentPinballGame->ballUpgradeTimer = TICKS_FOR_TIME(1,0);
             MPlayStart(&gMPlayInfo_SE1, &se_ball_upgrade);
-            DmaCopy16(3, gBall_Pals[gCurrentPinballGame->ballUpgradeType], OBJ_PLTT_SLOT(1), 0x20);
+            DmaCopy16(3, gBall_Pals[gCurrentPinballGame->ballUpgradeType], OBJ_PLTT_SLOT(PAL_IX_BALL), PLTT_SLOT_SIZE);
         }
         break;
     case PRIZE_10_COINS:
@@ -552,7 +554,7 @@ void RunMonCaptureSequence(void)
         gCurrentPinballGame->ball->positionQ8.x += gCurrentPinballGame->ball->velocity.x;
         gCurrentPinballGame->ball->positionQ8.y += gCurrentPinballGame->ball->velocity.y;
 
-        gCurrentPinballGame->activePortraitType = 9;
+        gCurrentPinballGame->activeFxType = FX_CAPTURE_MON_ABSORB;
         DmaCopy16(3, gCaptureScreenTilesGfx, 0x06015800, 0x1C00);
         DmaCopy16(3, &gCaptureBallTilesGfx[gCurrentPinballGame->ballUpgradeType << 9], 0x060164C0, 0x80);
         DmaCopy16(3, &gCaptureBallTilesGfx[((gCurrentPinballGame->ballUpgradeType * 8 + 4) << 6)], 0x06016760, 0x80);
@@ -588,22 +590,14 @@ void RunMonCaptureSequence(void)
         break;
 
     case 2:
-        DmaCopy16(3, gBall_Pals[(s16)(gCurrentPinballGame->ballUpgradeType + 4)], OBJ_PLTT_SLOT(1), PLTT_SLOT_SIZE);
+        DmaCopy16(3, gBall_Pals[(s16)(gCurrentPinballGame->ballUpgradeType + 4)], OBJ_PLTT_SLOT(PAL_IX_BALL), PLTT_SLOT_SIZE);
         gMain.blendBrightness = 4;
 
         if (gCurrentPinballGame->captureSequenceFrame > 1)
         {
-            DmaCopy16(3, gBoardConfig.fieldLayout.objPaletteSets[1][0], OBJ_PLTT_SLOT(0), PLTT_SLOT_SIZE);
+            LoadObjLightingPalette_0(LIGHTING_PAL_IX_DIMMING);
+            LoadObjLightingPalette(LIGHTING_PAL_IX_DIMMING);
 
-            if (gMain.selectedField == FIELD_SAPPHIRE)
-            {
-                DmaCopy16(3, gBoardConfig.fieldLayout.objPaletteSets[1][2], OBJ_PLTT_SLOT(2), 6*PLTT_SLOT_SIZE);
-            }
-            else
-                DmaCopy16(3, gBoardConfig.fieldLayout.objPaletteSets[1][2], OBJ_PLTT_SLOT(2), 7*PLTT_SLOT_SIZE);
-
-            DmaCopy16(3, gBoardConfig.fieldLayout.objPaletteSets[1][10], OBJ_PLTT_SLOT(10), 3*PLTT_SLOT_SIZE);
-            gCurrentPinballGame->activePaletteIndex = 1;
             gCurrentPinballGame->paletteSwapActive = TRUE;
         }
         break;
@@ -613,21 +607,13 @@ void RunMonCaptureSequence(void)
 
         if (gCurrentPinballGame->captureSequenceFrame > 1)
         {
-            DmaCopy16(3, gBoardConfig.fieldLayout.objPaletteSets[2][0], OBJ_PLTT_SLOT(0), PLTT_SLOT_SIZE);
+            LoadObjLightingPalette_0(LIGHTING_PAL_IX_DIM);
+            LoadObjLightingPalette(LIGHTING_PAL_IX_DIM);
 
-            if (gMain.selectedField == FIELD_SAPPHIRE)
-            {
-                DmaCopy16(3, gBoardConfig.fieldLayout.objPaletteSets[2][2], OBJ_PLTT_SLOT(2), 6*PLTT_SLOT_SIZE);
-            }
-            else
-                DmaCopy16(3, gBoardConfig.fieldLayout.objPaletteSets[2][2], OBJ_PLTT_SLOT(2), 7*PLTT_SLOT_SIZE);
-
-            DmaCopy16(3, gBoardConfig.fieldLayout.objPaletteSets[2][10], OBJ_PLTT_SLOT(10), 3*PLTT_SLOT_SIZE);
-            gCurrentPinballGame->activePaletteIndex = 2;
             gCurrentPinballGame->paletteSwapActive = TRUE;
         }
 
-        DmaCopy16(3, gBall_Pals[8], OBJ_PLTT_SLOT(1), PLTT_SLOT_SIZE);
+        DmaCopy16(3, gBall_Pals[8], OBJ_PLTT_SLOT(PAL_IX_BALL), PLTT_SLOT_SIZE);
         break;
 
     case 4:
@@ -649,15 +635,15 @@ void RunMonCaptureSequence(void)
                         && gCurrentPinballGame->boardSubState == JIRACHI_CATCH_SUBSTATE_CATCH_HIT_PHASE)
                 ))
             {
-                DmaCopy16(3, gCatchSpritePalettes[2], OBJ_PLTT_SLOT(13), PLTT_SLOT_SIZE);
+                DmaCopy16(3, gCatchSpritePalettes[2], OBJ_PLTT_SLOT(PAL_IX_CATCH_MON), PLTT_SLOT_SIZE);
             }
 
-            DmaCopy16(3, gBall_Pals[8], OBJ_PLTT_SLOT(1), PLTT_SLOT_SIZE);
+            DmaCopy16(3, gBall_Pals[8], OBJ_PLTT_SLOT(PAL_IX_BALL), PLTT_SLOT_SIZE);
             gMain.blendBrightness = 6;
         }
         else
         {
-            DmaCopy16(3, gBall_Pals[(s16)(gCurrentPinballGame->ballUpgradeType + 4)], OBJ_PLTT_SLOT(1), PLTT_SLOT_SIZE);
+            DmaCopy16(3, gBall_Pals[(s16)(gCurrentPinballGame->ballUpgradeType + 4)], OBJ_PLTT_SLOT(PAL_IX_BALL), PLTT_SLOT_SIZE);
             gMain.blendBrightness = 7;
         }
 
@@ -705,7 +691,7 @@ void RunMonCaptureSequence(void)
             gMain.fieldSpriteGroups[FIELD_SG_CAPTURE_MON_BALL_FX]->active = FALSE;
         break;
     case 11:
-        DmaCopy16(3, gBall_Pals[(s16)(gCurrentPinballGame->ballUpgradeType + 4)], OBJ_PLTT_SLOT(1), PLTT_SLOT_SIZE);
+        DmaCopy16(3, gBall_Pals[(s16)(gCurrentPinballGame->ballUpgradeType + 4)], OBJ_PLTT_SLOT(PAL_IX_BALL), PLTT_SLOT_SIZE);
 
         tempVector.x = (gCurrentPinballGame->catchTargetX << 8) - gCurrentPinballGame->ball->positionQ8.x;
         tempVector.y = (gCurrentPinballGame->catchTargetY << 8) - gCurrentPinballGame->ball->positionQ8.y;
@@ -725,7 +711,7 @@ void RunMonCaptureSequence(void)
             || (gCurrentPinballGame->boardState == MAIN_BOARD_STATE_JIRACHI_CATCH_MODE
                  && gCurrentPinballGame->boardSubState == JIRACHI_CATCH_SUBSTATE_CATCH_HIT_PHASE))
         {
-            DmaCopy16(3, gCatchSpritePalettes[0], OBJ_PLTT_SLOT(13), PLTT_SLOT_SIZE);
+            DmaCopy16(3, gCatchSpritePalettes[0], OBJ_PLTT_SLOT(PAL_IX_CATCH_MON), PLTT_SLOT_SIZE);
         }
 
         for (i = 0; i < 4; i++)
@@ -750,10 +736,10 @@ void RunMonCaptureSequence(void)
         {
             s32 var_3 = (gCurrentPinballGame->trapSpinRadius * temp_r0) / 80;
 
-            gCurrentPinballGame->ball->positionQ8.x =
-                (gCurrentPinballGame->catchTargetX << 8) + Cos(gCurrentPinballGame->trapAngleQ16) * var_3 / 20000;
-            gCurrentPinballGame->ball->positionQ8.y =
-                (gCurrentPinballGame->catchTargetY << 8) - Sin(gCurrentPinballGame->trapAngleQ16) * var_3 / 20000;
+            gCurrentPinballGame->ball->positionQ8.x = (gCurrentPinballGame->catchTargetX << 8)
+                + MulCos(var_3, gCurrentPinballGame->trapAngleQ16);
+            gCurrentPinballGame->ball->positionQ8.y = (gCurrentPinballGame->catchTargetY << 8)
+                - MulSin(var_3, gCurrentPinballGame->trapAngleQ16);
         }
         break;
 
@@ -764,12 +750,12 @@ void RunMonCaptureSequence(void)
         break;
 
     case 14:
-        DmaCopy16(3, gBall_Pals[gCurrentPinballGame->ballUpgradeType], OBJ_PLTT_SLOT(1), PLTT_SLOT_SIZE);
+        DmaCopy16(3, gBall_Pals[gCurrentPinballGame->ballUpgradeType], OBJ_PLTT_SLOT(PAL_IX_BALL), PLTT_SLOT_SIZE);
         gCurrentPinballGame->ball->spinAngle -= ANGLE_45;
         break;
 
     case 15:
-        DmaCopy16(3, gBall_Pals[(s16)(gCurrentPinballGame->ballUpgradeType + 4)], OBJ_PLTT_SLOT(1), PLTT_SLOT_SIZE);
+        DmaCopy16(3, gBall_Pals[(s16)(gCurrentPinballGame->ballUpgradeType + 4)], OBJ_PLTT_SLOT(PAL_IX_BALL), PLTT_SLOT_SIZE);
         gCurrentPinballGame->ball->spinAngle -= ANGLE_45;
         break;
 
@@ -777,7 +763,7 @@ void RunMonCaptureSequence(void)
         if (gCurrentPinballGame->captureSequenceFrame == 0)
             m4aSongNumStart(SE_MON_CATCH_ENERGY_BEAM);
 
-        DmaCopy16(3, gBall_Pals[gCurrentPinballGame->ballUpgradeType], OBJ_PLTT_SLOT(1), PLTT_SLOT_SIZE);
+        DmaCopy16(3, gBall_Pals[gCurrentPinballGame->ballUpgradeType], OBJ_PLTT_SLOT(PAL_IX_BALL), PLTT_SLOT_SIZE);
         gCurrentPinballGame->ball->spinAngle = 0x7000;
         break;
 
@@ -844,7 +830,7 @@ void RunMonCaptureSequence(void)
                  && gCurrentPinballGame->boardSubState == CATCH_EM_SUBSTATE_CATCH_HIT_PHASE)
                 || (gCurrentPinballGame->boardState == MAIN_BOARD_STATE_JIRACHI_CATCH_MODE
                     && gCurrentPinballGame->boardSubState == JIRACHI_CATCH_SUBSTATE_CATCH_HIT_PHASE))
-                DmaCopy16(3, gCatchSpritePalettes[1], OBJ_PLTT_SLOT(13), PLTT_SLOT_SIZE);
+                DmaCopy16(3, gCatchSpritePalettes[1], OBJ_PLTT_SLOT(PAL_IX_CATCH_MON), PLTT_SLOT_SIZE);
         }
         else if (gCurrentPinballGame->captureSequenceTimer == 19 || gCurrentPinballGame->captureSequenceTimer == 22)
         {
@@ -855,7 +841,7 @@ void RunMonCaptureSequence(void)
                     && gCurrentPinballGame->boardSubState == CATCH_EM_SUBSTATE_CATCH_HIT_PHASE)
                 || (gCurrentPinballGame->boardState == MAIN_BOARD_STATE_JIRACHI_CATCH_MODE
                     && gCurrentPinballGame->boardSubState == JIRACHI_CATCH_SUBSTATE_CATCH_HIT_PHASE))
-                DmaCopy16(3, gCatchSpritePalettes[3], OBJ_PLTT_SLOT(13), PLTT_SLOT_SIZE);
+                DmaCopy16(3, gCatchSpritePalettes[3], OBJ_PLTT_SLOT(PAL_IX_CATCH_MON), PLTT_SLOT_SIZE);
         }
 
         if (gCurrentPinballGame->captureSequenceTimer == 23)
@@ -940,7 +926,7 @@ void RunMonCaptureSequence(void)
 
     case 29:
         gMain.blendBrightness = 4;
-        DmaCopy16(3, gBall_Pals[gCurrentPinballGame->ballUpgradeType], OBJ_PLTT_SLOT(1), PLTT_SLOT_SIZE);
+        DmaCopy16(3, gBall_Pals[gCurrentPinballGame->ballUpgradeType], OBJ_PLTT_SLOT(PAL_IX_BALL), PLTT_SLOT_SIZE);
 
         spriteGroup = gMain.fieldSpriteGroups[FIELD_SG_CAPTURE_MON_BALL_FX];
 
@@ -961,7 +947,7 @@ void RunMonCaptureSequence(void)
 
         gCurrentPinballGame->ball->positionQ8.y += gCurrentPinballGame->ball->velocity.y;
         gCurrentPinballGame->ball->positionQ8.x += gCurrentPinballGame->ball->velocity.x;
-        gCurrentPinballGame->activePortraitType = 0;
+        gCurrentPinballGame->activeFxType = FX_NONE;
 
         break;
 
@@ -972,17 +958,8 @@ void RunMonCaptureSequence(void)
             {
                 if (gCurrentPinballGame->captureSequenceFrame == 0)
                 {
-                    DmaCopy16(3, gBoardConfig.fieldLayout.objPaletteSets[1][0], OBJ_PLTT_SLOT(0), PLTT_SLOT_SIZE);
-
-                    if (gMain.selectedField == FIELD_SAPPHIRE)
-                    {
-                        DmaCopy16(3, gBoardConfig.fieldLayout.objPaletteSets[1][2], OBJ_PLTT_SLOT(2), 6*PLTT_SLOT_SIZE);
-                    }
-                    else
-                        DmaCopy16(3, gBoardConfig.fieldLayout.objPaletteSets[1][2], OBJ_PLTT_SLOT(2), 7*PLTT_SLOT_SIZE);
-
-                    DmaCopy16(3, gBoardConfig.fieldLayout.objPaletteSets[1][10], OBJ_PLTT_SLOT(10), 3*PLTT_SLOT_SIZE);
-                    gCurrentPinballGame->activePaletteIndex = 1;
+                    LoadObjLightingPalette_0(LIGHTING_PAL_IX_DIMMING);
+                    LoadObjLightingPalette(LIGHTING_PAL_IX_DIMMING);
                     gCurrentPinballGame->paletteSwapActive = TRUE;
                 }
             }
@@ -992,18 +969,8 @@ void RunMonCaptureSequence(void)
 
                 if (gCurrentPinballGame->captureSequenceFrame > 4)
                 {
-                    DmaCopy16(3, gBoardConfig.fieldLayout.objPaletteSets[0][0], OBJ_PLTT_SLOT(0), PLTT_SLOT_SIZE);
-
-                    if (gMain.selectedField == FIELD_SAPPHIRE)
-                    {
-                        DmaCopy16(3, gBoardConfig.fieldLayout.objPaletteSets[0][2], OBJ_PLTT_SLOT(2), 6*PLTT_SLOT_SIZE);
-                    }
-                    else
-                        DmaCopy16(3, gBoardConfig.fieldLayout.objPaletteSets[0][2], OBJ_PLTT_SLOT(2), 7*PLTT_SLOT_SIZE);
-
-                    DmaCopy16(3, gBoardConfig.fieldLayout.objPaletteSets[0][10], OBJ_PLTT_SLOT(10), 3*PLTT_SLOT_SIZE);
-
-                    gCurrentPinballGame->activePaletteIndex = 0;
+                    LoadObjLightingPalette_0(LIGHTING_PAL_IX_NORMAL);
+                    LoadObjLightingPalette(LIGHTING_PAL_IX_NORMAL);
                     gCurrentPinballGame->paletteSwapActive = TRUE;
                 }
             }
@@ -1156,7 +1123,7 @@ void RunMonCaptureSequence(void)
         if (temp_r0 == 0)
         {
             m4aSongNumStart(MUS_SUCCESS);
-            InitEvolutionSuccessDisplay();
+            InitWasCaughtBanner();
         }
 
         break;
@@ -1188,7 +1155,7 @@ void RunMonCaptureSequence(void)
                 }
             }
 
-            DmaCopy16(3, &gBG0TilemapBuffer, 0x06002000, 0x800);
+            DmaCopy16(3, &gBG0TilemapBuffer, BG_CHAR_SCREEN_ADDR(0,4), BG_SCREEN_SIZE);
         }
 
         if (gCurrentPinballGame->captureSequenceFrame >= 240 && gCurrentPinballGame->captureSequenceFrame <= 269)
@@ -1203,7 +1170,7 @@ void RunMonCaptureSequence(void)
                 }
             }
 
-            DmaCopy16(3, &gBG0TilemapBuffer, 0x06002000, 0x800);
+            DmaCopy16(3, &gBG0TilemapBuffer, BG_CHAR_SCREEN_ADDR(0,4), BG_SCREEN_SIZE);
 
             if (gCurrentPinballGame->captureSequenceFrame == 269)
             {

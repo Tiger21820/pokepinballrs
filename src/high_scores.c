@@ -125,7 +125,7 @@ void LoadHighScoreGraphics(void)
   DmaCopy16(3, gHighScoreBallWatermark_Gfx, BG_CHAR_ADDR(3), 0x2C00);
   DmaCopy16(3, gHighScoreScoreTable_Tilemap, gBG0TilemapBuffer, 2*BG_SCREEN_SIZE);
   DmaCopy16(3, gHighScoreBallWatermark_Tilemap, BG_SCREEN_ADDR(2), 2*BG_SCREEN_SIZE);
-  DmaCopy16(3, gHighScoreSprite_Pals, OBJ_PLTT_SLOT(0), 8*PLTT_SLOT_SIZE);
+  DmaCopy16(3, gHighScoreSprite_Pals, OBJ_PLTT_SLOT(PAL_IX_0), 8*PLTT_SLOT_SIZE);
   DmaCopy16(3, gHighScoreDialogs_Gfx, (void *)OBJ_VRAM0, 0x4420);
   InitHighScoreData();
   DrawAllHighScoreText();
@@ -235,7 +235,7 @@ void InitHighScoreData(void)
 
 void HighScore_ShowCompletionBanner(void)
 {
-    switch(gCompletionBannerPhase)
+    switch (gCompletionBannerPhase)
     {
         case 0:
             if(gHighScoreScreenState.flashDuration == 3)
@@ -750,7 +750,7 @@ void IdleHighScore_LoadGraphics(void)
     DmaCopy16(3, gHighScoreBallWatermark_Gfx, BG_CHAR_ADDR(3), 0x2C00);
     DmaCopy16(3, gHighScoreScoreTable_Tilemap, gBG0TilemapBuffer, 2*BG_SCREEN_SIZE);
     DmaCopy16(3, gHighScoreBallWatermark_Tilemap, BG_SCREEN_ADDR(2), 2*BG_SCREEN_SIZE);
-    DmaCopy16(3, gHighScoreSprite_Pals, OBJ_PLTT_SLOT(0), PLTT_SLOT_SIZE);
+    DmaCopy16(3, gHighScoreSprite_Pals, OBJ_PLTT_SLOT(PAL_IX_0), PLTT_SLOT_SIZE);
     DmaCopy16(3, gHighScoreDialogs_Gfx, (void *)OBJ_VRAM0, 0x4420);
     InitIdleHighScoreData();
     DrawAllHighScoreText();
@@ -868,7 +868,7 @@ void HighScore_ReloadAfterLink(void)
     DmaCopy16(3, gHighScoreBallWatermark_Gfx, BG_CHAR_ADDR(3), 0x2C00);
     DmaCopy16(3, gHighScoreScoreTable_Tilemap, gBG0TilemapBuffer, 2*BG_SCREEN_SIZE);
     DmaCopy16(3, gHighScoreBallWatermark_Tilemap, BG_SCREEN_ADDR(2), 2*BG_SCREEN_SIZE);
-    DmaCopy16(3, gHighScoreSprite_Pals, OBJ_PLTT_SLOT(0), PLTT_SLOT_SIZE);
+    DmaCopy16(3, gHighScoreSprite_Pals, OBJ_PLTT_SLOT(PAL_IX_0), PLTT_SLOT_SIZE);
     DmaCopy16(3, gHighScoreDialogs_Gfx, (void *)OBJ_VRAM0, 0x4420);
     InitIdleHighScoreData();
     DrawAllHighScoreText();
@@ -1015,7 +1015,7 @@ void RenderHighScoreSprites(void)
         }
         if (popupSG->active == TRUE)
         {
-            switch(gHighScorePopupType)
+            switch (gHighScorePopupType)
             {
             case HIGH_SCORE_POPUP_TRANSMISSION_CONNECT_PROMPT:
             case HIGH_SCORE_POPUP_DELETE_CONFIRMATION_PROMPT:

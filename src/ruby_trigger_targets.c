@@ -85,9 +85,10 @@ void UpdateChikoritaAttackAnimation(void)
             gCurrentPinballGame->chikoritaProjectileVelX -= 2;
             gCurrentPinballGame->chikoritaProjectileX += gCurrentPinballGame->chikoritaProjectileVelX;
             if (gCurrentPinballGame->chikoritaProjectileTimer < 30)
-                gCurrentPinballGame->chikoritaProjectileY = gCurrentPinballGame->chikoritaProjectileTimer + (Sin(var0) * 24) / 20000;
+                gCurrentPinballGame->chikoritaProjectileY = gCurrentPinballGame->chikoritaProjectileTimer
+                    + MulSin(24, var0);
             else
-                gCurrentPinballGame->chikoritaProjectileY = 30 + (Sin(var0) * 24) / 20000;
+                gCurrentPinballGame->chikoritaProjectileY = 30 + MulSin(24, var0);
 
             gCurrentPinballGame->chikoritaProjectileTimer++;
             if (gCurrentPinballGame->chikoritaProjectileTimer == 27)
@@ -460,10 +461,10 @@ void DrawRubySideBumperSprites(void)
         gCurrentPinballGame->travelModeStartDelay--;
         if (gCurrentPinballGame->travelModeStartDelay == 0)
         {
-            if (gCurrentPinballGame->activePortraitType)
+            if (gCurrentPinballGame->activeFxType)
                 gCurrentPinballGame->travelModeStartDelay = 1;
             else
-                gCurrentPinballGame->activePortraitType = 4;
+                gCurrentPinballGame->activeFxType = FX_MODE_START_BANNER;
 
             if (gCurrentPinballGame->travelModeStartDelay == 0)
             {
@@ -481,7 +482,7 @@ void DrawRubySideBumperSprites(void)
                 gCurrentPinballGame->bannerSlideTimer = 50;
                 gCurrentPinballGame->bannerSlideVelocity = 0;
                 DmaCopy16(3, gModeBannerTilemaps[4], (void *)0x06015800, 0x2400);
-                DmaCopy16(3, gModeBanner_Pals[4], OBJ_PLTT_SLOT(14), PLTT_SLOT_SIZE);
+                DmaCopy16(3, gModeBanner_Pals[4], OBJ_PLTT_SLOT(PAL_IX_BANNER), PLTT_SLOT_SIZE);
                 gMain.blendControl = 0xCE;
             }
         }

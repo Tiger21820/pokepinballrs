@@ -132,7 +132,7 @@ void RayquazaBoardProcess_3A_3E79C(void)
     DmaCopy16(3, gRayquazaSpriteSheet, (void *)0x06011620, 0x860);
     UpdateRayquazaEntityLogic();
     RenderRayquazaSprites();
-    DmaCopy16(3, gBonusStageObjPal, OBJ_PLTT_SLOT(9), 0x20);
+    DmaCopy16(3, gBonusStageObjPal, OBJ_PLTT_SLOT(PAL_IX_9), PLTT_SLOT_SIZE);
 }
 
 void RayquazaBoardProcess_3B_3EB2C(void)
@@ -441,7 +441,7 @@ void UpdateRayquazaEntityLogic(void)
         if (gCurrentPinballGame->bossMovementPhase > 1)
         {
             gCurrentPinballGame->bossSineAngle += 0x80;
-            gCurrentPinballGame->bossPositionX = ((Sin(gCurrentPinballGame->bossSineAngle) * 62) / 20000) * 10;
+            gCurrentPinballGame->bossPositionX = MulSin(62, gCurrentPinballGame->bossSineAngle) * 10;
         }
         break;
     case RAYQUAZA_ENTITY_STATE_LIGHTNING_ATTACK:
@@ -705,7 +705,7 @@ void UpdateRayquazaEntityLogic(void)
 void RenderRayquazaSprites(void)
 {
     s16 i;
-    s16 sp0;
+    s16 palFlashIx;
     s16 varSL;
     s32 temp;
     struct SpriteGroup *group;
@@ -717,7 +717,7 @@ void RenderRayquazaSprites(void)
     s8 y;
 
     varSL = 0;
-    sp0 = 0;
+    palFlashIx = PAL_IX_0;
     group = &gMain.spriteGroups[SG_RAYQUAZA_ENTITY_BACKGROUND_FLY_DOWN];
     if (group->active)
     {
@@ -796,28 +796,28 @@ void RenderRayquazaSprites(void)
             var1 = gRayquazaAnimFramesetTable[gCurrentPinballGame->bossFramesetIndex][0];
             if (gCurrentPinballGame->legendaryFlashState > 9)
             {
-                sp0 = 11;
+                palFlashIx = PAL_IX_11;
                 oamSimple = &group->oam[0];
                 gOamBuffer[oamSimple->oamId].x = 240;
                 gOamBuffer[oamSimple->oamId].y = 180;
-                gOamBuffer[oamSimple->oamId].paletteNum = sp0;
+                gOamBuffer[oamSimple->oamId].paletteNum = palFlashIx;
             }
             else
             {
                 if (gCurrentPinballGame->legendaryFlashState == 1)
                 {
                     varSL = 2;
-                    sp0 = 14;
+                    palFlashIx = PAL_IX_14;
                 }
                 else if (gCurrentPinballGame->legendaryFlashState == 3)
                 {
                     varSL = 2;
-                    sp0 = 11;
+                    palFlashIx = PAL_IX_11;
                 }
                 else
                 {
                     varSL = gCurrentPinballGame->bossVulnerable;
-                    sp0 = 15;
+                    palFlashIx = PAL_IX_15;
                 }
 
                 if (gCurrentPinballGame->captureSequenceTimer == 21)
@@ -838,9 +838,9 @@ void RenderRayquazaSprites(void)
                 gOamBuffer[oamSimple->oamId].x += group->baseX;
                 gOamBuffer[oamSimple->oamId].y += group->baseY;
                 if (gCurrentPinballGame->legendaryFlashState < 2)
-                    gOamBuffer[oamSimple->oamId].paletteNum = sp0;
+                    gOamBuffer[oamSimple->oamId].paletteNum = palFlashIx;
                 else
-                    sp0 = gOamBuffer[oamSimple->oamId].paletteNum;
+                    palFlashIx = gOamBuffer[oamSimple->oamId].paletteNum;
             }
 
             gCurrentPinballGame->bossVulnerable = gRayquazaAnimFramesetTable[gCurrentPinballGame->bossFramesetIndex][2];
@@ -874,7 +874,7 @@ void RenderRayquazaSprites(void)
                 gOamBuffer[oamSimple->oamId].x = oamSimple->xOffset + group->baseX;
                 gOamBuffer[oamSimple->oamId].y = oamSimple->yOffset + group->baseY;
                 gOamBuffer[oamSimple->oamId].tileNum = varSL * 12 + i * 8 + 0x109;
-                gOamBuffer[oamSimple->oamId].paletteNum = sp0;
+                gOamBuffer[oamSimple->oamId].paletteNum = palFlashIx;
             }
         }
 
@@ -973,7 +973,7 @@ void UpdateRayquazaMinionsAndEffects(void)
         for (j = 0; j < 6; j++)
         {
             oamSimple = &group->oam[j];
-            gOamBuffer[oamSimple->oamId].paletteNum = 13;
+            gOamBuffer[oamSimple->oamId].paletteNum = PAL_IX_MON_PORTRAIT;
             gOamBuffer[oamSimple->oamId].priority = gCurrentPinballGame->creatureOamPriority;
             gOamBuffer[oamSimple->oamId].x = oamSimple->xOffset + group->baseX;
             gOamBuffer[oamSimple->oamId].y = oamSimple->yOffset + group->baseY;
@@ -1268,8 +1268,10 @@ void UpdateRayquazaMinionsAndEffects(void)
             {
 
                 s16 angle = (((gMain.systemFrameCount + 120 * i) % 240) << 0x10) / 240;
-                gCurrentPinballGame->vortexScreenPosition[i].x = gCurrentPinballGame->vortexOrbitCenter[i].x + (Cos(angle) * 4) / 2000;
-                gCurrentPinballGame->vortexScreenPosition[i].y = gCurrentPinballGame->vortexOrbitCenter[i].y + (Sin(angle) * 4) / 2000;
+                gCurrentPinballGame->vortexScreenPosition[i].x = gCurrentPinballGame->vortexOrbitCenter[i].x
+                    + MulCos(40, angle);
+                gCurrentPinballGame->vortexScreenPosition[i].y = gCurrentPinballGame->vortexOrbitCenter[i].y
+                    + MulSin(40, angle);
 
                 tempVector.x = gCurrentPinballGame->ball->positionQ0.x - (gCurrentPinballGame->vortexScreenPosition[i].x / 10) - 16;
                 tempVector.y = gCurrentPinballGame->ball->positionQ0.y - (gCurrentPinballGame->vortexScreenPosition[i].y / 10) - 32;;
@@ -1334,8 +1336,10 @@ void UpdateRayquazaMinionsAndEffects(void)
             var5 = (gCurrentPinballGame->trapSpinRadius * var4) / 30;
             tempVector2.x = gCurrentPinballGame->vortexScreenPosition[i].x / 10 + 16;
             tempVector2.y = gCurrentPinballGame->vortexScreenPosition[i].y / 10 + 32;
-            gCurrentPinballGame->ball->positionQ8.x = (tempVector2.x << 8) + ((Cos(gCurrentPinballGame->trapAngleQ16) * var5) / 20000);
-            gCurrentPinballGame->ball->positionQ8.y = (tempVector2.y << 8) - ((Sin(gCurrentPinballGame->trapAngleQ16) * var5) / 20000);
+            gCurrentPinballGame->ball->positionQ8.x = (tempVector2.x << 8)
+                + MulCos(var5, gCurrentPinballGame->trapAngleQ16);
+            gCurrentPinballGame->ball->positionQ8.y = (tempVector2.y << 8)
+                - MulSin(var5, gCurrentPinballGame->trapAngleQ16);
             gCurrentPinballGame->ball->velocity.x = (gCurrentPinballGame->ball->velocity.x * 4) / 5;
             gCurrentPinballGame->ball->velocity.y = (gCurrentPinballGame->ball->velocity.y * 4) / 5;
 
@@ -1765,8 +1769,10 @@ void RenderWindCloudSprites(void)
             var0 = ((gMain.systemFrameCount % 240) << 0x10) / 240;
             gCurrentPinballGame->vortexOrbitCenter[0].x = gRayquazaTornadoSpawnPos[rand].x;
             gCurrentPinballGame->vortexOrbitCenter[0].y = gRayquazaTornadoSpawnPos[rand].y;
-            gCurrentPinballGame->vortexScreenPosition[0].x = gCurrentPinballGame->vortexOrbitCenter[0].x + (Cos(var0) * 4) / 2000;
-            gCurrentPinballGame->vortexScreenPosition[0].y = gCurrentPinballGame->vortexOrbitCenter[0].y + (Sin(var0) * 4) / 2000;
+            gCurrentPinballGame->vortexScreenPosition[0].x = gCurrentPinballGame->vortexOrbitCenter[0].x
+                + MulCos(40, var0);
+            gCurrentPinballGame->vortexScreenPosition[0].y = gCurrentPinballGame->vortexOrbitCenter[0].y
+                + MulSin(40, var0);
             m4aSongNumStart(SE_RAYQUAZA_SONIC_BOOM);
         }
     }
@@ -1782,8 +1788,10 @@ void RenderWindCloudSprites(void)
             var0 = (((gMain.systemFrameCount + 120) % 240) << 0x10) / 240;
             gCurrentPinballGame->vortexOrbitCenter[1].x = gRayquazaTornadoSpawnPos[rand].x;
             gCurrentPinballGame->vortexOrbitCenter[1].y = gRayquazaTornadoSpawnPos[rand].y;
-            gCurrentPinballGame->vortexScreenPosition[1].x = gCurrentPinballGame->vortexOrbitCenter[1].x + (Cos(var0) * 4) / 2000;
-            gCurrentPinballGame->vortexScreenPosition[1].y = gCurrentPinballGame->vortexOrbitCenter[1].y + (Sin(var0) * 4) / 2000;
+            gCurrentPinballGame->vortexScreenPosition[1].x = gCurrentPinballGame->vortexOrbitCenter[1].x
+                + MulCos(40, var0);
+            gCurrentPinballGame->vortexScreenPosition[1].y = gCurrentPinballGame->vortexOrbitCenter[1].y
+                + MulSin(40, var0);
             m4aSongNumStart(SE_RAYQUAZA_SONIC_BOOM);
         }
     }

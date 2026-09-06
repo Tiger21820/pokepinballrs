@@ -6,9 +6,9 @@ void FadeInFromWhite(void (*func)(void))
     u16 i;
 
     DmaCopy16(3, (void*)PLTT, gPaletteFadeBuffers[1], PLTT_SIZE);
-    DmaFill16(3, 0x7FFF, gPaletteFadeBuffers[0], PLTT_SIZE);
+    DmaFill16(3, RGB_WHITE, gPaletteFadeBuffers[0], PLTT_SIZE);
     DmaCopy16(3, gPaletteFadeBuffers[0], gPaletteFadeBuffers[2], PLTT_SIZE);
-    DmaCopy16(3, gPaletteFadeBuffers[2], (void*)PLTT, PLTT_SIZE);
+    DmaCopy16(3, gPaletteFadeBuffers[2], PLTT, PLTT_SIZE);
 
     UnblankLCD();
 
@@ -20,11 +20,11 @@ void FadeInFromWhite(void (*func)(void))
         MainLoopIter();
         if (i == 31)
         {
-            DmaCopy16(3, gPaletteFadeBuffers[1], (void *)PLTT, 0x400);
+            DmaCopy16(3, gPaletteFadeBuffers[1], PLTT, PLTT_SIZE);
         }
         else
         {
-            DmaCopy16(3, gPaletteFadeBuffers[2], (void *)PLTT, 0x400);
+            DmaCopy16(3, gPaletteFadeBuffers[2], PLTT, PLTT_SIZE);
         }
     }
 }
@@ -34,7 +34,7 @@ void FadeOutToWhite(void (*func)(void))
     u16 i;
 
     DmaCopy16(3, (void*)PLTT, gPaletteFadeBuffers[0], PLTT_SIZE);
-    DmaFill16(3, 0x7FFF, gPaletteFadeBuffers[1], PLTT_SIZE);
+    DmaFill16(3, RGB_WHITE, gPaletteFadeBuffers[1], PLTT_SIZE);
     DmaCopy16(3, gPaletteFadeBuffers[0], gPaletteFadeBuffers[2], PLTT_SIZE);
 
     for (i = 0; i < 32; i++)
@@ -45,11 +45,11 @@ void FadeOutToWhite(void (*func)(void))
         MainLoopIter();
         if (i == 31)
         {
-            DmaCopy16(3, gPaletteFadeBuffers[1], (void *)PLTT, 0x400);
+            DmaCopy16(3, gPaletteFadeBuffers[1], PLTT, PLTT_SIZE);
         }
         else
         {
-            DmaCopy16(3, gPaletteFadeBuffers[2], (void *)PLTT, 0x400);
+            DmaCopy16(3, gPaletteFadeBuffers[2], PLTT, PLTT_SIZE);
         }
     }
     ForceBlankLCD();
@@ -57,15 +57,15 @@ void FadeOutToWhite(void (*func)(void))
     ClearGraphicsMemory();
 }
 
-void FadeInWithCustomPalettes(u8 * arg0, u8 * arg1, void (*func)(void))
+void FadeInWithCustomPalettes(u8 * arg0, const Palette * arg1, void (*func)(void))
 {
     u16 i;
 
-    DmaCopy16(3, arg0, gPaletteFadeBuffers[1], 0x200);
-    DmaCopy16(3, arg1, gPaletteFadeBuffers[2], 0x200);
-    DmaFill16(3, 0, gPaletteFadeBuffers[0], PLTT_SIZE);
+    DmaCopy16(3, arg0, gPaletteFadeBuffers[1], 16*PLTT_SLOT_SIZE);
+    DmaCopy16(3, arg1, gPaletteFadeBuffers[2], 16*PLTT_SLOT_SIZE);
+    DmaFill16(3, RGB_BLACK, gPaletteFadeBuffers[0], PLTT_SIZE);
     DmaCopy16(3, gPaletteFadeBuffers[0], gPaletteFadeBuffers[2], PLTT_SIZE);
-    DmaCopy16(3, gPaletteFadeBuffers[2], (void*)PLTT, PLTT_SIZE);
+    DmaCopy16(3, gPaletteFadeBuffers[2], PLTT, PLTT_SIZE);
 
     UnblankLCD();
     gMain.dispcntBackup = REG_DISPCNT;
@@ -78,11 +78,11 @@ void FadeInWithCustomPalettes(u8 * arg0, u8 * arg1, void (*func)(void))
         MainLoopIter();
         if (i == 31)
         {
-            DmaCopy16(3, gPaletteFadeBuffers[1], (void *)PLTT, 0x400);
+            DmaCopy16(3, gPaletteFadeBuffers[1], PLTT, PLTT_SIZE);
         }
         else
         {
-            DmaCopy16(3, gPaletteFadeBuffers[2], (void *)PLTT, 0x400);
+            DmaCopy16(3, gPaletteFadeBuffers[2], PLTT, PLTT_SIZE);
         }
     }
 }
@@ -92,7 +92,7 @@ void FadeOutToBlack(void (*func)(void))
     u16 i;
 
     DmaCopy16(3, (void*)PLTT, gPaletteFadeBuffers[0], PLTT_SIZE);
-    DmaFill16(3, 0, gPaletteFadeBuffers[1], PLTT_SIZE);
+    DmaFill16(3, RGB_BLACK, gPaletteFadeBuffers[1], PLTT_SIZE);
     DmaCopy16(3, gPaletteFadeBuffers[0], gPaletteFadeBuffers[2], PLTT_SIZE);
 
     for (i = 0; i < 32; i++)
@@ -103,11 +103,11 @@ void FadeOutToBlack(void (*func)(void))
         MainLoopIter();
         if (i == 31)
         {
-            DmaCopy16(3, gPaletteFadeBuffers[1], (void *)PLTT, 0x400);
+            DmaCopy16(3, gPaletteFadeBuffers[1], PLTT, PLTT_SIZE);
         }
         else
         {
-            DmaCopy16(3, gPaletteFadeBuffers[2], (void *)PLTT, 0x400);
+            DmaCopy16(3, gPaletteFadeBuffers[2], PLTT, PLTT_SIZE);
         }
     }
     MainLoopIter();
@@ -134,13 +134,13 @@ void InterpolatePaletteStep(u16 arg0)
 
     while(var0 < var1)
     {
-        r[0] = gPaletteFadeBuffers[0][var0] & 0x1F;
-        g[0] = (gPaletteFadeBuffers[0][var0] & 0x3E0) >> 5;
-        b[0] = (gPaletteFadeBuffers[0][var0] & 0x7C00) >> 10;
+        r[0] = RGB5_GET_R(gPaletteFadeBuffers[0][var0]);
+        g[0] = RGB5_GET_G(gPaletteFadeBuffers[0][var0]);
+        b[0] = RGB5_GET_B(gPaletteFadeBuffers[0][var0]);
 
-        r[1] = gPaletteFadeBuffers[1][var0] & 0x1F;
-        g[1] = (gPaletteFadeBuffers[1][var0] & 0x3E0) >> 5;
-        b[1] = (gPaletteFadeBuffers[1][var0] & 0x7C00) >> 10;
+        r[1] = RGB5_GET_R(gPaletteFadeBuffers[1][var0]);
+        g[1] = RGB5_GET_G(gPaletteFadeBuffers[1][var0]);
+        b[1] = RGB5_GET_B(gPaletteFadeBuffers[1][var0]);
 
         if(b[0] < b[1])
             b[0] += ((b[1] - b[0]) * arg0) >> 5;
@@ -157,7 +157,7 @@ void InterpolatePaletteStep(u16 arg0)
         else
             r[0] -= ((r[0] - r[1]) * arg0) >> 5;
 
-        gPaletteFadeBuffers[2][var0] = (b[0] << 10) | (g[0] << 5) | r[0];
+        gPaletteFadeBuffers[2][var0] = RGB5_B(b[0]) | RGB5_G(g[0]) | RGB5_R(r[0]);
         var0++;
     }
 }
@@ -169,17 +169,17 @@ void DarkenPalette(const Palette * pal, u8 * dest, u16 arg2, u16 arg3)
     u16 g[2];
     u16 r[2];
     DmaCopy16(3, pal, gPaletteFadeBuffers[0], arg2);
-    DmaFill16(3, 0, gPaletteFadeBuffers[1], arg2);
+    DmaFill16(3, RGB_BLACK, gPaletteFadeBuffers[1], arg2);
 
     for(i = 0; i < arg2; i++)
     {
-        r[0] = gPaletteFadeBuffers[0][i] & 0x1F;
-        g[0] = (gPaletteFadeBuffers[0][i] & 0x3E0) >> 5;
-        b[0] = (gPaletteFadeBuffers[0][i] & 0x7C00) >> 10;
+        r[0] = RGB5_GET_R(gPaletteFadeBuffers[0][i]);
+        g[0] = RGB5_GET_G(gPaletteFadeBuffers[0][i]);
+        b[0] = RGB5_GET_B(gPaletteFadeBuffers[0][i]);
 
-        r[1] = gPaletteFadeBuffers[1][i] & 0x1F;
-        g[1] = (gPaletteFadeBuffers[1][i] & 0x3E0) >> 5;
-        b[1] = (gPaletteFadeBuffers[1][i] & 0x7C00) >> 10;
+        r[1] = RGB5_GET_R(gPaletteFadeBuffers[1][i]);
+        g[1] = RGB5_GET_G(gPaletteFadeBuffers[1][i]);
+        b[1] = RGB5_GET_B(gPaletteFadeBuffers[1][i]);
 
         if(b[0] > b[1])
             b[0] -= (b[0] * arg3) >> 5;
@@ -196,7 +196,7 @@ void DarkenPalette(const Palette * pal, u8 * dest, u16 arg2, u16 arg3)
         else
             r[0] = r[1];
 
-        gPaletteFadeBuffers[2][i] = (b[0] << 10) | (g[0] << 5) | r[0];
+        gPaletteFadeBuffers[2][i] = RGB5_B(b[0]) | RGB5_G(g[0]) | RGB5_R(r[0]);
     }
     DmaCopy16(3, gPaletteFadeBuffers[2], dest, arg2);
 }
@@ -208,17 +208,17 @@ void BrightenPalette(const Palette * pal, u8 * dest, u16 arg2, u16 arg3)
     u16 g[2];
     u16 r[2];
     DmaCopy16(3, pal, gPaletteFadeBuffers[0], arg2);
-    DmaFill16(3, 0x7FFF, gPaletteFadeBuffers[1], arg2);
+    DmaFill16(3, RGB_WHITE, gPaletteFadeBuffers[1], arg2);
 
     for(i = 0; i < arg2; i++)
     {
-        r[0] = gPaletteFadeBuffers[0][i] & 0x1F;
-        g[0] = (gPaletteFadeBuffers[0][i] & 0x3E0) >> 5;
-        b[0] = (gPaletteFadeBuffers[0][i] & 0x7C00) >> 10;
+        r[0] = RGB5_GET_R(gPaletteFadeBuffers[0][i]);
+        g[0] = RGB5_GET_G(gPaletteFadeBuffers[0][i]);
+        b[0] = RGB5_GET_B(gPaletteFadeBuffers[0][i]);
 
-        r[1] = gPaletteFadeBuffers[1][i] & 0x1F;
-        g[1] = (gPaletteFadeBuffers[1][i] & 0x3E0) >> 5;
-        b[1] = (gPaletteFadeBuffers[1][i] & 0x7C00) >> 10;
+        r[1] = RGB5_GET_R(gPaletteFadeBuffers[1][i]);
+        g[1] = RGB5_GET_G(gPaletteFadeBuffers[1][i]);
+        b[1] = RGB5_GET_B(gPaletteFadeBuffers[1][i]);
 
         if(b[0] < b[1])
             b[0] += ((b[1] - b[0]) * arg3) >> 5;
@@ -235,7 +235,7 @@ void BrightenPalette(const Palette * pal, u8 * dest, u16 arg2, u16 arg3)
         else
             r[0] -= ((r[0] - r[1]) * arg3) >> 5;
 
-        gPaletteFadeBuffers[2][i] = (b[0] << 10) | (g[0] << 5) | r[0];
+        gPaletteFadeBuffers[2][i] = RGB5_B(b[0]) | RGB5_G(g[0]) | RGB5_R(r[0]);
     }
     DmaCopy16(3, gPaletteFadeBuffers[2], dest, arg2);
 }
@@ -365,7 +365,7 @@ void Unused_FadeInWithCustomPalettes(void *src1, void *src2, void (*func)(void))
     DmaCopy16(3, src2, gPaletteFadeBuffers[2], BG_PLTT_SIZE);
     DmaFill16(3, RGB_WHITE, gPaletteFadeBuffers, PLTT_SIZE);
     DmaCopy16(3, gPaletteFadeBuffers[0], gPaletteFadeBuffers[2], PLTT_SIZE);
-    DmaCopy16(3, gPaletteFadeBuffers[2], (void *)PLTT, PLTT_SIZE);
+    DmaCopy16(3, gPaletteFadeBuffers[2], PLTT, PLTT_SIZE);
 
     UnblankLCD();
     gMain.dispcntBackup = REG_DISPCNT;
@@ -379,11 +379,11 @@ void Unused_FadeInWithCustomPalettes(void *src1, void *src2, void (*func)(void))
         MainLoopIter();
         if (i == 0x20)
         {
-            DmaCopy16(3, gPaletteFadeBuffers[1], (void *)PLTT, PLTT_SIZE);
+            DmaCopy16(3, gPaletteFadeBuffers[1], PLTT, PLTT_SIZE);
         }
         else
         {
-            DmaCopy16(3, gPaletteFadeBuffers[2], (void *)PLTT, PLTT_SIZE);
+            DmaCopy16(3, gPaletteFadeBuffers[2], PLTT, PLTT_SIZE);
         }
     }
 }
@@ -393,7 +393,7 @@ void Unused_FadeOutToWhite(void (*func)(void))
 {
     u16 i;
 
-    DmaCopy16(3, (void *)PLTT, gPaletteFadeBuffers[0], PLTT_SIZE);
+    DmaCopy16(3, PLTT, gPaletteFadeBuffers[0], PLTT_SIZE);
     DmaFill16(3, RGB_WHITE, gPaletteFadeBuffers[1], PLTT_SIZE);
     DmaCopy16(3, gPaletteFadeBuffers[0], gPaletteFadeBuffers[2], PLTT_SIZE);
 
@@ -405,11 +405,11 @@ void Unused_FadeOutToWhite(void (*func)(void))
         MainLoopIter();
         if (i == 0x20)
         {
-            DmaCopy16(3, gPaletteFadeBuffers[1], (void *)PLTT, PLTT_SIZE);
+            DmaCopy16(3, gPaletteFadeBuffers[1], PLTT, PLTT_SIZE);
         }
         else
         {
-            DmaCopy16(3, gPaletteFadeBuffers[2], (void *)PLTT, PLTT_SIZE);
+            DmaCopy16(3, gPaletteFadeBuffers[2], PLTT, PLTT_SIZE);
         }
     }
     MainLoopIter();

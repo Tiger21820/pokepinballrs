@@ -64,8 +64,9 @@
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #define max(a, b) ((a) >= (b) ? (a) : (b))
 
-// TODO: define RGB(r, g, b) macro
-#define RGB_WHITE 0x7FFF
+#define RGB5(r,g,b) (r | g << 5 | b << 10)
+#define RGB_WHITE RGB5(31,31,31)
+#define RGB_BLACK RGB5(0,0,0)
 
 // Macros for checking the joypad
 #define TEST_BUTTON(field, button) ((field) & (button))
@@ -143,14 +144,24 @@ struct FlipperState
     /*0x00*/ s8 position;
     /*0x01*/ s8 prevPosition;
     /*0x02*/ s8 collisionFrameIndex;
-    /*0x03*/ s8 movementDirection;
+    /*0x03*/ s8 movementDirection; //-1 (down) / 0 (still) / 1 (up)
     /*0x04*/ s8 bounceApplied;
     /*0x05*/ s8 collisionMapFrame;
-    /*0x06*/ s8 active;
+    /*0x06*/ s8 active; // Indicates flipper 'powered'
     /*0x07*/ u8 stallTicks;
     /*0x08*/ s8 ballSide;
     /*0x09*/ u8 filler9[0x3];
 };
+
+#define FLIPPER_MOVING_UP 1
+#define FLIPPER_NOT_MOVING 0
+#define FLIPPER_MOVING_DOWN -1
+
+#define FLIPPER_MAX_POS 10
+#define FLIPPER_MIN_POS 0
+#define FLIPPER_RISE_SPEED 4
+#define FLIPPER_FALL_SPEED 2
+#define FLIPPER_MAX_RELEASE_STALL_TICKS 2
 
 struct PinballGame
 {
@@ -207,7 +218,7 @@ struct PinballGame
     /*0x06A*/ s16 hudSpriteBaseY;
     /*0x06C*/ u16 timerBonus; //Additional time to be added to next timed event (Only for bonus fields or all timers?)
     /*0x06E*/ s8 ballUpgradeFxTileIndex;
-    /*0x06F*/ s8 activePaletteIndex;
+    /*0x06F*/ s8 paletteDimmingIx; // 0= normal, 1=dimming, 2=dim. Used with banner/focus moments.
     /*0x070*/ s8 paletteSwapActive;
     /*0x071*/ s8 ballTrailEnabled;
     /*0x072*/ s8 jirachiActivationFlags;
@@ -230,7 +241,7 @@ struct PinballGame
     /*0x0CC*/ s16 scrollEffectY;
     /*0x0CE*/ u16 unkCE;
     /*0x0D0*/ struct Vector16 ballTrailPosition[5];
-    /*0x0E4*/ u8 activePortraitType;
+    /*0x0E4*/ u8 activeFxType;
     /*0x0E6*/ s16 cameraYAdjust;
     /*0x0E8*/ s16 cameraYScrollTarget;
     /*0x0EA*/ u16 bannerDelayTimer;
@@ -887,7 +898,7 @@ struct PinballGame
     /*0x1114*/volatile u16 savedBlendBrightness;
     /*0x1116*/u16 savedScoreOverlayActive;
     /*0x1118*/u16 savedVCount;
-    /*0x111A*/u16 pauseObjPalette[OBJ_PLTT_SIZE / 0x20][0x10];
+    /*0x111A*/Palette pauseObjPalette[PALETTES_PER_BANK];
     /*0x131A*/u8 filler131A[0x2];
     /*0x131C*/u32 pauseAnimTimer; //Time since paused
     /*0x1320*/s16 savedAnimationTimer;
@@ -935,6 +946,18 @@ struct FieldBoardLayout
     /*0x26*/ s16 ballSpawnX;
     /*0x28*/ s16 ballSpawnY;
     /*0x2A*/ s16 ballDrainY;
+
+    /* 3 full sets of 16 palettes, referenced in smaller banks
+        Set 0 : Normal light
+        Set 1 : Dimming light
+        Set 2 : Dim Light
+
+        Bank 0 : single slot.
+        Bank 2 : 6 (Sapphire) or 7(Ruby) slots.
+        Bank 10 : 3 slots.
+
+        This avoids slot 1 (ball) and the sapphire shop sign (constantly changing palette)
+    */
     /*0x2C*/ Palette *objPaletteSets[3];
     /*0x38*/ struct BoardCollisionDataSet collision;
 };
@@ -977,8 +1000,9 @@ extern struct PinballGame gIdleBoardGameState0;
 extern struct PinballGame gIdleBoardGameState2;
 extern struct PinballGame gIdleBoardGameState3;
 extern struct PinballGame gIdleBoardGameState1;
-extern s32 gBonusStageObjPal[64];
-extern s32 gDusclopsAnimPalettes[0x3E0];
+extern const Palette gBonusStageObjPal[];
+extern const Palette gDusclopsAnimPalettes[];
+extern const u8 gGroudonLavaPaletteCycleData[];
 extern u16 gKecleonUprightCollisionMap[0x1600];
 extern u16 gKecleonKnockedDownCollisionMap[0x1600];
 extern u16 gKyogreForm1CollisionMap[];

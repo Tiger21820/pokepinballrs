@@ -2,7 +2,7 @@
 #include "m4a.h"
 #include "main.h"
 #include "constants/bg_music.h"
-
+#include "constants/board/main_board.h"
 
 
 void AllBoardProcess_1A_47100(void)
@@ -17,7 +17,7 @@ void ClearBG0Tilemap(void)
     for (i = 0; i < 0x800; i++)
         gBG0TilemapBuffer[i] = 0x1FF;
 
-    DmaCopy16(3, gBG0TilemapBuffer, (void *)0x06002000, 0x1000);
+    DmaCopy16(3, gBG0TilemapBuffer, BG_CHAR_SCREEN_ADDR(0,4), 2* BG_SCREEN_SIZE);
 }
 
 
@@ -86,12 +86,12 @@ void AllBoardProcess_1B_47160(void)
             gMain.modeChangeDelayTimer--;
             if (gMain.modeChangeDelayTimer == 1)
             {
-                if (gCurrentPinballGame->activePortraitType)
+                if (gCurrentPinballGame->activeFxType)
                     gMain.modeChangeDelayTimer = 10;
                 else if (gMain.pendingModeChangeType == MODE_CHANGE_BALL_SAVER)
-                    gCurrentPinballGame->activePortraitType = 19;
+                    gCurrentPinballGame->activeFxType = FX_BALL_SAVED_CUTSCENE;
                 else
-                    gCurrentPinballGame->activePortraitType = 20;
+                    gCurrentPinballGame->activeFxType = FX_END_OF_BALL_SUMMARY;
             }
 
             if (gMain.modeChangeDelayTimer == 0)

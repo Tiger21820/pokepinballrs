@@ -252,7 +252,7 @@ void DrawWhiscash(void)
     if (group->active)
     {
         frameIx = frameData[0];
-        DmaCopy16(3, gWhiscash_Pals[3*gCurrentPinballGame->activePaletteIndex], OBJ_PLTT_SLOT(9), PLTT_SLOT_SIZE);
+        DmaCopy16(3, gWhiscash_Pals[3*gCurrentPinballGame->paletteDimmingIx], OBJ_PLTT_SLOT(PAL_IX_RUBY_BUMPERS), PLTT_SLOT_SIZE);
         DmaCopy16(3, gWhiscash_Gfx[frameIx], (void *)0x06014680, 0x460);
         gCurrentPinballGame->rubyBumperCollisionPosition[0].x = -248;
         gCurrentPinballGame->rubyBumperCollisionPosition[0].y = -316;
@@ -642,8 +642,8 @@ void RubyPond_EntityLogic(void)
                 var1 = -var1;
 
             gCurrentPinballGame->bumperOrbitRadius = 180;
-            gCurrentPinballGame->rubyBumperLogicPosition[i].x = (gCurrentPinballGame->bumperOrbitRadius * Cos(angle)) / 20000 + 1380;
-            gCurrentPinballGame->rubyBumperLogicPosition[i].y = (gCurrentPinballGame->bumperOrbitRadius * Sin(angle)) / 20000 + 1500;
+            gCurrentPinballGame->rubyBumperLogicPosition[i].x = MulCos(gCurrentPinballGame->bumperOrbitRadius, angle) + 1380;
+            gCurrentPinballGame->rubyBumperLogicPosition[i].y = MulSin(gCurrentPinballGame->bumperOrbitRadius, angle) + 1500;
         }
         break;
     case RUBY_POND_STATE_CHINCHOU_COUNTERCLOCKWISE:
@@ -655,8 +655,8 @@ void RubyPond_EntityLogic(void)
                 var1 = -var1;
 
             gCurrentPinballGame->bumperOrbitRadius = 180;
-            gCurrentPinballGame->rubyBumperLogicPosition[i].x = (gCurrentPinballGame->bumperOrbitRadius * Cos(angle)) / 20000 + 1380;
-            gCurrentPinballGame->rubyBumperLogicPosition[i].y = (gCurrentPinballGame->bumperOrbitRadius * Sin(angle)) / 20000 + 1500;
+            gCurrentPinballGame->rubyBumperLogicPosition[i].x = MulCos(gCurrentPinballGame->bumperOrbitRadius, angle) + 1380;
+            gCurrentPinballGame->rubyBumperLogicPosition[i].y = MulSin(gCurrentPinballGame->bumperOrbitRadius, angle) + 1500;
         }
         break;
     case RUBY_POND_STATE_CHINCHOU_ROWS:
@@ -690,8 +690,8 @@ void RubyPond_EntityLogic(void)
         tempVec.y = gChinchouWaypointPositions[gCurrentPinballGame->chinchouWaypointTarget].y * 10 - gCurrentPinballGame->rubyBumperLogicPosition[0].y;
         squaredDistance = (tempVec.x * tempVec.x) + (tempVec.y * tempVec.y);
         angle2 = ArcTan2(tempVec.x, -tempVec.y);
-        tempVec2.x = (Cos(angle2) * 7) / 20000;
-        tempVec2.y = (Sin(angle2) * -7) / 20000;
+        tempVec2.x = MulCos(7, angle2);
+        tempVec2.y = MulSin(-7, angle2);
         gCurrentPinballGame->rubyBumperLogicPosition[0].x += tempVec2.x;
         gCurrentPinballGame->rubyBumperLogicPosition[0].y += tempVec2.y;
         if (squaredDistance < 2500)
@@ -762,7 +762,7 @@ void RubyPondTriBumperHandleHitAndDraw(void)
                             gCurrentPinballGame->bannerSlideTimer = 50;
                             gCurrentPinballGame->bannerSlideVelocity = 0;
                             DmaCopy16(3, gModeBannerTilemaps[6], (void *)0x06015800, 0x2400);
-                            DmaCopy16(3, gModeBanner_Pals[6], OBJ_PLTT_SLOT(14), PLTT_SLOT_SIZE);
+                            DmaCopy16(3, gModeBanner_Pals[6], OBJ_PLTT_SLOT(PAL_IX_BANNER), PLTT_SLOT_SIZE);
                         }
                         else
                         {
@@ -780,7 +780,7 @@ void RubyPondTriBumperHandleHitAndDraw(void)
                             gCurrentPinballGame->bannerSlideTimer = 50;
                             gCurrentPinballGame->bannerSlideVelocity = 0;
                             DmaCopy16(3, gModeBannerTilemaps[1], (void *)0x06015800, 0x2400);
-                            DmaCopy16(3, gModeBanner_Pals[1], OBJ_PLTT_SLOT(14), PLTT_SLOT_SIZE);
+                            DmaCopy16(3, gModeBanner_Pals[1], OBJ_PLTT_SLOT(PAL_IX_BANNER), PLTT_SLOT_SIZE);
                         }
 
                         gMain.blendControl = 0xCE;
@@ -823,7 +823,7 @@ void RubyPondTriBumperHandleHitAndDraw(void)
             DmaCopy16(3, gLotadBumper_Gfx[var0], (void *)0x06012E80 + i * 0x100, 0x100);
         }
 
-        DmaCopy16(3, gLotadBumper_Pals[3*gCurrentPinballGame->activePaletteIndex], OBJ_PLTT_SLOT(9), PLTT_SLOT_SIZE);
+        DmaCopy16(3, gLotadBumper_Pals[3*gCurrentPinballGame->paletteDimmingIx], OBJ_PLTT_SLOT(PAL_IX_RUBY_BUMPERS), PLTT_SLOT_SIZE);
     }
     else // chinchou
     {
@@ -851,7 +851,7 @@ void RubyPondTriBumperHandleHitAndDraw(void)
             DmaCopy16(3, gChinchouBumper_Gfx[var0], (void *)0x06012E80 + i * 0x100, 0x100);
         }
 
-        DmaCopy16(3, gChinchouBumper_Pals[3*gCurrentPinballGame->activePaletteIndex], OBJ_PLTT_SLOT(9), PLTT_SLOT_SIZE);
+        DmaCopy16(3, gChinchouBumper_Pals[3*gCurrentPinballGame->paletteDimmingIx], OBJ_PLTT_SLOT(PAL_IX_RUBY_BUMPERS), PLTT_SLOT_SIZE);
     }
 
     // Draw Bumpers: Lotad/chinchou

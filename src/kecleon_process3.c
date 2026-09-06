@@ -113,7 +113,7 @@ void KecleonBoardProcess_3A_35860(void)
     UpdateKecleonScopeItem();
     UpdateKecleonScopeVision();
     RenderKecleonBoardElements();
-    DmaCopy16(3, gBonusStageObjPal, OBJ_PLTT_SLOT(9), 0x20);
+    DmaCopy16(3, gBonusStageObjPal, OBJ_PLTT_SLOT(PAL_IX_9), PLTT_SLOT_SIZE);
 }
 
 void KecleonBoardProcess_3B_35AA4(void)
@@ -234,7 +234,6 @@ void KecleonBoardProcess_3B_35AA4(void)
 
 void UpdateKecleonEntityLogic(void)
 {
-    const u16 VECTORSCALEDOWN = 20000;
     int deltaX;
     int deltaY;
     struct Vector32 tempVec;
@@ -346,8 +345,8 @@ void UpdateKecleonEntityLogic(void)
         yy = deltaVec.y * deltaVec.y;
         squaredDistance = xx + yy;
         angle = ArcTan2(deltaVec.x, -deltaVec.y);
-        tempVec.x = 6 * Cos(angle) / VECTORSCALEDOWN;
-        tempVec.y = -6 * Sin(angle) / VECTORSCALEDOWN;
+        tempVec.x = MulCos(6, angle);
+        tempVec.y = MulSin(-6, angle);
         gCurrentPinballGame->bossPositionX += tempVec.x;
         gCurrentPinballGame->bossPositionY += tempVec.y;
         if (squaredDistance < 2500)
@@ -411,8 +410,9 @@ void UpdateKecleonEntityLogic(void)
         yy = deltaVec.y * deltaVec.y;
         squaredDistance = xx + yy;
         angle = ArcTan2(deltaVec.x, -deltaVec.y);
-        tempVec.x = 10 * Cos(angle) / VECTORSCALEDOWN;
-        tempVec.y = -10 * Sin(angle) / VECTORSCALEDOWN;
+        tempVec.x = MulCos(10, angle);
+        tempVec.y = MulSin(-10, angle);
+
         gCurrentPinballGame->bossPositionX += tempVec.x;
         gCurrentPinballGame->bossPositionY += tempVec.y;
         if (squaredDistance < 2500)
@@ -841,13 +841,13 @@ void RenderKecleonSprites(void)
             gOamBuffer[oamSimple->oamId].y += spriteGroup->baseY;
             if (gCurrentPinballGame->bossVulnerable == 20) {
                 if(gCurrentPinballGame->bossFrameTimer < 10)
-                    gOamBuffer[oamSimple->oamId].paletteNum = 10;
+                    gOamBuffer[oamSimple->oamId].paletteNum = PAL_IX_10;
                 else
-                    gOamBuffer[oamSimple->oamId].paletteNum = 2;
+                    gOamBuffer[oamSimple->oamId].paletteNum = PAL_IX_2;
             }
             else
             {
-                gOamBuffer[oamSimple->oamId].paletteNum = 2;
+                gOamBuffer[oamSimple->oamId].paletteNum = PAL_IX_2;
             }
         }
         else
@@ -879,13 +879,13 @@ void RenderKecleonSprites(void)
             if (sp0 == 20)
             {
                 if (gCurrentPinballGame->bossFrameTimer < 10)
-                    gOamBuffer[oamSimple->oamId].paletteNum = 11;
+                    gOamBuffer[oamSimple->oamId].paletteNum = PAL_IX_11;
                 else
-                    gOamBuffer[oamSimple->oamId].paletteNum = 4;
+                    gOamBuffer[oamSimple->oamId].paletteNum = PAL_IX_4;
             }
             else
             {
-                gOamBuffer[oamSimple->oamId].paletteNum = 4;
+                gOamBuffer[oamSimple->oamId].paletteNum = PAL_IX_4;
             }
         }
         else
@@ -1090,7 +1090,7 @@ void UpdateKecleonScopeVision(void)
         }
     }
 
-    DmaCopy16(3, &gBG0TilemapBuffer[0x400], (void *)0x06001000, 0x500);
+    DmaCopy16(3, &gBG0TilemapBuffer[0x400], BG_CHAR_SCREEN_ADDR(0,2), 0x500);
 }
 
 void RenderKecleonBoardElements(void)

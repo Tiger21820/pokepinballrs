@@ -11,7 +11,7 @@ extern struct SongHeader se_pikachu_kickback;
 extern s16 gPikaSaverAnimFrameTable[100];
 extern s16 gOutlaneCenterXPositions[3];
 extern u16 gCatchOverlayAnimData[][2];
-extern s16 gCatchOverlayOamData[28][12];
+extern s16 gPikaKickbackFiringAnimOamFramesets[28][12];
 extern const struct Vector32 gPikaSaverWaypoints[];
 extern const u16 gAngleToDirectionTable[];
 extern const u8 gPikachuSaverTilesGfx[];
@@ -134,11 +134,11 @@ void UpdateKickbackLogic(void)
             }
             if (gCurrentPinballGame->kickbackLaunchTimer == 116)
             {
-                if (gCurrentPinballGame->activePortraitType)
+                if (gCurrentPinballGame->activeFxType)
                     gCurrentPinballGame->kickbackLaunchTimer = 120;
                 else
                 {
-                    gCurrentPinballGame->activePortraitType = 1;
+                    gCurrentPinballGame->activeFxType = FX_PIKA_KICKBACK_FIRING;
                     if (gCurrentPinballGame->outLanePikaPosition == PIKA_BOTH_SIDES)
                     {
                         if (gCurrentPinballGame->outLaneSide == 1)
@@ -154,12 +154,12 @@ void UpdateKickbackLogic(void)
                     }
                 }
             }
-            if (gCurrentPinballGame->kickbackLaunchTimer == 115 && gCurrentPinballGame->activePortraitType == 1)
+            if (gCurrentPinballGame->kickbackLaunchTimer == 115 && gCurrentPinballGame->activeFxType == 1)
                 m4aMPlayVolumeControl(&gMPlayInfo_SE1, 0xFFFF, 0x200);
 
             // used for the horizontal 'floaty' movement when electric builds pre-launch.
             gCurrentPinballGame->ball->positionQ1.x =
-                gCurrentPinballGame->kickbackBallHoverPos.x + ((Sin(r5) * 6) / 20000) +
+                gCurrentPinballGame->kickbackBallHoverPos.x + MulSin(6, r5) +
                 ((gOutlaneCenterXPositions[gCurrentPinballGame->outLaneSide - 1] * 2 - gCurrentPinballGame->kickbackBallHoverPos.x) * (gCurrentPinballGame->kickbackAnimDuration - gCurrentPinballGame->kickbackAnimProgress)) / gCurrentPinballGame->kickbackAnimDuration;
 
             tempY = ((gCurrentPinballGame->kickbackAnimDuration - gCurrentPinballGame->kickbackAnimProgress) * 40) / gCurrentPinballGame->kickbackAnimDuration;
@@ -239,7 +239,7 @@ void UpdateKickbackLogic(void)
                     gCurrentPinballGame->kickbackFrameId = 25;
                     gCurrentPinballGame->kickbackFiring = FALSE;
                     gMain.fieldSpriteGroups[FIELD_SG_PIKA_KICKBACK_LAUNCH_FX]->active = FALSE;
-                    gCurrentPinballGame->activePortraitType = 0;
+                    gCurrentPinballGame->activeFxType = FX_NONE;
 
                     outlaneChuteIx = gCurrentPinballGame->outLaneSide - 1;
                     if (gCurrentPinballGame->outLanePikaPosition == PIKA_BOTH_SIDES)
@@ -279,9 +279,9 @@ void UpdateKickbackLogic(void)
             {
                 oamSimple = &spriteGroup->oam[j];
                 dst = (u16 *)&gOamBuffer[oamSimple->oamId];
-                *dst++ = gCatchOverlayOamData[oamIx][j * 3 + 0];
-                *dst++ = gCatchOverlayOamData[oamIx][j * 3 + 1];
-                *dst++ = gCatchOverlayOamData[oamIx][j * 3 + 2];
+                *dst++ = gPikaKickbackFiringAnimOamFramesets[oamIx][j * 3 + 0];
+                *dst++ = gPikaKickbackFiringAnimOamFramesets[oamIx][j * 3 + 1];
+                *dst++ = gPikaKickbackFiringAnimOamFramesets[oamIx][j * 3 + 2];
 
                 gOamBuffer[oamSimple->oamId].x += spriteGroup->baseX;
                 gOamBuffer[oamSimple->oamId].y += spriteGroup->baseY;
@@ -369,8 +369,8 @@ void PichuArrivalSequence(void)
         yy = tempVec.y * tempVec.y;
         squaredDistance = xx + yy;
         angle = ArcTan2(tempVec.x, -tempVec.y);
-        tempVec2.x = (Cos(angle) * 7) / 20000;
-        tempVec2.y = (Sin(angle) * -7) / 20000;
+        tempVec2.x = MulCos(7, angle);
+        tempVec2.y = MulSin(-7, angle);
         index = gAngleToDirectionTable[angle / ANGLE_45] + (gMain.systemFrameCount % 24) / 8;
         gCurrentPinballGame->walkMonXPos += tempVec2.x;
         gCurrentPinballGame->walkMonYPos += tempVec2.y;
@@ -388,7 +388,7 @@ void PichuArrivalSequence(void)
             {
                 oamSimple = &group->oam[i];
                 gOamBuffer[oamSimple->oamId].priority = 1;
-                gOamBuffer[oamSimple->oamId].paletteNum = 3;
+                gOamBuffer[oamSimple->oamId].paletteNum = PAL_IX_3;
                 gOamBuffer[oamSimple->oamId].x = oamSimple->xOffset + group->baseX;
                 gOamBuffer[oamSimple->oamId].y = oamSimple->yOffset + group->baseY;
             }

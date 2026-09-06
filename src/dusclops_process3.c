@@ -76,7 +76,7 @@ void DuskullBonus_Setup(void)
 
     m4aSongNumStart(MUS_BONUS_FIELD_DUSKULL);
 
-    DmaCopy16(3, (void *)gBonusStageObjPal, OBJ_PLTT_SLOT(9), PLTT_SLOT_SIZE);
+    DmaCopy16(3, gBonusStageObjPal, OBJ_PLTT_SLOT(PAL_IX_9), PLTT_SLOT_SIZE);
 }
 
 void DusclopsBoardProcess_3B_33130(void)
@@ -89,7 +89,7 @@ void DusclopsBoardProcess_3B_33130(void)
             if (gCurrentPinballGame->stageTimer < 120)
             {
                 temp = gCurrentPinballGame->stageTimer / 24;
-                DmaCopy16(3, gDusclopsAnimPalettes + temp * 40, 0x05000000, 160);
+                DmaCopy16(3, gDusclopsAnimPalettes[temp * 5], BG_PLTT, 5*PLTT_SLOT_SIZE);
 
                 gCurrentPinballGame->cameraYAdjust = gCurrentPinballGame->stageTimer / 5 + 0xFFE8;
                 gCurrentPinballGame->stageTimer++;
@@ -281,7 +281,7 @@ void DuskullPhase_ProcessEntityLogic(void) {
 
     for (i = 0; i < DUSKULL_CONCURRENT_MAX; i++)
     {
-        switch(gCurrentPinballGame->minionState[i])
+        switch (gCurrentPinballGame->minionState[i])
         {
         case DUSKULL_ENTITY_STATE_SPAWN:
             if (gCurrentPinballGame->bonusModeHitCount <= DUSKULL_ALLOWED_TO_SPAWN && 
@@ -639,7 +639,7 @@ void DusclopsPhase_ProcessEntityLogicAndGraphics(void)
 
     tileOffset = 0;
     spriteGroup = &gMain.spriteGroups[SG_DUSCLOPS_ENTITY];
-    switch(gCurrentPinballGame->bossEntityState)
+    switch (gCurrentPinballGame->bossEntityState)
     {
     case DUSCLOPS_ENTITY_STATE_INIT:
     {
@@ -948,9 +948,11 @@ void DusclopsPhase_ProcessEntityLogicAndGraphics(void)
 
             sl = (gCurrentPinballGame->trapSpinRadius * tr4) / 30;
 
-            gCurrentPinballGame->ball->positionQ8.x = (gCurrentPinballGame->catchTargetX * 256) + ((Cos(gCurrentPinballGame->trapAngleQ16) * sl) / 20000);
+            gCurrentPinballGame->ball->positionQ8.x = (gCurrentPinballGame->catchTargetX * 256)
+                + MulCos(sl, gCurrentPinballGame->trapAngleQ16);
 
-            gCurrentPinballGame->ball->positionQ8.y = (gCurrentPinballGame->catchTargetY * 256) - ((Sin(gCurrentPinballGame->trapAngleQ16) * sl) / 20000);
+            gCurrentPinballGame->ball->positionQ8.y = (gCurrentPinballGame->catchTargetY * 256)
+                - MulSin(sl, gCurrentPinballGame->trapAngleQ16);
 
             gCurrentPinballGame->ball->velocity.x = (gCurrentPinballGame->ball->velocity.x * 4) / 5;
             gCurrentPinballGame->ball->velocity.y = (gCurrentPinballGame->ball->velocity.y * 4) / 5;
@@ -1023,12 +1025,12 @@ void DusclopsPhase_ProcessEntityLogicAndGraphics(void)
         if (tileOffset == DUSCLOPS_TILE_OFFSET_HIT)
         {
             if (gCurrentPinballGame->bossFrameTimer <= 5)
-                gOamBuffer[oamSimple->oamId].paletteNum = 4;
+                gOamBuffer[oamSimple->oamId].paletteNum = PAL_IX_4;
             else
-                gOamBuffer[oamSimple->oamId].paletteNum = 3;
+                gOamBuffer[oamSimple->oamId].paletteNum = PAL_IX_3;
         }
         else
-            gOamBuffer[oamSimple->oamId].paletteNum = 3;
+            gOamBuffer[oamSimple->oamId].paletteNum = PAL_IX_3;
 
         gOamBuffer[oamSimple->oamId].x = oamSimple->xOffset + spriteGroup->baseX;
         gOamBuffer[oamSimple->oamId].y = oamSimple->yOffset + spriteGroup->baseY;
